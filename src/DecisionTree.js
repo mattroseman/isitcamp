@@ -1,31 +1,30 @@
 import React from 'react';
 
+import { questions, firstQuestion } from './isitcamp_questions';
+
 export default class DecisionTree extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDecision: 0,
-      madeDecisions: [],
-    }
+      currentQuestion: questions[firstQuestion],
+      campPoints: 0
+    };
   }
 
   handleOptionClick(option) {
-    const madeDecisions = this.state.madeDecisions;
+    const newQuestion = questions[this.state.currentQuestion['options'][option]['next_question']];
+    const points = this.state.currentQuestion['options'][option]['points'];
 
     this.setState({
-      madeDecisions: this.state.madeDecisions.concat([{
-        question: decisions[this.state.currentDecision].question,
-        option: option,
-      }]),
-      currentDecision: Math.min(decisions.length - 1, this.state.currentDecision + 1),
+      currentQuestion: newQuestion,
+      campPoints: this.state.campPoints + points
     });
   }
 
   render() {
     return (
       <Decision
-        question={decisions[this.state.currentDecision].question}
-        options={decisions[this.state.currentDecision].options}
+        question={this.state.currentQuestion['question']}
         onOptionClick={(option) => this.handleOptionClick(option)}
       />
     );
@@ -33,46 +32,19 @@ export default class DecisionTree extends React.Component {
 }
 
 function Decision(props) {
-  const options = props.options;
-  const optionsList = options.map((option) =>
-    <li key={option}>
-      <DecisionOption option={option} onClick={() => props.onOptionClick(option)} />
-    </li>
-  );
-
   return (
     <div className="decision">
       <div className="decision-question">
         {props.question}
       </div>
       <div className="decision-options">
-        <ul>{optionsList}</ul>
+        <button className='yes-option' onClick={() => props.onOptionClick('yes')}>
+          Yes
+        </button>
+        <button className="no-option" onClick={() => props.onOptionClick('no')}>
+          No
+        </button>
       </div>
     </div>
   );
 }
-
-function DecisionOption(props) {
-  return (
-    <button className="decision-option" onClick={props.onClick}>
-      {props.option}
-    </button>
-  );
-}
-
-const decisions = [
-  {
-    'question': 'Is this film camp?',
-    'options': [
-      'yes',
-      'no',
-    ],
-  },
-  {
-    'question': 'Is this another question?',
-    'options': [
-      'yes',
-      'no',
-    ],
-  },
-]
