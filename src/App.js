@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader/root';
 
-import DecisionTree from './DecisionTree';
+import Decision from './Decision';
 import Results from './Results';
 import { questions, firstQuestion } from './isitcamp_questions';
 
 import './App.css';
+
+const PAGES = Object.freeze({
+  'home': 1,
+  'survey': 2,
+  'results': 3
+});
 
 
 class App extends Component{
@@ -13,42 +19,55 @@ class App extends Component{
     super(props);
 
     this.state = {
-      surveyStarted: true,
-      surveyEnded: false,
+      currentPage: PAGES.survey,
+      currentQuestion: questions[firstQuestion],
       questions: questions,
-      firstQuestion: firstQuestion,
       points: 0,
       maxPossiblePoints: getMaxPossiblePoints()
     };
   }
 
-  handleAddPoints(newPoints) {
+  componentDidMount() {
+    // when the user goes back a question, revert the state to the state in history
+    window.addEventListener('popstate', (event) => {
+      this.setState(event.state);
+    });
+  }
+
+  handleOptionClick(option) {
+    // add the points this options has to the points in state
+    const newPoints = this.state.currentQuestion['options'][option]['points'];
     this.setState({
       points: this.state.points + newPoints
     });
-  }
 
-  handleSurveyEnd() {
-    this.setState({
-      surveyEnded: true
-    });
+    history.pushState(this.state, '', '/');
+
+    if ('next_question' in this.state.currentQuestion['options'][option]) {
+      // update the currentQuestion value in state to whatever this options next_question is
+      const newQuestion = this.state.questions[this.state.currentQuestion['options'][option]['next_question']];
+      this.setState({
+        currentQuestion: newQuestion,
+      });
+    } else {
+      // if there is no next question go to the results page
+      this.setState({
+        currentPage: PAGES.results
+      });
+    }
   }
 
   render() {
-    // if the survey has started, but hasn't ended yet
-    if (this.state.surveyStarted && !this.state.surveyEnded) {
+    if (this.state.currentPage === PAGES.survey) {
       return(
-        <DecisionTree
-          questions={this.state.questions}
-          firstQuestion={this.state.firstQuestion}
-          onNewPoints={(newPoints) => {this.handleAddPoints(newPoints)}}
-          onSurveyEnd={() => {this.handleSurveyEnd()}}
+        <Decision
+          question={this.state.currentQuestion['question']}
+          onOptionClick={(option) => this.handleOptionClick(option)}
         />
       );
     }
 
-    // if the survey has ended
-    if (this.state.surveyEnded) {
+    if (this.state.currentPage === PAGES.results) {
       return (
         <Results
           points={this.state.points}
