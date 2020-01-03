@@ -25,10 +25,13 @@ export default class DecisionTree extends React.Component {
 
   render() {
     return (
-      <Decision
-        question={this.state.currentQuestion['question']}
-        onOptionClick={(option) => this.handleOptionClick(option)}
-      />
+      <div>
+        <Decision
+          question={this.state.currentQuestion['question']}
+          onOptionClick={(option) => this.handleOptionClick(option)}
+        />
+        <Score points={this.state.campPoints} totalPoints={this.state.maxPossiblePoints} />
+      </div>
     );
   }
 }
@@ -47,6 +50,14 @@ function Decision(props) {
           No
         </button>
       </div>
+    </div>
+  );
+}
+
+function Score(props) {
+  return (
+    <div className="current-points">
+      {props.points} / {props.totalPoints}
     </div>
   );
 }
