@@ -188,7 +188,7 @@ export const questions = {
         'question': 'Is this an ambitious film for the director? Have they attempted something outlandish and fantastical in making this film?',
         'options': {
             'yes': {
-                'next_quesiton': '27',
+                'next_question': '27',
                 'points': 1
             },
             'no': {
