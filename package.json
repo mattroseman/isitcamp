@@ -4,8 +4,11 @@
   "description": "Asks questions to determine if a movie is campy or not",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "start-dev": "webpack-dev-server --mode development",
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "npm install && npm run build"
   },
   "author": "Matthew Roseman",
   "license": "ISC",
@@ -23,6 +26,7 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.18"
