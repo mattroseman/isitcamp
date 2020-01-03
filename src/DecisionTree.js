@@ -5,9 +5,11 @@ import { questions, firstQuestion } from './isitcamp_questions';
 export default class DecisionTree extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       currentQuestion: questions[firstQuestion],
-      campPoints: 0
+      campPoints: 0,
+      maxPossiblePoints: getMaxPossiblePoints()
     };
   }
 
@@ -47,4 +49,41 @@ function Decision(props) {
       </div>
     </div>
   );
+}
+
+/*
+ * getMaxPossiblePoints takes a JSON object that is a list of questions with points associated with each possible answer.
+ * Each answer points to a next question, using a depth first search, it determines the maximum possible points you can get.
+ */
+let questionMaxPoints = {}
+function getMaxPossiblePoints(startingQuestion='1') {
+  const question = questions[startingQuestion]
+
+  let yesPoints = question['options']['yes']['points'];
+  // if there is another question following the yes option, recursively calculate it's maximum points
+  if ('next_question' in question['options']['yes']) {
+    let nextQuestion = question['options']['yes']['next_question'];
+    if (nextQuestion in questionMaxPoints) {
+      yesPoints += questionMaxPoints[nextQuestion];
+    } else {
+      yesPoints += getMaxPossiblePoints(question['options']['yes']['next_question'])
+    }
+  }
+
+  let noPoints = question['options']['no']['points'];
+  // if there is another question following the no option, recursively calculate it's maximum points
+  if ('next_question' in question['options']['no']) {
+    let nextQuestion = question['options']['no']['next_question'];
+    if (nextQuestion in questionMaxPoints) {
+      noPoints += questionMaxPoints[nextQuestion];
+    } else {
+      noPoints += getMaxPossiblePoints(question['options']['no']['next_question'])
+    }
+  }
+
+  const maxPoints = Math.max(yesPoints, noPoints);
+
+  questionMaxPoints[startingQuestion] = maxPoints;
+
+  return maxPoints;
 }

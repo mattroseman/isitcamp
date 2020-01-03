@@ -47,7 +47,7 @@ export const questions = {
                 'points': 0
             },
             'no': {
-                'next_question': '26' ,
+                'next_question': '26',
                 'points': 1,
                 'quantifier': 'naive'
             }
@@ -227,11 +227,11 @@ export const questions = {
         'question': 'Does the film feel pretentious?',
         'options': {
             'yes': {
-                'next_question': '30',
+                'next_question': '30a',
                 'points': 0
             },
             'no': {
-                'next_question': '30',
+                'next_question': '30a',
                 'points': 1
             }
         }
@@ -240,7 +240,7 @@ export const questions = {
         'question': 'Is this a recent film?',
         'options': {
             'yes': {
-                'next_question': '32',
+                'next_question': '32a',
                 'points': 0
             },
             'no': {
@@ -253,7 +253,7 @@ export const questions = {
         'question': 'Has the film aged well? Does the film feel timeless, in the sense that it\'s still relatable?',
         'options': {
             'yes': {
-                'next_question': '32',
+                'next_question': '32a',
                 'points': 0
             },
             'no': {
@@ -266,11 +266,11 @@ export const questions = {
         'question': 'Does the film make you feel nostalgia, or are you engaged in something that might once be considered banal?',
         'options': {
             'yes': {
-                'next_question': '32',
+                'next_question': '32a',
                 'points': 1
             },
             'no': {
-                'next_question': '32',
+                'next_question': '32a',
                 'points': 0
             }
         }
