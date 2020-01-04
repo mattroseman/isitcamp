@@ -1,10 +1,13 @@
 import React from 'react';
 
-export default class Results extends React.Component {
-  render() {
-    const campPercentage = Math.round((this.props.points / this.props.maxPossiblePoints) * 100);
-    return (
+export default function Results(props) {
+  const campPercentage = Math.round((props.points / props.maxPossiblePoints) * 100);
+
+  return (
+    <div>
       <div>this film is {campPercentage}% camp</div>
-    );
-  }
+      <button onClick={() => props.onRestart()}>Start Another Film</button>
+    </div>
+  );
+
 }

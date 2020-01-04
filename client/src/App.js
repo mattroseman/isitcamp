@@ -100,6 +100,19 @@ class App extends Component {
     }
   }
 
+  handleRestart() {
+    this.setState({
+      movieTitle: '',
+      page: PAGES.home,
+      question: questions[firstQuestion],
+      points: 0
+    });
+
+    history.pushState({
+      page: PAGES.home
+    }, '', '/');
+  }
+
   render() {
     if (this.state.page === PAGES.home) {
       return (
@@ -125,6 +138,7 @@ class App extends Component {
         <Results
           points={this.state.points}
           maxPossiblePoints={maxPossiblePoints}
+          onRestart={() => this.handleRestart()}
         />
       );
     }
