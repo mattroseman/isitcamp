@@ -1,10 +1,14 @@
 .decision {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
+  position: relative;
+
   max-width: 500px;
+  min-width: 500px;
+  min-height: 400px;
 
   margin: 5rem;
 }
@@ -18,12 +22,6 @@
 }
 
 .decision-options {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  width: 100%;
 }
 
 .decision-option {
@@ -44,7 +42,13 @@
 }
 
 .yes-option {
+  position: absolute;
+  left: 1.25em;
+  bottom: 2em;
 }
 
 .no-option {
+  position: absolute;
+  right: 1.25em;
+  bottom: 2em;
 }
