@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./client/src/index.js",
+  entry: path.join(__dirname, "client/src/index.js"),
   mode: "development",
   module: {
     rules: [
@@ -27,7 +27,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, "client/public/"),
     port: 3000,
-    publicPath: "http://localhost:3000/dist/",
+    publicPath: "http://localhost:3000/",
     hotOnly: true
   },
   plugins: [new webpack.HotModuleReplacementPlugin()]
