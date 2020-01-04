@@ -28,33 +28,54 @@ class App extends Component{
   }
 
   componentDidMount() {
+    history.replaceState({
+      points: this.state.points,
+      currentQuestion: this.state.currentQuestion,
+      currentPage: this.state.currentPage
+    }, '', '/');
+
     // when the user goes back a question, revert the state to the state in history
     window.addEventListener('popstate', (event) => {
-      this.setState(event.state);
+      this.setState({
+        points: event.state.points,
+        currentQuestion: event.state.currentQuestion,
+        currentPage: event.state.currentPage
+      });
     });
   }
 
   handleOptionClick(option) {
+    let newPoints = this.state.points;
+    let newQuestion = this.state.currentQuestion;
+    let newPage = this.state.currentPage;
+
     // add the points this options has to the points in state
-    const newPoints = this.state.currentQuestion['options'][option]['points'];
+    newPoints = this.state.points + this.state.currentQuestion['options'][option]['points'];
     this.setState({
-      points: this.state.points + newPoints
+      points: newPoints
     });
 
-    history.pushState(this.state, '', '/');
-
+    // calculate the next question, or go to the results page if there isn't one
     if ('next_question' in this.state.currentQuestion['options'][option]) {
       // update the currentQuestion value in state to whatever this options next_question is
-      const newQuestion = this.state.questions[this.state.currentQuestion['options'][option]['next_question']];
+      newQuestion = this.state.questions[this.state.currentQuestion['options'][option]['next_question']];
       this.setState({
         currentQuestion: newQuestion,
+      }, () => {
       });
     } else {
       // if there is no next question go to the results page
+      newPage = PAGES.results;
       this.setState({
-        currentPage: PAGES.results
+        currentPage: newPage
       });
     }
+
+    history.pushState({
+      points: newPoints,
+      currentQuestion: newQuestion,
+      currentPage: newPage
+    }, '', '/');
   }
 
   render() {
