@@ -1,4 +1,16 @@
 .decision-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+
+  position: relative;
+}
+@media only screen and (max-width: 575px) {
+  .decision-page {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .decision {
@@ -6,8 +18,6 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-
-  position: relative;
 
   max-width: 500px;
   min-width: 500px;
@@ -18,7 +28,6 @@
     max-width: 100%;
     min-width: 0px;
     width: 100%;
-    min-height: 100%;
   }
 }
 
