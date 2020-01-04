@@ -1,0 +1,50 @@
+.decision {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 500px;
+
+  margin: 5rem;
+}
+
+.decision-question {
+  text-align: center;
+
+  padding-bottom: 3rem;
+
+  font-size: 2rem;
+}
+
+.decision-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.decision-option {
+  background: #FFFFFF;
+  border: none;
+  outline: 1px solid #000000;
+
+  width: 3.75em;
+  height: 1.5em;
+
+  font-size: 2rem;
+
+  cursor: pointer;
+}
+
+.decision-option:hover {
+  background: #F0F0F0;
+}
+
+.yes-option {
+}
+
+.no-option {
+}
