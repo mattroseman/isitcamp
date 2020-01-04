@@ -8,9 +8,15 @@
 
   max-width: 500px;
   min-width: 500px;
-  min-height: 400px;
-
-  margin: 5rem;
+  min-height: 450px;
+}
+@media only screen and (max-width: 575px) {
+  .decision {
+    max-width: 100%;
+    min-width: 0px;
+    width: 100%;
+    min-height: 100%;
+  }
 }
 
 .decision-question {
@@ -19,6 +25,12 @@
   padding-bottom: 3rem;
 
   font-size: 2rem;
+}
+@media only screen and (max-width: 575px) {
+  .decision-question {
+    font-size: 1.25rem;
+    margin: 2rem;
+  }
 }
 
 .decision-options {
@@ -36,6 +48,12 @@
 
   cursor: pointer;
 }
+@media only screen and (max-width: 575px) {
+  .decision-option {
+    width: 2.75em;
+    height: 1.5em;
+  }
+}
 
 .decision-option:hover {
   background: #F0F0F0;
@@ -46,9 +64,19 @@
   left: 1.25em;
   bottom: 2em;
 }
+@media only screen and (max-width: 575px) {
+  .yes-option {
+    left: 1em;
+  }
+}
 
 .no-option {
   position: absolute;
   right: 1.25em;
   bottom: 2em;
+}
+@media only screen and (max-width: 575px) {
+  .no-option {
+    right: 1em;
+  }
 }
