@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Home(props) {
   return (
-    <div className="home">
-      <div className="title-field">
+    <div id="home">
+      <div id="title-field">
         <label id="movie-title-label" htmlFor="movie-title-input">
           Enter movie title to get started
         </label>
@@ -13,7 +13,7 @@ export default function Home(props) {
           value={props.movieTitle}
           onChange={(event) => {props.onMovieTitleChange(event)}}
         />
-        <button id="start-survey" onClick={() => {props.onStartSurvey()}}>Start</button>
+        <button id="start-survey-button" onClick={() => {props.onStartSurvey()}}>Start</button>
       </div>
     </div>
   );
