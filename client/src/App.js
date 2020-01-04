@@ -127,6 +127,7 @@ class App extends Component {
     if (this.state.page === PAGES.survey) {
       return(
         <Decision
+          movieTitle={this.state.movieTitle}
           question={this.state.question['question']}
           onOptionClick={(option) => this.handleOptionClick(option)}
         />
