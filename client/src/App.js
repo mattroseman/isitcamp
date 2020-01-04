@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader/root';
 
 import Decision from './Decision';
 import Results from './Results';
+import Home from './Home';
 import { questions, firstQuestion } from './isitcamp_questions';
 
 import './App.css';
@@ -14,12 +15,13 @@ const PAGES = Object.freeze({
 });
 
 
-class App extends Component{
+class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentPage: PAGES.survey,
+      currentPage: PAGES.home,
+      movieTitle: '',
       currentQuestion: questions[firstQuestion],
       questions: questions,
       points: 0,
@@ -31,6 +33,7 @@ class App extends Component{
     this.loadSnapshot(() => {
       history.replaceState({
         points: this.state.points,
+        movieTitle: this.state.movieTitle,
         currentQuestion: this.state.currentQuestion,
         currentPage: this.state.currentPage
       }, '', '/');
@@ -40,6 +43,7 @@ class App extends Component{
     window.addEventListener('popstate', (event) => {
       const snapshot = {
         points: event.state.points,
+        movieTitle: event.state.movieTitle,
         currentQuestion: event.state.currentQuestion,
         currentPage: event.state.currentPage
       };
@@ -58,6 +62,7 @@ class App extends Component{
     if (snapshot === null) {
       snapshot = {
         points: this.state.points,
+        movieTitle: this.state.movieTitle,
         currentQuestion: this.state.currentQuestion,
         currentPage: this.state.currentPage
       };
@@ -78,6 +83,7 @@ class App extends Component{
       snapshot = JSON.parse(snapshot);
       this.setState({
         points: snapshot.points,
+        movieTitle: snapshot.movieTitle,
         currentQuestion: snapshot.currentQuestion,
         currentPage: snapshot.currentPage
       }, () => {
@@ -90,6 +96,38 @@ class App extends Component{
         callback();
       }
     }
+  }
+
+  handleMovieTitleChange(event) {
+    const newMovieTitle = event.target.value;
+
+    this.setState({
+      movieTitle: newMovieTitle
+    });
+
+    const snapshot = {
+      points: this.state.points,
+      movieTitle: newMovieTitle,
+      currentQuestion: this.state.currentQuestion,
+      currentPage: this.state.currentPage
+    };
+    history.pushState(snapshot, '', '/');
+    this.saveSnapshot(snapshot);
+  }
+
+  handleStartSurvey() {
+    this.setState({
+      currentPage: PAGES.survey
+    });
+
+    const snapshot = {
+      points: this.state.points,
+      movieTitle: this.state.movieTitle,
+      currentQuestion: this.state.currentQuestion,
+      currentPage: PAGES.survey
+    };
+    history.pushState(snapshot, '', '/');
+    this.saveSnapshot(snapshot);
   }
 
   handleOptionClick(option) {
@@ -121,6 +159,7 @@ class App extends Component{
 
     const snapshot = {
       points: newPoints,
+      movieTitle: this.state.movieTitle,
       currentQuestion: newQuestion,
       currentPage: newPage
     };
@@ -129,6 +168,16 @@ class App extends Component{
   }
 
   render() {
+    if (this.state.currentPage === PAGES.home) {
+      return (
+        <Home 
+          movieTitle={this.state.movieTitle}
+          onMovieTitleChange={(event) => {this.handleMovieTitleChange(event)}}
+          onStartSurvey={() => {this.handleStartSurvey()}}
+        />
+      );
+    }
+
     if (this.state.currentPage === PAGES.survey) {
       return(
         <Decision
