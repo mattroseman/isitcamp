@@ -28,20 +28,68 @@ class App extends Component{
   }
 
   componentDidMount() {
-    history.replaceState({
-      points: this.state.points,
-      currentQuestion: this.state.currentQuestion,
-      currentPage: this.state.currentPage
-    }, '', '/');
+    this.loadSnapshot(() => {
+      history.replaceState({
+        points: this.state.points,
+        currentQuestion: this.state.currentQuestion,
+        currentPage: this.state.currentPage
+      }, '', '/');
+    });
 
-    // when the user goes back a question, revert the state to the state in history
+    // when the user goes back/forward a question, revert the state to the state in history
     window.addEventListener('popstate', (event) => {
-      this.setState({
+      const snapshot = {
         points: event.state.points,
         currentQuestion: event.state.currentQuestion,
         currentPage: event.state.currentPage
-      });
+      };
+
+      this.setState(snapshot);
+
+      this.saveSnapshot(snapshot);
     });
+  }
+
+  /*
+   * saveSnapshot saves a snapshot of the current state of App to sessionStorage and pushes to history.
+   * Uses the current state, unless a snapshot is manually passed
+   */
+  saveSnapshot(snapshot=null) {
+    if (snapshot === null) {
+      snapshot = {
+        points: this.state.points,
+        currentQuestion: this.state.currentQuestion,
+        currentPage: this.state.currentPage
+      };
+    }
+
+    sessionStorage.setItem('isthiscampSnapshot', JSON.stringify(snapshot));
+  }
+
+  /*
+   * loadSnapshot checks sessionStorage to see if a snapshot has been saved. If there is one it updates the current state.
+   * accepts a callback that will be executed after the state has been updated, or immediately if there is no snapshot in sessionStorage
+   */
+  loadSnapshot(callback=null) {
+    let snapshot = sessionStorage.getItem('isthiscampSnapshot');
+
+    // if there was a snapshot in sessionStorage
+    if (snapshot !== null) {
+      snapshot = JSON.parse(snapshot);
+      this.setState({
+        points: snapshot.points,
+        currentQuestion: snapshot.currentQuestion,
+        currentPage: snapshot.currentPage
+      }, () => {
+        if (callback !== null) {
+          callback();
+        }
+      });
+    } else {
+      if (callback !== null) {
+        callback();
+      }
+    }
   }
 
   handleOptionClick(option) {
@@ -71,11 +119,13 @@ class App extends Component{
       });
     }
 
-    history.pushState({
+    const snapshot = {
       points: newPoints,
       currentQuestion: newQuestion,
       currentPage: newPage
-    }, '', '/');
+    };
+    history.pushState(snapshot, '', '/');
+    this.saveSnapshot(snapshot);
   }
 
   render() {
