@@ -1,14 +1,96 @@
 #home {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+
+  height: 100%;
 }
 
-#title-field {
+#title {
+  font-size: 4rem;
+
+  margin-bottom: 0rem;
+}
+@media only screen and (max-width: 575px) {
+  #title {
+    font-size: 3rem;
+  }
 }
 
-#movie-title-label {
+#subtitle {
+  font-size: 1.5rem;
+
+  margin-bottom: 4rem;
+}
+@media only screen and (max-width: 575px) {
+  #subtitle {
+    font-size: 1.25rem;
+
+    margin-bottom: 8rem;
+  }
+}
+
+#movie-title-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+@media only screen and (max-width: 575px) {
+  #movie-title-field {
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
 }
 
 #movie-title-input {
+  display: flex;
+  flex: 5;
+
+  border: none;
+  outline: 1px solid #000000;
+
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 1rem;
+
+  font-size: 1.5rem;
+
+  height: 2.25rem;
+}
+@media only screen and (max-width: 575px) {
+  #movie-title-input {
+    margin-right: 0rem;
+    margin-bottom: 1rem;
+
+    min-width: 277px;
+    max-width: 277px;
+  }
 }
 
 #start-survey-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+
+  font-size: 1.5rem;
+
+  height: 2.25rem;
+
+  text-align: center;
+}
+@media only screen and (max-width: 575px) {
+  #start-survey-button {
+    min-width: 297px;
+    max-width: 297px;
+  }
 }

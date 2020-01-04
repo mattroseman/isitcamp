@@ -1,15 +1,22 @@
 import React from 'react';
 
+import './Home.css';
+
 export default function Home(props) {
   return (
     <div id="home">
-      <div id="title-field">
-        <label id="movie-title-label" htmlFor="movie-title-input">
-          Enter movie title to get started
-        </label>
-        <input 
+      <h1 id="title">
+        Is It Camp?
+      </h1>
+      <h3 id="subtitle">
+        according to Susan Sontag
+      </h3>
+
+      <div id="movie-title-field">
+        <input
           id="movie-title-input"
           type="text"
+          placeholder="Enter movie title"
           value={props.movieTitle}
           onChange={(event) => {props.onMovieTitleChange(event)}}
         />

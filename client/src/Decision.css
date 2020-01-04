@@ -37,26 +37,16 @@
 }
 
 .decision-option {
-  background: #FFFFFF;
-  border: none;
-  outline: 1px solid #000000;
-
   width: 3.75em;
   height: 1.5em;
 
   font-size: 2rem;
-
-  cursor: pointer;
 }
 @media only screen and (max-width: 575px) {
   .decision-option {
     width: 2.75em;
     height: 1.5em;
   }
-}
-
-.decision-option:hover {
-  background: #F0F0F0;
 }
 
 .yes-option {
