@@ -57,6 +57,14 @@ class App extends Component {
     this.setState({
       movieTitle: newMovieTitle
     });
+
+    fetch('/movies?prefix=' + newMovieTitle)
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        for (let movie of responseJSON.movieTitles) {
+          console.log(movie);
+        }
+      });
   }
 
   handleStartSurvey() {
