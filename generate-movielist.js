@@ -1,5 +1,14 @@
+const zlib = require('zlib');
+const https = require('https');
 const fs = require('fs');
 const readline = require('readline');
+
+const unzip = zlib.createUnzip();
+
+const imdbFileOutStream = fs.createWriteStream('./data/title.basics.tsv', 'utf8');
+https.get('https://datasets.imdbws.com/title.basics.tsv.gz', (res) => {
+  res.pipe(unzip).pipe(imdbFileOutStream);
+});
 
 const fileInStream = fs.createReadStream('./data/title.basics.tsv', 'utf8');
 const fileOutStream = fs.createWriteStream('./data/movieTitles.txt', {flags: 'w'});
