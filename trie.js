@@ -1,7 +1,7 @@
 class trieNode {
-  constructor(value, isWord=false) {
+  constructor(value, word=null) {
     this.value = value;
-    this.isWord = isWord;
+    this.word = word;
     this.children = {};
   }
 }
@@ -11,28 +11,34 @@ class Trie {
     this.root = new trieNode('');
   }
 
-  addWord(word) {
-    word = word.toLowerCase();
+  addWord(word, originalWord=null) {
+    const characters = word.toLowerCase().split('');
+
+    if (originalWord === null) {
+      originalWord = word;
+    }
 
     let currentNode = this.root;
 
     // iterate over each character of the given word
-    for (let i = 0; i < word.length; i++) {
-      const character = word[i];
+    for (let i = 0; i < characters.length; i++) {
+      const character = characters[i];
 
       // if there is already a node for this character
       if (character in currentNode.children) {
         // if this is the last character
-        if (i == word.length - 1) {
+        if (i == characters.length - 1) {
           // mark the child as a word
-          currentNode.children[character].isWord = true;
+          currentNode.children[character].word = originalWord;
           return;
         }
-
       } else {
         // create a new trieNode with the current characters value
         // mark it as a word if this is the last character
-        currentNode.children[character] = new trieNode(character, i == word.length - 1);
+        currentNode.children[character] = new trieNode(
+          character,
+          i == characters.length - 1 ? originalWord : null
+        );
       }
 
       // update the currentNode to be the child representing the current character
@@ -52,17 +58,18 @@ class Trie {
       if (character in currentNode.children) {
         currentNode = currentNode.children[character];
       } else {
-        return null;
+        return new Set();
       }
     }
 
     // DFS starting at currentNode to get all possible words with the given prefix
     const words = new Set();
     function dfs(startingNode, word) {
-      if (startingNode.isWord) {
-        words.add(word);
+      if (startingNode.word !== null) {
+        words.add(startingNode.word);
       }
 
+      // if there are no child nodes return
       if (Object.keys(startingNode.children).length == 0) {
         return;
       }
@@ -71,8 +78,8 @@ class Trie {
         dfs(startingNode.children[character], word + character);
       }
     }
-    dfs(currentNode, prefix);
 
+    dfs(currentNode, prefix)
     return words;
   }
 }

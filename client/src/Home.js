@@ -17,9 +17,16 @@ export default function Home(props) {
           id="movie-title-input"
           type="text"
           placeholder="Enter movie title"
+          list="movie-title-suggestions"
           value={props.movieTitle}
           onChange={(event) => {props.onMovieTitleChange(event)}}
         />
+        <datalist id="movie-title-suggestions">
+          {props.movieTitleSuggestions.map((movieTitle) => {
+            return <option key={movieTitle} value={movieTitle} />
+          })}
+        </datalist>
+
         <button id="start-survey-button" onClick={() => {props.onStartSurvey()}}>Start</button>
       </div>
     </div>

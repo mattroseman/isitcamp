@@ -20,13 +20,22 @@ const movieTitles = fs.readFileSync('./data/movieTitles.txt', 'utf8')
 
 for (let movieTitle of movieTitles.split('\n')) {
   movieTrie.addWord(movieTitle);
+
+  if (movieTitle.substr(0, 4).toLowerCase() === 'the ') {
+    movieTrie.addWord(movieTitle.substr(4), movieTitle);
+  }
 }
 
 app.get('/movies', (req, res) => {
   console.log('getting movie suggestions for prefix ' + req.query.prefix);
+  console.log(movieTrie.getWords(req.query.prefix));
+  const movieTitles = Array.from(movieTrie.getWords(req.query.prefix))
+    .sort((a, b) => {
+      return a.length - b.length || a.localeCompare(b);
+    })
+    .slice(0, 10);
   const response = JSON.stringify({
-    'movieTitles': Array.from(movieTrie.getWords(req.query.prefix)).slice(0, 10)
+    'movieTitles': movieTitles
   });
-  console.log(response);
   res.send(response);
 });

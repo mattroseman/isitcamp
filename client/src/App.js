@@ -21,6 +21,7 @@ class App extends Component {
 
     this.state = {
       movieTitle: '',
+      movieTitleSuggestions: [],
       page: PAGES.home,
       question: questions[firstQuestion],
       points: 0
@@ -58,13 +59,15 @@ class App extends Component {
       movieTitle: newMovieTitle
     });
 
-    fetch('/movies?prefix=' + newMovieTitle)
-      .then((response) => response.json())
-      .then((responseJSON) => {
-        for (let movie of responseJSON.movieTitles) {
-          console.log(movie);
-        }
-      });
+    if (newMovieTitle !== '') {
+      fetch('/movies?prefix=' + newMovieTitle)
+        .then((response) => response.json())
+        .then((responseJSON) => {
+          this.setState({
+            movieTitleSuggestions: responseJSON.movieTitles
+          });
+        });
+    }
   }
 
   handleStartSurvey() {
@@ -126,6 +129,7 @@ class App extends Component {
       return (
         <Home
           movieTitle={this.state.movieTitle}
+          movieTitleSuggestions={this.state.movieTitleSuggestions}
           onMovieTitleChange={(event) => {this.handleMovieTitleChange(event)}}
           onStartSurvey={() => {this.handleStartSurvey()}}
         />
