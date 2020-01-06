@@ -63,17 +63,36 @@
 
   font-size: 1.5rem;
 
+  min-width: 285px;
+  max-width: 285px;
   min-height: 2.25rem;
   max-height: 2.25rem;
 }
 @media only screen and (max-width: 575px) {
   #movie-title-input {
     margin-right: 0rem;
-    margin-bottom: 1rem;
 
     min-width: 277px;
     max-width: 277px;
   }
+}
+
+#movie-title-input-suggestion-menu {
+  min-width: 285px;
+  max-width: 285px;
+}
+@media only screen and (max-width: 575px) {
+  #movie-title-input-suggestion-menu {
+    min-width: 277px;
+    max-width: 277px;
+  }
+}
+
+.movie-title-input-suggestion {
+  padding-left: 10px;
+  padding-right: 10px;
+
+  font-size: 1.5rem;
 }
 
 #start-survey-button {
@@ -92,6 +111,8 @@
 }
 @media only screen and (max-width: 575px) {
   #start-survey-button {
+    margin-top: 1rem;
+
     min-width: 297px;
     max-width: 297px;
   }

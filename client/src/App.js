@@ -53,7 +53,7 @@ class App extends Component {
   }
 
   handleMovieTitleChange(event) {
-    const newMovieTitle = event.target.value;
+    const newMovieTitle = typeof event == 'string' ? event : event.target.value;
 
     this.setState({
       movieTitle: newMovieTitle
