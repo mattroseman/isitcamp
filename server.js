@@ -1,10 +1,26 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const cors = require('cors');
 
 const Trie = require('./trie.js');
 
 let app = express();
+
+// Set up a whitelist and check against it:
+var whitelist = ['http://localhost:3000']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+// Then pass them to cors:
+app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, 'client/dist/')));
 

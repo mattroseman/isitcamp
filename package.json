@@ -1,6 +1,6 @@
 {
   "name": "isitcamp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Asks questions to determine if a movie is campy or not",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,10 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "react": "^16.12.0",
+    "react-autocomplete": "^1.8.1",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.18"
   }

@@ -60,7 +60,12 @@ class App extends Component {
     });
 
     if (newMovieTitle !== '') {
-      fetch('/movies?prefix=' + newMovieTitle)
+      let url = '/movies?prefix=' + newMovieTitle;
+      if (window.location.hostname === 'localhost') {
+        url = 'http://localhost:5000' + url;
+      }
+
+      fetch(url)
         .then((response) => response.json())
         .then((responseJSON) => {
           this.setState({
