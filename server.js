@@ -18,13 +18,17 @@ app.listen(port);
 const movieTrie = new Trie();
 const movieTitles = fs.readFileSync('./data/movieTitles.txt', 'utf8')
 
+let moviesAdded = 0;
 for (let movieTitle of movieTitles.split('\n')) {
+  console.log('movies added: ' + moviesAdded);
   movieTrie.addWord(movieTitle);
+  moviesAdded += 1;
 
   if (movieTitle.substr(0, 4).toLowerCase() === 'the ') {
     movieTrie.addWord(movieTitle.substr(4), movieTitle);
   }
 }
+console.log('movies added: ' + moviesAdded);
 
 app.get('/movies', (req, res) => {
   console.log('getting movie suggestions for prefix ' + req.query.prefix);
