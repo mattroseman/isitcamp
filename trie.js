@@ -12,37 +12,67 @@ class Trie {
   }
 
   addWord(word, originalWord=null) {
-    const characters = word.toLowerCase().split('');
-
     if (originalWord === null) {
       originalWord = word;
     }
+    word = word.toLowerCase();
 
     let currentNode = this.root;
 
     // iterate over each character of the given word
-    for (let i = 0; i < characters.length; i++) {
-      const character = characters[i];
+    for (let i = 0; i < word.length; i++) {
+      const character = word[i];
 
-      // if there is already a node for this character
+      // check to see if there is a child of character
       if (character in currentNode.children) {
-        // if this is the last character
-        if (i == characters.length - 1) {
-          // mark the child as a word
-          currentNode.children[character].word = originalWord;
+        const edgeLabel = currentNode.children[character].value;
+
+        // if edgeLabel equals what's left of the word, set that node as isWord
+        if (edgeLabel === word.substr(i)) {
+          currentNode.children[character].isWord = true;
+
+          return;
+        }
+
+        // if what's left of the word is a prefix of the edgeLabel
+        if(word.substr(i) === edgeLabel.substr(0, word.substr(i).length)) {
+          // insert a new node between currentNode and this child
+          const newNode = new trieNode(word.substr(i), originalWord);
+          currentNode.children[character].value = edgeLabel.substr(word.substr(i).length);
+          newNode.children[edgeLabel[word.substr(i).length]] = currentNode.children[character];
+          currentNode.children[character] = newNode;
+
+          return;
+        }
+
+        // if edgeLabel is a prefix of what's left of the word
+        if (edgeLabel === word.substr(i, edgeLabel.length)) {
+          // increment i so the edgeLabel that matches word is taken off 
+          i += edgeLabel.length - 1;
+          currentNode = currentNode.children[character];
+        } else {
+          // if the edgeLabel and what's left of the word share a common prefix
+          let j = 0;
+          while (j < word.substr(i).length && j < edgeLabel.length && word.substr(i)[j] === edgeLabel[j]) {
+            j += 1;
+          }
+          const commonPrefix = edgeLabel.substr(0, j);
+
+          const newNode = new trieNode(commonPrefix);
+          newNode.children[edgeLabel[j]] = currentNode.children[character]
+          currentNode.children[character] = newNode;
+          newNode.children[edgeLabel[j]].value = edgeLabel.substr(j);
+          newNode.children[word[i + j]] = new trieNode(word.substr(i + j), originalWord);
+
           return;
         }
       } else {
-        // create a new trieNode with the current characters value
-        // mark it as a word if this is the last character
-        currentNode.children[character] = new trieNode(
-          character,
-          i == characters.length - 1 ? originalWord : null
-        );
-      }
+        // make a new node that's a word and has edge label of current and remaining characters
+        const newNode = new trieNode(word.substr(i), originalWord);
+        currentNode.children[character] = newNode;
 
-      // update the currentNode to be the child representing the current character
-      currentNode = currentNode.children[character];
+        return;
+      }
     }
   }
 
@@ -56,6 +86,7 @@ class Trie {
       const character = prefix[i];
 
       if (character in currentNode.children) {
+        i += currentNode.children[character].value.length - 1;
         currentNode = currentNode.children[character];
       } else {
         return new Set();

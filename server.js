@@ -20,7 +20,7 @@ const movieTitles = fs.readFileSync('./data/movieTitles.txt', 'utf8')
 
 let moviesAdded = 0;
 for (let movieTitle of movieTitles.split('\n')) {
-  console.log('movies added: ' + moviesAdded);
+  // console.log('movies added: ' + moviesAdded);
   movieTrie.addWord(movieTitle);
   moviesAdded += 1;
 
@@ -28,6 +28,9 @@ for (let movieTitle of movieTitles.split('\n')) {
     movieTrie.addWord(movieTitle.substr(4), movieTitle);
   }
 }
+const used = process.memoryUsage().heapUsed / 1024 / 1024;
+console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+
 console.log('movies added: ' + moviesAdded);
 
 app.get('/movies', (req, res) => {
