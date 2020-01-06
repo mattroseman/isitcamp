@@ -8,7 +8,7 @@ const Trie = require('./trie.js');
 let app = express();
 
 // Set up a whitelist and check against it:
-var whitelist = ['http://localhost:3000']
+var whitelist = ['http://localhost:3000', 'isitcamp.com', 'www.isitcamp.com', 'http://isitcamp.com', 'http://www.isitcamp.com']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
