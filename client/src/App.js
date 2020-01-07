@@ -23,6 +23,7 @@ class App extends Component {
       movieTitle: '',
       movieTitleSuggestions: [],
       page: PAGES.home,
+      surveyInProgress: false,
       question: questions[firstQuestion],
       points: 0
     };
@@ -81,7 +82,8 @@ class App extends Component {
 
   handleStartSurvey() {
     this.setState({
-      page: PAGES.survey
+      page: PAGES.survey,
+      surveyInProgress: true
     });
 
     history.pushState({
@@ -124,6 +126,7 @@ class App extends Component {
     this.setState({
       movieTitle: '',
       page: PAGES.home,
+      surveyInProgress: false,
       question: questions[firstQuestion],
       points: 0
     });
@@ -140,6 +143,7 @@ class App extends Component {
           movieTitle={this.state.movieTitle}
           movieTitleSuggestions={this.state.movieTitleSuggestions}
           onMovieTitleChange={(event) => {this.handleMovieTitleChange(event)}}
+          surveyInProgress = {this.state.surveyInProgress}
           onStartSurvey={() => {this.handleStartSurvey()}}
         />
       );

@@ -14,6 +14,18 @@ export default class Home extends React.Component {
     };
   }
 
+  componentDidMount() {
+    document.addEventListener('click', (event) => {
+      // if there is a click outside the input element or suggestion menu
+      if (!(event.target.matches('#movie-title-input') || event.target.matches('#suggestion-menu'))) {
+        // hide the suggestion menu
+        this.setState({
+          showSuggestions: false
+        });
+      }
+    });
+  }
+
   handleMovieTitleFocus() {
     // only show suggestions if there are characters in the movie title
     this.setState({
@@ -21,13 +33,9 @@ export default class Home extends React.Component {
     });
   }
 
-  handleMovieTitleBlur() {
-    this.setState({
-      showSuggestions: false
-    });
-  }
+  handleSuggestionClick(event, suggestion) {
+    event.preventDefault();
 
-  handleSuggestionClick(suggestion) {
     this.props.onMovieTitleChange(suggestion);
 
     this.setState({
@@ -45,17 +53,18 @@ export default class Home extends React.Component {
             id="movie-title-input"
             type="text"
             placeholder="Enter movie title"
+            spellCheck="false"
+            autoComplete="off"
             list="movie-title-suggestions"
             value={this.props.movieTitle}
             onChange={(event) => this.props.onMovieTitleChange(event)}
             onFocus={() => this.handleMovieTitleFocus()}
-            onBlur={() => this.handleMovieTitleBlur()}
           />
 
           {this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0 &&
             <Suggestions
               suggestions={this.props.movieTitleSuggestions}
-              onSuggestionClick={() => this.handleSuggestionClick()}
+              onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
             />
           }
 
@@ -64,7 +73,7 @@ export default class Home extends React.Component {
             id="start-survey-button"
             onClick={() => {this.props.onStartSurvey()}}
           >
-            Start
+            {this.props.surveyInProgress ? 'Continue' : 'Start'}
           </button>
         </div>
       </div>
