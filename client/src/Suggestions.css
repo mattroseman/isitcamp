@@ -1,0 +1,35 @@
+#suggestion-menu {
+  outline: 1px solid #000000;
+  background: #FFFFFF;
+
+  min-width: 305px;
+  max-width: 305px;
+  max-height: 100px;
+
+  left: 0px;
+  top: 2.5rem;
+  z-index: 1;
+
+  overflow: auto;
+
+  position: absolute;
+}
+@media only screen and (max-width: 575px) {
+  #suggestion-menu {
+    min-width: 297px;
+    max-width: 297px;
+
+    margin-left: .5rem;
+    margin-right: .5rem;
+  }
+}
+
+
+.suggestion {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  font-size: 1.5rem;
+}

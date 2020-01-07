@@ -1,42 +1,73 @@
 import React from 'react';
-import Autocomplete from 'react-autocomplete';
+
+import Title from './Title.js';
+import Suggestions from './Suggestions.js';
 
 import './Home.css';
 
-export default function Home(props) {
-  return (
-    <div id="home">
-      <h1 id="title">
-        Is It Camp?
-      </h1>
-      <h3 id="subtitle">
-        according to Susan Sontag
-      </h3>
+export default class Home extends React.Component {
+  constructor(props) {
+    super(props);
 
-      <div id="movie-title-field">
-        <Autocomplete
-          getItemValue={item => item}
-          items={props.movieTitleSuggestions}
-          renderItem={(item, isHighlighted) =>
-            <div
-              key={item}
-              style={{ background: isHighlighted ? 'lightgray' : 'white' }}
-              className="movie-title-input-suggestion"
-            >
-              {item}
-            </div>
+    this.state = {
+      showSuggestions: false
+    };
+  }
+
+  handleMovieTitleFocus() {
+    // only show suggestions if there are characters in the movie title
+    this.setState({
+      showSuggestions: true
+    });
+  }
+
+  handleMovieTitleBlur() {
+    this.setState({
+      showSuggestions: false
+    });
+  }
+
+  handleSuggestionClick(suggestion) {
+    this.props.onMovieTitleChange(suggestion);
+
+    this.setState({
+      showSuggestions: false
+    });
+  }
+
+  render() {
+    return (
+      <div id="home">
+        <Title />
+
+        <div id="movie-title-field">
+          <input
+            id="movie-title-input"
+            type="text"
+            placeholder="Enter movie title"
+            list="movie-title-suggestions"
+            value={this.props.movieTitle}
+            onChange={(event) => this.props.onMovieTitleChange(event)}
+            onFocus={() => this.handleMovieTitleFocus()}
+            onBlur={() => this.handleMovieTitleBlur()}
+          />
+
+          {this.state.showSuggestions &&
+            <Suggestions
+              suggestions={this.props.movieTitleSuggestions}
+              onSuggestionClick={() => this.handleSuggestionClick()}
+            />
           }
-          renderMenu={function(items, value, style) {
-            return <div id="movie-title-input-suggestion-menu" style={{ ...style, ...this.menuStyle }} children={items}/>
-          }}
-          inputProps={{id: 'movie-title-input', placeholder: 'Enter movie title'}}
-          value={props.movieTitle}
-          onChange={(event) => {props.onMovieTitleChange(event)}}
-          onSelect={(value) => {props.onMovieTitleChange(value)}}
-        />
 
-        <button id="start-survey-button" onClick={() => {props.onStartSurvey()}}>Start</button>
+
+          <button
+            id="start-survey-button"
+            onClick={() => {this.props.onStartSurvey()}}
+          >
+            Start
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

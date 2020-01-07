@@ -7,35 +7,13 @@
   height: 100%;
 }
 
-#title {
-  font-size: 4rem;
-
-  margin-bottom: 0rem;
-}
-@media only screen and (max-width: 575px) {
-  #title {
-    font-size: 3rem;
-  }
-}
-
-#subtitle {
-  font-size: 1.5rem;
-
-  margin-bottom: 4rem;
-}
-@media only screen and (max-width: 575px) {
-  #subtitle {
-    font-size: 1.25rem;
-
-    margin-bottom: 8rem;
-  }
-}
-
 #movie-title-field {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+
+  position: relative;
 }
 @media only screen and (max-width: 575px) {
   #movie-title-field {
@@ -52,13 +30,6 @@
   display: flex;
   flex: 5;
 
-  border: none;
-  outline: 1px solid #000000;
-
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 10px;
-  padding-right: 10px;
   margin-right: 1rem;
 
   font-size: 1.5rem;
@@ -75,24 +46,6 @@
     min-width: 277px;
     max-width: 277px;
   }
-}
-
-#movie-title-input-suggestion-menu {
-  min-width: 285px;
-  max-width: 285px;
-}
-@media only screen and (max-width: 575px) {
-  #movie-title-input-suggestion-menu {
-    min-width: 277px;
-    max-width: 277px;
-  }
-}
-
-.movie-title-input-suggestion {
-  padding-left: 10px;
-  padding-right: 10px;
-
-  font-size: 1.5rem;
 }
 
 #start-survey-button {

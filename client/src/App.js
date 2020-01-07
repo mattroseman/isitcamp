@@ -72,6 +72,10 @@ class App extends Component {
             movieTitleSuggestions: responseJSON.movieTitles
           });
         });
+    } else {
+      this.setState({
+        movieTitleSuggestions: []
+      });
     }
   }
 

@@ -34,3 +34,14 @@ button {
     background: #F0F0F0;
   }
 }
+
+input, input:focus {
+  border: none;
+  outline: 1px solid #000000;
+  outline-offset: 0;
+
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
