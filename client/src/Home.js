@@ -14,6 +14,7 @@ export default class Home extends React.Component {
     };
 
     this.handleClickOnPage = this.handleClickOnPage.bind(this);
+    this.handleWindowResize = this.handleWindowResize.bind(this);
   }
 
   componentDidMount() {
