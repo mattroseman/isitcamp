@@ -30,7 +30,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "react": "^16.12.0",
-    "react-autocomplete": "^1.8.1",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.18"
   }

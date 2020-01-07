@@ -6,6 +6,15 @@ const Trie = require('./trie.js');
 
 let app = express();
 
+if (process.env.NODE_ENV !== 'production') {
+  console.log('allow requests from any domain');
+  app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+}
+
 app.use(express.static(path.join(__dirname, 'client/dist/')));
 
 app.get('/', (req, res) => {
@@ -35,12 +44,12 @@ console.log('movies added: ' + moviesAdded);
 
 app.get('/movies', (req, res) => {
   console.log('getting movie suggestions for prefix ' + req.query.prefix);
-  console.log(movieTrie.getWords(req.query.prefix));
   const movieTitles = Array.from(movieTrie.getWords(req.query.prefix))
     .sort((a, b) => {
       return a.length - b.length || a.localeCompare(b);
     })
     .slice(0, 10);
+  console.log(movieTitles);
   const response = JSON.stringify({
     'movieTitles': movieTitles
   });
