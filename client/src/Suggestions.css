@@ -25,7 +25,7 @@
     margin-right: .5rem;
   }
 
-  #movie-title-input:focus + #suggestion-menu {
+  #movie-title-input:focus ~ #suggestion-menu {
     position: fixed;
 
     min-width: 100%;

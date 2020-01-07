@@ -89,6 +89,7 @@ export default class Home extends React.Component {
             onChange={(event) => this.props.onMovieTitleChange(event)}
             onFocus={() => this.handleMovieTitleFocus()}
           />
+          <div id="movie-title-input-placeholder"></div>
 
           {this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0 &&
             <Suggestions

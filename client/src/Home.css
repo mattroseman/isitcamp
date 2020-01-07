@@ -26,7 +26,7 @@
   }
 }
 
-#movie-title-input {
+#movie-title-input, #movie-title-input-placeholder {
   display: flex;
   flex: 5;
 
@@ -39,8 +39,11 @@
   min-height: 2.25rem;
   max-height: 2.25rem;
 }
+#movie-title-input-placeholder {
+  display: none;
+}
 @media only screen and (max-width: 575px) {
-  #movie-title-input {
+  #movie-title-input, #movie-title-input-placeholder {
     margin-right: 0rem;
     margin-bottom: 1rem;
 
@@ -57,6 +60,10 @@
 
     min-width: 100%;
     max-width: 0px;
+  }
+
+  #movie-title-input:focus ~ #movie-title-input-placeholder {
+    display: inline;
   }
 }
 
