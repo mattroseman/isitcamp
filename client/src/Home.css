@@ -42,6 +42,7 @@
 @media only screen and (max-width: 575px) {
   #movie-title-input {
     margin-right: 0rem;
+    margin-bottom: 1rem;
 
     min-width: 277px;
     max-width: 277px;
@@ -75,7 +76,6 @@
 }
 @media only screen and (max-width: 575px) {
   #start-survey-button {
-    margin-top: 1rem;
 
     min-width: 297px;
     max-width: 297px;

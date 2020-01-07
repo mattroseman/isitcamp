@@ -10,7 +10,7 @@ export default function Suggestions(props) {
           <div
             key={suggestion}
             className='suggestion'
-            onClick={(event) => props.onSuggestionClick(event, suggestion)}
+            onMouseDown={(event) => props.onSuggestionClick(event, suggestion)}
           >
             {suggestion}
           </div>

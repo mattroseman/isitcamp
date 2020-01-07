@@ -12,33 +12,45 @@ export default class Home extends React.Component {
     this.state = {
       showSuggestions: false
     };
+
+    this.handleClickOnPage = this.handleClickOnPage.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('click', (event) => {
-      // if there is a click outside the input element or suggestion menu
-      if (!(event.target.matches('#movie-title-input') || event.target.matches('#suggestion-menu'))) {
-        // hide the suggestion menu
-        this.setState({
-          showSuggestions: false
-        });
-      }
-    });
+    document.addEventListener('click', this.handleClickOnPage);
 
     // set initial height/width of screen
     window.lastInnerHeight = window.innerHeight;
     window.lastInnerWidth = window.innerWidth;
     // blur the input field if window is resized (like virtual keyboard closing)
-    window.addEventListener('resize', () => {
-      // No orientation change, keyboard closing
-      if ( (window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth == window.lastInnerWidth) {
-        document.getElementById('movie-title-input').blur();
-      }
+    window.addEventListener('resize', this.handleWindowResize);
+  }
 
-      // update the last height/width variables
-      window.lastInnerHeight = window.innerHeight;
-      window.lastInnerWidth = window.innerWidth;
-    });
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOnPage);
+    window.removeEventListener('resize', this.handleWindowResize);
+  }
+
+  handleClickOnPage(event) {
+    console.log(event.target);
+    // if there is a click outside the input element or suggestion menu
+    if (!document.getElementById('movie-title-field').contains(event.target)) {
+      // hide the suggestion menu
+      this.setState({
+        showSuggestions: false
+      });
+    }
+  }
+
+  handleWindowResize() {
+    // No orientation change, keyboard closing
+    if ( (window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth == window.lastInnerWidth) {
+      document.getElementById('movie-title-input').blur();
+    }
+
+    // update the last height/width variables
+    window.lastInnerHeight = window.innerHeight;
+    window.lastInnerWidth = window.innerWidth;
   }
 
   handleMovieTitleFocus() {
@@ -49,8 +61,6 @@ export default class Home extends React.Component {
   }
 
   handleSuggestionClick(event, suggestion) {
-    event.preventDefault();
-
     this.props.onMovieTitleChange(suggestion);
 
     this.setState({
@@ -83,10 +93,9 @@ export default class Home extends React.Component {
             />
           }
 
-
           <button
             id="start-survey-button"
-            onClick={() => {this.props.onStartSurvey()}}
+            onMouseDown={() => {this.props.onStartSurvey()}}
           >
             {this.props.surveyInProgress ? 'Continue' : 'Start'}
           </button>
