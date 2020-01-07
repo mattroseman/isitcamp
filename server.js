@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const fs = require('fs');
 
 const Trie = require('./trie.js');
@@ -8,11 +9,14 @@ let app = express();
 
 if (process.env.NODE_ENV !== 'production') {
   console.log('allow requests from any domain');
+  app.all('*', cors());
+  /*
   app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
+  */
 }
 
 app.use(express.static(path.join(__dirname, 'client/dist/')));
