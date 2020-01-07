@@ -10,6 +10,8 @@
   top: 2.5rem;
   z-index: 1;
 
+  padding-bottom: 1rem;
+
   overflow: auto;
 
   position: absolute;
@@ -21,6 +23,15 @@
 
     margin-left: .5rem;
     margin-right: .5rem;
+  }
+
+  #movie-title-input:focus + #suggestion-menu {
+    position: fixed;
+
+    min-width: 100%;
+    max-width: 0px;
+
+    margin: 0px;
   }
 }
 

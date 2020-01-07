@@ -24,6 +24,21 @@ export default class Home extends React.Component {
         });
       }
     });
+
+    // set initial height/width of screen
+    window.lastInnerHeight = window.innerHeight;
+    window.lastInnerWidth = window.innerWidth;
+    // blur the input field if window is resized (like virtual keyboard closing)
+    window.addEventListener('resize', () => {
+      // No orientation change, keyboard closing
+      if ( (window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth == window.lastInnerWidth) {
+        document.getElementById('movie-title-input').blur();
+      }
+
+      // update the last height/width variables
+      window.lastInnerHeight = window.innerHeight;
+      window.lastInnerWidth = window.innerWidth;
+    });
   }
 
   handleMovieTitleFocus() {

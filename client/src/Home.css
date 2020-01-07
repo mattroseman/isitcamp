@@ -46,6 +46,17 @@
     min-width: 277px;
     max-width: 277px;
   }
+
+  #movie-title-input:focus {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    min-width: 100%;
+    max-width: 0px;
+  }
 }
 
 #start-survey-button {
