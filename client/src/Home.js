@@ -52,7 +52,7 @@ export default class Home extends React.Component {
             onBlur={() => this.handleMovieTitleBlur()}
           />
 
-          {this.state.showSuggestions &&
+          {this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0 &&
             <Suggestions
               suggestions={this.props.movieTitleSuggestions}
               onSuggestionClick={() => this.handleSuggestionClick()}
