@@ -32,7 +32,6 @@ export default class Home extends React.Component {
   }
 
   handleClickOnPage(event) {
-    console.log(event.target);
     // if there is a click outside the input element or suggestion menu
     if (!document.getElementById('movie-title-field').contains(event.target)) {
       // hide the suggestion menu
@@ -44,8 +43,12 @@ export default class Home extends React.Component {
 
   handleWindowResize() {
     // No orientation change, keyboard closing
-    if ( (window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth == window.lastInnerWidth) {
+    if ((window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth == window.lastInnerWidth) {
+      // on keyboard close, hide the suggestion menu and blur the movie title input field
       document.getElementById('movie-title-input').blur();
+      this.setState({
+        showSuggestions: false
+      });
     }
 
     // update the last height/width variables
