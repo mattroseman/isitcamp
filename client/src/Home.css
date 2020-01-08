@@ -86,8 +86,8 @@
 
   -moz-transition: -webkit-backdrop-filter .4s, backdrop-filter .4s, background-color .4s;
   -o-transition: -webkit-backdrop-filter .4s, backdrop-filter .4s, background-color .4s;
-  -webkit-transition: -webkit-backdrop-filter .4s, backdrop-filter .4s, background-color .4s;
-  transition: -webkit-backdrop-filter .4s, backdrop-filter .4s background-color .4s;
+  -webkit-transition: -webkit-backdrop-filter.4s, backdrop-filter.4s, background-color.4s;
+  transition: -webkit-backdrop-filter.4s, backdrop-filter.4s, background-color.4s;
 }
 #movie-title-input-background-filter.active {
   display: inline;
