@@ -5,6 +5,8 @@ import Suggestions from './Suggestions.js';
 
 import './Home.css';
 
+const transitionTime = 400;
+
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -13,43 +15,36 @@ export default class Home extends React.Component {
       showSuggestions: false
     };
 
-    this.handleClickOnPage = this.handleClickOnPage.bind(this);
     this.handleWindowResize = this.handleWindowResize.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOnPage);
-
     // set initial height/width of screen
     window.lastInnerHeight = window.innerHeight;
     window.lastInnerWidth = window.innerWidth;
     // blur the input field if window is resized (like virtual keyboard closing)
     window.addEventListener('resize', this.handleWindowResize);
+
+    const inputElement = document.getElementById('movie-title-input');
+    inputElement.style.minWidth = '277px';
+    inputElement.style.maxWidth = '277px';
+    inputElement.style.top = `${inputElement.getBoundingClientRect().top}px`;
+    inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOnPage);
     window.removeEventListener('resize', this.handleWindowResize);
   }
 
-  handleClickOnPage(event) {
-    // if there is a click outside the input element or suggestion menu
-    if (!document.getElementById('movie-title-field').contains(event.target)) {
-      // hide the suggestion menu
-      this.setState({
-        showSuggestions: false
-      });
-    }
-  }
-
+  /*
+   * handleWindowResize is fired whenever the size of the window is changed.
+   * If the height shrinks over 150px, then the movie-title-input field is blured
+   */
   handleWindowResize() {
     // No orientation change, keyboard closing
     if ((window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth == window.lastInnerWidth) {
-      // on keyboard close, hide the suggestion menu and blur the movie title input field
+      // on keyboard close, blur the movie title input field
       document.getElementById('movie-title-input').blur();
-      this.setState({
-        showSuggestions: false
-      });
     }
 
     // update the last height/width variables
@@ -57,13 +52,79 @@ export default class Home extends React.Component {
     window.lastInnerWidth = window.innerWidth;
   }
 
+  /*
+   * handleMovieTitleFocus is fired when a user clicks on the movie title field.
+   * When that happens the showSuggestions state is set to true to show the suggestion dropdown
+   */
   handleMovieTitleFocus() {
-    // only show suggestions if there are characters in the movie title
-    this.setState({
-      showSuggestions: true
-    });
+    // if this is a mobile screen, change input element to a fixed position,
+    // but don't move it's actual position yet
+    const inputElement = document.getElementById('movie-title-input');
+    const backgroundFilter = document.getElementById('movie-title-input-background-filter');
+    if (window.innerWidth <= 575) {
+      inputElement.style.top = `${inputElement.getBoundingClientRect().top}px`;
+      inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
+      inputElement.style.position = 'fixed';
+      inputElement.classList.add('focused');
+      inputElement.style.top = '0px';
+      inputElement.style.left = '0px';
+      inputElement.style.zIndex = '2';
+      inputElement.style.maxWidth = '0px';
+      inputElement.style.minWidth = '100%';
+
+      backgroundFilter.classList.add('active');
+
+      // wait for animations to complete
+      setTimeout(() => {
+        this.setState({
+          showSuggestions: true
+        });
+      }, transitionTime);
+    } else {
+      this.setState({
+        showSuggestions: true
+      });
+    }
+
   }
 
+  /*
+   * handleMovieTitleBlur is fired when a user clicks outside the movie title field.
+   * When that happens the showSuggestions state is set to false to hide the suggestion dropdown
+   */
+  handleMovieTitleBlur() {
+    // only show suggestions if there are characters in the movie title
+    this.setState({
+      showSuggestions: false
+    });
+
+    const placeholderInputElement = document.getElementById('movie-title-input-placeholder');
+    const inputElement = document.getElementById('movie-title-input');
+    const backgroundFilter = document.getElementById('movie-title-input-background-filter');
+    if (window.innerWidth <= 575) {
+      inputElement.style.top = `${placeholderInputElement.getBoundingClientRect().top}px`;
+      inputElement.style.left = `${placeholderInputElement.getBoundingClientRect().left}px`;
+      inputElement.style.zIndex = '0';
+      inputElement.style.minWidth = `${placeholderInputElement.style.minWidth}`;
+      inputElement.style.maxWidth = `${placeholderInputElement.style.maxWidth}`;
+      inputElement.style.minWidth = '277px';
+      inputElement.style.maxWidth = '277px';
+
+      backgroundFilter.classList.remove('active');
+
+      // wait for animations to complete
+      setTimeout(() => {
+        inputElement.classList.remove('focused');
+        inputElement.style.position = 'static';
+        delete inputElement.style.top;
+        delete inputElement.style.left;
+      }, transitionTime);
+    }
+  }
+
+  /*
+   * handleSuggestionClick is fired when a user clicks on a suggestion.
+   */
   handleSuggestionClick(event, suggestion) {
     this.props.onMovieTitleChange(suggestion);
 
@@ -88,8 +149,11 @@ export default class Home extends React.Component {
             value={this.props.movieTitle}
             onChange={(event) => this.props.onMovieTitleChange(event)}
             onFocus={() => this.handleMovieTitleFocus()}
+            onBlur={() => this.handleMovieTitleBlur()}
           />
-          <div id="movie-title-input-placeholder"></div>
+          <input id="movie-title-input-placeholder" disabled={true}></input>
+
+          <div id="movie-title-input-background-filter"></div>
 
           {this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0 &&
             <Suggestions
