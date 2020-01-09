@@ -82,7 +82,21 @@ function processRatingsFile() {
 }
 
 function saveProcessedMovies() {
-  const moviesJSON = JSON.stringify(movies);
+  // const moviesJSON = JSON.stringify(movies);
+  const moviesFileOutStream = fs.createWriteStream('./data/movies.csv', {flags: 'w'});
+
+  for (let id in movies) {
+    const movie = movies[id];
+    const title = movie.title;
+    const year = 'year' in movie ? movie.year : 'null';
+    const numVotes = 'numVotes' in movie ? movie.numVotes : 'null';
+    moviesFileOutStream.write(`${title},${year},${numVotes}\n`);
+  }
+
+  moviesFileOutStream.close();
+
+  console.log('Done generating movies list');
+  /*
   fs.writeFile('./data/movies.json', moviesJSON, (err) => {
     if (err) {
       console.log(err);
@@ -90,7 +104,7 @@ function saveProcessedMovies() {
 
     console.log('Done generating movies list');
   });
-
+  */
 }
 
 downloadBasicsFile();
