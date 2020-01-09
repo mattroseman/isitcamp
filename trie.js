@@ -1,7 +1,8 @@
 class trieNode {
-  constructor(value, word=null) {
+  constructor(value, word=null, info={}) {
     this.value = value;
     this.word = word;
+    this.info = info;
     this.children = {};
   }
 }
@@ -11,7 +12,7 @@ class Trie {
     this.root = new trieNode('');
   }
 
-  addWord(word, originalWord=null) {
+  addWord(word, originalWord=null, info={}) {
     if (originalWord === null) {
       originalWord = word;
     }
@@ -27,9 +28,10 @@ class Trie {
       if (character in currentNode.children) {
         const edgeLabel = currentNode.children[character].value;
 
-        // if edgeLabel equals what's left of the word, set that node as isWord
+        // if edgeLabel equals what's left of the word, set the word and info values fo the node
         if (edgeLabel === word.substr(i)) {
-          currentNode.children[character].isWord = true;
+          currentNode.children[character].word = originalWord;
+          currentNode.children[character].info = info;
 
           return;
         }
@@ -37,7 +39,7 @@ class Trie {
         // if what's left of the word is a prefix of the edgeLabel
         if(word.substr(i) === edgeLabel.substr(0, word.substr(i).length)) {
           // insert a new node between currentNode and this child
-          const newNode = new trieNode(word.substr(i), originalWord);
+          const newNode = new trieNode(word.substr(i), originalWord, info);
           currentNode.children[character].value = edgeLabel.substr(word.substr(i).length);
           newNode.children[edgeLabel[word.substr(i).length]] = currentNode.children[character];
           currentNode.children[character] = newNode;
@@ -62,13 +64,13 @@ class Trie {
           newNode.children[edgeLabel[j]] = currentNode.children[character]
           currentNode.children[character] = newNode;
           newNode.children[edgeLabel[j]].value = edgeLabel.substr(j);
-          newNode.children[word[i + j]] = new trieNode(word.substr(i + j), originalWord);
+          newNode.children[word[i + j]] = new trieNode(word.substr(i + j), originalWord, info);
 
           return;
         }
       } else {
         // make a new node that's a word and has edge label of current and remaining characters
-        const newNode = new trieNode(word.substr(i), originalWord);
+        const newNode = new trieNode(word.substr(i), originalWord, info);
         currentNode.children[character] = newNode;
 
         return;
@@ -97,7 +99,7 @@ class Trie {
     const words = new Set();
     function dfs(startingNode, word) {
       if (startingNode.word !== null) {
-        words.add(startingNode.word);
+        words.add(startingNode);
       }
 
       // if there are no child nodes return

@@ -28,34 +28,74 @@ app.get('/', (req, res) => {
 const port = process.env.PORT || 5000;
 app.listen(port);
 
-const movieTrie = new Trie();
-const movieTitles = fs.readFileSync('./data/movieTitles.txt', 'utf8')
+const beforeUsed = process.memoryUsage().heapUsed / 1024 / 1024;
+console.log(`The script uses approximately ${Math.round(beforeUsed * 100) / 100} MB`);
 
-let moviesAdded = 0;
-for (let movieTitle of movieTitles.split('\n')) {
-  // console.log('movies added: ' + moviesAdded);
-  movieTrie.addWord(movieTitle);
-  moviesAdded += 1;
+const movieTrie = generateTrie();
 
-  if (movieTitle.substr(0, 4).toLowerCase() === 'the ') {
-    movieTrie.addWord(movieTitle.substr(4), movieTitle);
-  }
-}
 const used = process.memoryUsage().heapUsed / 1024 / 1024;
 console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
-
-console.log('movies added: ' + moviesAdded);
 
 app.get('/movies', (req, res) => {
   console.log('getting movie suggestions for prefix ' + req.query.prefix);
   const movieTitles = Array.from(movieTrie.getWords(req.query.prefix))
     .sort((a, b) => {
-      return a.length - b.length || a.localeCompare(b);
+      // if neither have votes, sort by word length
+      if (b.info.numVotes === undefined && a.info.numVotes === undefined) {
+        return a.word.length - b.word.length;
+      }
+
+      // if one doesn't have votes, rank it below the one that does
+      if (b.info.numVotes === undefined) {
+        return -1;
+      }
+      if (a.info.numVotes === undefined) {
+        return 1;
+      }
+
+      return parseInt(b.info.numVotes, 10) - parseInt(a.info.numVotes, 10);
     })
-    .slice(0, 10);
+    .slice(0, 10)
+    .map((movie) => {
+      // console.log(`movie: ${movie.word} has ${movie.info.numVotes} votes`);
+      return movie.word;
+    });
   console.log(movieTitles);
+
   const response = JSON.stringify({
     'movieTitles': movieTitles
   });
   res.send(response);
 });
+
+function generateTrie() {
+  const movieTrie = new Trie();
+  const movies = JSON.parse(fs.readFileSync('./data/movies.json', 'utf8'));
+
+  const used = process.memoryUsage().heapUsed / 1024 / 1024;
+  console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+
+  let moviesAdded = 0;
+  for (let movieId in movies) {
+    const movie = movies[movieId];
+
+    movieTrie.addWord(movie.title, movie.title, {
+      year: movie.year,
+      rating: movie.rating,
+      numVotes: movie.numVotes
+    });
+    moviesAdded += 1;
+
+    if (movie.title.substr(0, 4).toLowerCase() === 'the ') {
+      movieTrie.addWord(movie.title.substr(4), movie.title, {
+        year: movie.year,
+        rating: movie.rating,
+        numVotes: movie.numVotes
+      });
+    }
+  }
+
+  console.log('movies added: ' + moviesAdded);
+
+  return movieTrie;
+}
