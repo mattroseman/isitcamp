@@ -43,11 +43,9 @@ generateTrie().then((result) => {
 app.get('/movies', (req, res) => {
   console.log('getting movie suggestions for prefix ' + req.query.prefix);
   let prefix = req.query.prefix.toLowerCase();
-  /*
   if (prefix.substr(0, 4) === 'the ') {
     prefix = prefix.substr(4);
   }
-  */
 
   const movies = movieTrie.getWords(prefix)
     .sort((a, b) => {
@@ -114,14 +112,14 @@ function generateTrie() {
       const movieYear = data[1] !== 'null' ? data[1] : null;
       const movieNumVotes = data[2] !== 'null' ? parseInt(data[2], 10) : null;
 
-      movieTrie.addWord(movieTitle, {
-        title: movieTitle,
-        year: movieYear,
-        numVotes: movieNumVotes
-      });
-
       if (movieTitle.substr(0, 4).toLowerCase() === 'the ' ) {
         movieTrie.addWord(movieTitle.substr(4), {
+          title: movieTitle,
+          year: movieYear,
+          numVotes: movieNumVotes
+        });
+      } else {
+        movieTrie.addWord(movieTitle, {
           title: movieTitle,
           year: movieYear,
           numVotes: movieNumVotes
