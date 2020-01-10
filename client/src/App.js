@@ -14,6 +14,8 @@ const PAGES = Object.freeze({
   'results': 3
 });
 
+let controller;
+let signal;
 
 class App extends Component {
   constructor(props) {
@@ -60,18 +62,35 @@ class App extends Component {
       movieTitle: newMovieTitle
     });
 
-    if (newMovieTitle !== '') {
+    if (newMovieTitle.length > 0) {
       let url = '/movies?prefix=' + newMovieTitle;
       if (window.location.hostname === 'localhost') {
         url = 'http://localhost:5000' + url;
       }
 
-      fetch(url)
+      if (controller !== undefined) {
+        // cancel the previous fetch request since the movie title field has updated
+        controller.abort();
+      }
+      if ('AbortController' in window) {
+        controller = new AbortController;
+        signal = controller.signal;
+      }
+
+      fetch(url, {signal})
         .then((response) => response.json())
         .then((responseJSON) => {
           this.setState({
             movieTitleSuggestions: responseJSON.movieTitles
           });
+        })
+        .catch((err) => {
+          // AbortError's are expected
+          if (err.name === 'AbortError') {
+            return;
+          }
+
+          console.log(err);
         });
     } else {
       this.setState({

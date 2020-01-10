@@ -26,6 +26,32 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/public/index.html'))
 });
 
+app.get('/movies', (req, res) => {
+  console.log('getting movie suggestions for prefix ' + req.query.prefix);
+  const prefix = req.query.prefix.toLowerCase();
+
+  const cancel = {
+    shouldCancel: false
+  };
+
+  req.on('close', () => {
+    // cancel the getSuggestedMovieTitles process if it's in progress
+    console.log('cancelling request');
+    cancel.shouldCancel = true;
+  });
+
+  getSuggestedMovieTitles(prefix, cancel)
+    .then((movieTitles) => {
+      console.log(movieTitles);
+
+      const response = JSON.stringify({
+        'movieTitles': movieTitles
+      });
+
+      res.send(response);
+    });
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port);
 
@@ -40,60 +66,49 @@ generateTrie().then((result) => {
   console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
 });
 
-app.get('/movies', (req, res) => {
-  console.log('getting movie suggestions for prefix ' + req.query.prefix);
-  let prefix = req.query.prefix.toLowerCase();
-  /*
-  if (prefix.substr(0, 4) === 'the ') {
-    prefix = prefix.substr(4);
-  }
-  */
+function getSuggestedMovieTitles(prefix, cancel={}) {
+  return new Promise((resolve) => {
+    const movies = movieTrie.getWords(prefix, cancel)
+      .sort((a, b) => {
+        // if neither have votes, sort by word length
+        if (b.numVotes === null && a.numVotes === null) {
+          return a.length - b.length;
+        }
 
-  const movies = movieTrie.getWords(prefix)
-    .sort((a, b) => {
-      // if neither have votes, sort by word length
-      if (b.numVotes === null && a.numVotes === null) {
-        return a.length - b.length;
+        // if one doesn't have votes, rank it below the one that does
+        if (b.numVotes === null) {
+          return -1;
+        }
+        if (a.numVotes === null) {
+          return 1;
+        }
+
+        return parseInt(b.numVotes, 10) - parseInt(a.numVotes, 10);
+      })
+      .slice(0, 10);
+
+    const duplicateMovieTitles = movies.reduce((duplicateMovieTitles, movie, i, movies) => {
+      movies.forEach((duplicateMovie, j) => {
+        if (duplicateMovie.title === movie.title && i !== j) {
+          duplicateMovieTitles.add(movie.title);
+        }
+      });
+
+      return duplicateMovieTitles;
+    }, new Set());
+
+    const movieTitles = movies.map((movie) => {
+      if (duplicateMovieTitles.has(movie.title) && movie.year !== null) {
+        movie.title += ` (${movie.year})`;
       }
 
-      // if one doesn't have votes, rank it below the one that does
-      if (b.numVotes === null) {
-        return -1;
-      }
-      if (a.numVotes === null) {
-        return 1;
-      }
-
-      return parseInt(b.numVotes, 10) - parseInt(a.numVotes, 10);
-    })
-    .slice(0, 10);
-
-  const duplicateMovieTitles = movies.reduce((duplicateMovieTitles, movie, i, movies) => {
-    movies.forEach((duplicateMovie, j) => {
-      if (duplicateMovie.title === movie.title && i !== j) {
-        duplicateMovieTitles.add(movie.title);
-      }
+      console.log(`movie: ${movie.title} has ${movie.numVotes} votes`);
+      return movie.title;
     });
 
-    return duplicateMovieTitles;
-  }, new Set());
-
-  const movieTitles = movies.map((movie) => {
-    if (duplicateMovieTitles.has(movie.title) && movie.year !== null) {
-      movie.title += ` (${movie.year})`;
-    }
-
-    console.log(`movie: ${movie.title} has ${movie.numVotes} votes`);
-    return movie.title;
+    resolve(movieTitles);
   });
-
-  console.log(movieTitles);
-
-  const response = JSON.stringify({
-    'movieTitles': movieTitles
-  });
-  res.send(response);
-});
+}
 
 function generateTrie() {
   return new Promise((resolve) => {

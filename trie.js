@@ -99,13 +99,17 @@ class Trie {
     }
   }
 
-  getWords(prefix) {
+  getWords(prefix, cancel={}) {
     prefix = prefix.toLowerCase();
 
     let currentNode = this.root;
 
     // iterate over the characters of the given prefix, following the trie tree to find which node it ends at
     for (let i = 0; i < prefix.length; i++) {
+      if (cancel.shouldCancel === true) {
+        return [];
+      }
+
       const character = prefix[i];
 
       if (character in currentNode.children) {
@@ -120,6 +124,10 @@ class Trie {
     // DFS starting at currentNode to get all possible words with the given prefix
     let words = [];
     function dfs(startingNode) {
+      if (cancel.shouldCancel === true) {
+        return [];
+      }
+
       // if we are currently visition a node that's a word
       if (startingNode.isWord) {
         // concat it's data to the running array
