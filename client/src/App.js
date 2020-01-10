@@ -60,7 +60,7 @@ class App extends Component {
       movieTitle: newMovieTitle
     });
 
-    if (newMovieTitle !== '') {
+    if (newMovieTitle.length > 1) {
       let url = '/movies?prefix=' + newMovieTitle;
       if (window.location.hostname === 'localhost') {
         url = 'http://localhost:5000' + url;
