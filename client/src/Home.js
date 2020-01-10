@@ -26,8 +26,11 @@ export default class Home extends React.Component {
     window.addEventListener('resize', this.handleWindowResize);
 
     const inputElement = document.getElementById('movie-title-input');
+    /*
     inputElement.style.minWidth = '277px';
     inputElement.style.maxWidth = '277px';
+    */
+    inputElement.style.width = '277px';
     inputElement.style.top = `${inputElement.getBoundingClientRect().top}px`;
     inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
   }
@@ -66,11 +69,11 @@ export default class Home extends React.Component {
       inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
       inputElement.style.position = 'fixed';
       inputElement.classList.add('focused');
-      inputElement.style.top = '0px';
-      inputElement.style.left = '0px';
+      inputElement.style.top = '5%';
+      inputElement.style.left = '5%';
       inputElement.style.zIndex = '2';
-      inputElement.style.maxWidth = '0px';
-      inputElement.style.minWidth = '100%';
+      inputElement.style.width = '85%';
+      inputElement.classList.add('floating');
 
       backgroundFilter.classList.add('active');
 
@@ -105,10 +108,9 @@ export default class Home extends React.Component {
       inputElement.style.top = `${placeholderInputElement.getBoundingClientRect().top}px`;
       inputElement.style.left = `${placeholderInputElement.getBoundingClientRect().left}px`;
       inputElement.style.zIndex = '0';
-      inputElement.style.minWidth = `${placeholderInputElement.style.minWidth}`;
-      inputElement.style.maxWidth = `${placeholderInputElement.style.maxWidth}`;
-      inputElement.style.minWidth = '277px';
-      inputElement.style.maxWidth = '277px';
+      inputElement.style.width = `${placeholderInputElement.style.width}`;
+      inputElement.style.width = '277px';
+      inputElement.classList.remove('floating');
 
       backgroundFilter.classList.remove('active');
 
@@ -155,12 +157,11 @@ export default class Home extends React.Component {
 
           <div id="movie-title-input-background-filter"></div>
 
-          {this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0 &&
-            <Suggestions
-              suggestions={this.props.movieTitleSuggestions}
-              onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
-            />
-          }
+          <Suggestions
+            suggestions={this.props.movieTitleSuggestions}
+            onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
+          show={this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0}
+          />
 
           <button
             id="start-survey-button"

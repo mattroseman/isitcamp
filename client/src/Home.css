@@ -34,10 +34,8 @@
 
   font-size: 1.5rem;
 
-  min-width: 285px;
-  max-width: 285px;
+  width: 285px;
   min-height: 2.25rem;
-  max-height: 2.25rem;
 }
 #movie-title-input-placeholder {
   display: none;
@@ -49,17 +47,18 @@
 }
 @media only screen and (max-width: 575px) {
   #movie-title-input, #movie-title-input-placeholder {
-    margin-right: 0rem;
+    margin: 0rem;
     margin-bottom: 1rem;
 
-    min-width: 277px;
-    max-width: 277px;
+    width: 277px;
   }
   #movie-title-input {
-    -moz-transition: top .4s, left .4s, min-width .4s, max-width .4s;
-    -o-transition: top .4s, left .4s, min-width .4s, max-width .4s;
-    -webkit-transition: top .4s, left .4s, min-width .4s, max-width .4s;
-    transition: top .4s, left .4s, min-width .4s, max-width .4s;
+    -moz-transition: top .4s, left .4s, width .4s, margin .4s;
+    -o-transition: top .4s, left .4s, width .4s, margin .4s;
+    -webkit-transition: top .4s, left .4s, width .4s, margin .4s;
+    transition: top .4s, left .4s, width .4s, margin .4s;
+  }
+  #movie-title-input.floating {
   }
 
   #movie-title-input.focused ~ #movie-title-input-placeholder {
@@ -86,8 +85,8 @@
 
   -moz-transition: -webkit-backdrop-filter .4s, backdrop-filter .4s, background-color .4s;
   -o-transition: -webkit-backdrop-filter .4s, backdrop-filter .4s, background-color .4s;
-  -webkit-transition: -webkit-backdrop-filter.4s, backdrop-filter.4s, background-color.4s;
-  transition: -webkit-backdrop-filter.4s, backdrop-filter.4s, background-color.4s;
+  -webkit-transition: -webkit-backdrop-filter .4s, backdrop-filter .4s, background-color .4s;
+  transition: -webkit-backdrop-filter .4s, backdrop-filter .4s, background-color .4s;
 }
 #movie-title-input-background-filter.active {
   display: inline;
