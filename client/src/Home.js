@@ -26,10 +26,6 @@ export default class Home extends React.Component {
     window.addEventListener('resize', this.handleWindowResize);
 
     const inputElement = document.getElementById('movie-title-input');
-    /*
-    inputElement.style.minWidth = '277px';
-    inputElement.style.maxWidth = '277px';
-    */
     inputElement.style.width = '277px';
     inputElement.style.top = `${inputElement.getBoundingClientRect().top}px`;
     inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
@@ -79,6 +75,9 @@ export default class Home extends React.Component {
 
       // wait for animations to complete
       setTimeout(() => {
+        const suggestionMenu = document.getElementById('suggestion-menu');
+        suggestionMenu.style.top = `${inputElement.getBoundingClientRect().top + inputElement.getBoundingClientRect().height + 3}px`;
+
         this.setState({
           showSuggestions: true
         });
