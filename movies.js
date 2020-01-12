@@ -26,24 +26,31 @@ async function getMovieTitlesFromPrefix(prefix) {
   const movies = await movieTrie.getWords(prefix);
   console.log(`gotten list of ${movies.length} suggestions for prefix: ${prefix}`);
   movies.forEach((movie) => {
-    // get the number of votes this movie has, 0 if it's NaN
-    const movieNumVotes = isFinite(parseInt(movie.numVotes, 10)) ? parseInt(movie.numVotes, 10) : 0;
+    // // get the number of votes this movie has, 0 if it's NaN
+    // const movieNumVotes = isFinite(parseInt(movie.numVotes, 10)) ? parseInt(movie.numVotes, 10) : 0;
 
     if (topMovies.length >= 10) {
-      // if this movie has more votes than any movies in topMovies, replace that element in top movies
-      for (let i = 0; i < topMovies.length; i++) {
-        const topMovie = topMovies[i];
-        const topMovieNumVotes = isFinite(parseInt(topMovie.numVotes, 10)) ? parseInt(topMovie.numVotes, 10) : 0;
-
-        if (movieNumVotes > topMovieNumVotes) {
-          topMovies[i] = movie;
-          return;
+      // get the movie in topMovies with the lowest number of votes
+      let minTopMovieIndex = 0;
+      const minTopMovie = topMovies.reduce((currentMinTopMovie, topMovie, i) => {
+        if (topMovie.numVotes < currentMinTopMovie.numVotes) {
+          minTopMovieIndex = i;
+          return topMovie;
         }
 
-        if (movieNumVotes === topMovieNumVotes && movie.title.length < topMovie.title.length) {
-          topMovies[i] = movie;
-          return;
+        if (topMovie.numVotes === currentMinTopMovie.numVotes && topMovie.title.length > currentMinTopMovie.title.length) {
+          minTopMovieIndex = i;
+          return topMovie;
         }
+
+        return currentMinTopMovie;
+      }, topMovies[0])
+
+      // if movieNumVotes is greater than that movie, replace it in topMovies
+      if (movie.numVotes > minTopMovie.numVotes) {
+        topMovies[minTopMovieIndex] = movie;
+      } else if (movie.numVotes === minTopMovie.numVotes && movie.title.length < minTopMovie.title.length) {
+        topMovies[minTopMovieIndex] = movie;
       }
     } else {
       topMovies.push(movie);
@@ -52,10 +59,7 @@ async function getMovieTitlesFromPrefix(prefix) {
 
   // sort the top movies by numVotes
   topMovies.sort((a, b) => {
-    const aNumVotes = isFinite(parseInt(a.numVotes)) ? parseInt(a.numVotes) : 0;
-    const bNumVotes = isFinite(parseInt(b.numVotes)) ? parseInt(b.numVotes) : 0;
-
-    return bNumVotes - aNumVotes;
+    return b.numVotes - a.numVotes;
   });
 
   // find any duplicate movie titles in the top 10
@@ -71,7 +75,7 @@ async function getMovieTitlesFromPrefix(prefix) {
 
   // append a movies release year to any movies that show up as duplicates
   const movieTitles = topMovies.map((movie) => {
-    if (duplicateMovieTitles.has(movie.title) && isFinite(parseInt(movie.year, 10))) {
+    if (duplicateMovieTitles.has(movie.title) && isFinite(parseInt(movie.year))) {
       movie.title += ` (${movie.year})`;
     }
 
@@ -101,7 +105,7 @@ function generateTrie() {
       const data = line.split(',');
       const movieTitle = data[0];
       const movieYear = data[1] !== 'null' ? data[1] : null;
-      const movieNumVotes = data[2] !== 'null' ? parseInt(data[2], 10) : null;
+      const movieNumVotes = isFinite(parseInt(data[2])) ? parseInt(data[2]) : 0;
 
       movieTrie.addWord(movieTitle, {
         title: movieTitle,
