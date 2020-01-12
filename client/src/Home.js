@@ -41,7 +41,7 @@ export default class Home extends React.Component {
    */
   handleWindowResize() {
     // No orientation change, keyboard closing
-    if ((window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth == window.lastInnerWidth) {
+    if ((window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth === window.lastInnerWidth) {
       // on keyboard close, blur the movie title input field
       document.getElementById('movie-title-input').blur();
     }
@@ -65,18 +65,21 @@ export default class Home extends React.Component {
       inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
       inputElement.style.position = 'fixed';
       inputElement.classList.add('focused');
+      inputElement.classList.add('floating');
       inputElement.style.top = '5%';
       inputElement.style.left = '5%';
       inputElement.style.zIndex = '2';
       inputElement.style.width = '85%';
-      inputElement.classList.add('floating');
+      inputElement.style.boxShadow = '-4px 4px 4px #000000;';
 
       backgroundFilter.classList.add('active');
 
       // wait for animations to complete
       setTimeout(() => {
+        /*
         const suggestionMenu = document.getElementById('suggestion-menu');
         suggestionMenu.style.top = `${inputElement.getBoundingClientRect().top + inputElement.getBoundingClientRect().height + 3}px`;
+        */
 
         this.setState({
           showSuggestions: true
@@ -108,6 +111,7 @@ export default class Home extends React.Component {
       inputElement.style.left = `${placeholderInputElement.getBoundingClientRect().left}px`;
       inputElement.style.zIndex = '0';
       inputElement.style.width = `${placeholderInputElement.style.width}`;
+      inputElement.classList.remove('floating');
       inputElement.style.width = '277px';
       inputElement.classList.remove('floating');
 

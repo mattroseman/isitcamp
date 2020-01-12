@@ -1,57 +1,44 @@
 #suggestion-menu {
   outline: 1px solid #000000;
   background: #FFFFFF;
+  box-shadow: -2px 2px 4px #696969;
 
-  min-width: 305px;
-  max-width: 305px;
   max-height: 300px;
 
-  left: 0px;
-  top: 2.5rem;
-  z-index: 2;
-
   padding-bottom: 1rem;
-  padding-left: 10px;
-  padding-right: 10px;
+
+  position: fixed;
+  z-index: 2;
 
   overflow: auto;
 
-  position: absolute;
-
-  -moz-transition: max-height .4s;
-  -o-transition: max-height .4s;
-  -webkit-transition: max-height .4s;
-  transition: max-height .4s;
+  -moz-transition: padding .4s, max-height .4s;
+  -o-transition: padding .4s, max-height .4s;
+  -webkit-transition: padding .4s, max-height .4s;
+  transition: padding .4s, max-height .4s linear;
 }
 #suggestion-menu.hidden {
   display: none;
 
-  /* max-height: 0px; */
+  max-height: 0px;
 }
 @media only screen and (max-width: 575px) {
-  #suggestion-menu {
-    left: 5%;
-    /* top: 11%; */
-  }
-
   #movie-title-input.focused ~ #suggestion-menu {
-    position: fixed;
+    box-shadow: -4px 4px 4px #000000;
 
-    min-width: 85%;
-    max-width: 0px;
     max-height: 100%;
 
     margin: 0px;
   }
 }
 
-
 .suggestion {
   white-space: nowrap;
-  /*text-overflow: ellipsis;*/
 
   margin-top: 5px;
   margin-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   font-size: 1.5rem;
 

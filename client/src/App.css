@@ -26,6 +26,7 @@ button {
   background: #FFFFFF;
   border: none;
   outline: 1px solid #000000;
+  box-shadow: -1px 1px 4px #696969;
 
   cursor: pointer;
 }
@@ -39,6 +40,7 @@ input, input:focus {
   border: none;
   outline: 1px solid #000000;
   outline-offset: 0;
+  box-shadow: -1px 1px 4px #696969;
 
   padding-top: 0px;
   padding-bottom: 0px;

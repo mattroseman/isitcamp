@@ -42,6 +42,7 @@
 
   border: none;
   outline: none;
+  box-shadow: none;
   background: none;
   z-index: -1;
 }
@@ -53,12 +54,14 @@
     width: 277px;
   }
   #movie-title-input {
-    -moz-transition: top .4s, left .4s, width .4s, margin .4s;
-    -o-transition: top .4s, left .4s, width .4s, margin .4s;
-    -webkit-transition: top .4s, left .4s, width .4s, margin .4s;
-    transition: top .4s, left .4s, width .4s, margin .4s;
+    -moz-transition: top .4s, left .4s, width .4s, margin .4s, box-shadow .4s;
+    -o-transition: top .4s, left .4s, width .4s, margin .4s, box-shadow .4s;
+    -webkit-transition: top .4s, left .4s, width .4s, margin .4s, box-shadow .4s;
+    transition: top .4s, left .4s, width .4s, margin .4s, box-shadow .4s;
   }
+
   #movie-title-input.floating {
+    box-shadow: -4px 4px 4px #000000;
   }
 
   #movie-title-input.focused ~ #movie-title-input-placeholder {
