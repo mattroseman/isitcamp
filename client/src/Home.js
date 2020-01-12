@@ -143,7 +143,7 @@ export default class Home extends React.Component {
       <div id="home">
         <Title />
 
-        <div id="movie-title-field">
+        <form id="movie-title-field" onSubmit={() => this.props.onStartSurvey()}>
           <input
             id="movie-title-input"
             type="text"
@@ -172,7 +172,7 @@ export default class Home extends React.Component {
           >
             {this.props.surveyInProgress ? 'Continue' : 'Start'}
           </button>
-        </div>
+        </form>
       </div>
     );
   }
