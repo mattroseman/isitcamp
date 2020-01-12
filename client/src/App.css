@@ -24,8 +24,8 @@ body {
 
 button {
   background: #FFFFFF;
-  border: none;
-  outline: 1px solid #000000;
+  border: 1px solid #000000;
+  outline: none;
   box-shadow: -1px 1px 4px #696969;
 
   cursor: pointer;
@@ -37,8 +37,9 @@ button {
 }
 
 input, input:focus {
-  border: none;
-  outline: 1px solid #000000;
+  outline: none;
+  border: 1px solid #000000;
+  outline: none;
   outline-offset: 0;
   box-shadow: -1px 1px 4px #696969;
 

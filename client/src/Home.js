@@ -83,11 +83,17 @@ export default class Home extends React.Component {
 
         this.setState({
           showSuggestions: true
+        }, () => {
+          inputElement.style.borderBottomLeftRadius = '0px';
+          inputElement.style.borderBottomRightRadius = '0px';
         });
       }, transitionTime);
     } else {
       this.setState({
         showSuggestions: true
+      }, () => {
+        inputElement.style.borderBottomLeftRadius = '0px';
+        inputElement.style.borderBottomRightRadius = '0px';
       });
     }
 
@@ -106,6 +112,10 @@ export default class Home extends React.Component {
     const placeholderInputElement = document.getElementById('movie-title-input-placeholder');
     const inputElement = document.getElementById('movie-title-input');
     const backgroundFilter = document.getElementById('movie-title-input-background-filter');
+
+    inputElement.style.borderBottomLeftRadius = '.4rem';
+    inputElement.style.borderBottomRightRadius = '.4rem';
+
     if (window.innerWidth <= 575) {
       inputElement.style.top = `${placeholderInputElement.getBoundingClientRect().top}px`;
       inputElement.style.left = `${placeholderInputElement.getBoundingClientRect().left}px`;

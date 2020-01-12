@@ -27,6 +27,8 @@
 }
 
 #movie-title-input, #movie-title-input-placeholder {
+  border-radius: .4rem;
+
   display: flex;
   flex: 5;
 
@@ -40,7 +42,7 @@
 #movie-title-input-placeholder {
   display: none;
 
-  border: none;
+  border: 1px solid transparent;
   outline: none;
   box-shadow: none;
   background: none;
@@ -102,6 +104,7 @@
 
 
 #start-survey-button {
+  border-radius: .4rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
