@@ -99,7 +99,7 @@ class Trie {
     }
   }
 
-  getWords(prefix) {
+  async getWords(prefix) {
     prefix = prefix.toLowerCase();
 
     let currentNode = this.root;
@@ -119,24 +119,31 @@ class Trie {
 
     // DFS starting at currentNode to get all possible words with the given prefix
     let words = [];
-    function dfs(startingNode) {
-      // if we are currently visition a node that's a word
+    async function dfs(startingNode) {
+      // if we are currently visiting a node that's a word
       if (startingNode.isWord) {
         // concat it's data to the running array
         words = words.concat(startingNode.data);
       }
 
       // if there are no child nodes return
-      if (Object.keys(startingNode.children).length == 0) {
+      if (Object.keys(startingNode.children).length === 0) {
         return;
       }
 
       for (let character of Object.keys(startingNode.children)) {
-        dfs(startingNode.children[character]);
+        await (async () => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              dfs(startingNode.children[character]).then(resolve);
+            }, 0);
+          });
+        })();
       }
     }
 
-    dfs(currentNode);
+    await dfs(currentNode);
+
     return words;
   }
 }

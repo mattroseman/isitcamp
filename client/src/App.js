@@ -57,13 +57,13 @@ class App extends Component {
   }
 
   handleMovieTitleChange(event) {
-    const newMovieTitle = typeof event == 'string' ? event : event.target.value;
+    const newMovieTitle = typeof event === 'string' ? event : event.target.value;
 
     this.setState({
       movieTitle: newMovieTitle
     });
 
-    if (newMovieTitle.length > 1) {
+    if (newMovieTitle.length > 0) {
       let url = '/movies?prefix=' + newMovieTitle;
       if (window.location.hostname === 'localhost') {
         url = 'http://localhost:5000' + url;
@@ -78,9 +78,11 @@ class App extends Component {
         signal = controller.signal;
       }
 
-      fetch(url, signal)
+      console.log(`getting movie suggestions for prefix ${newMovieTitle}`);
+      fetch(url, {signal})
         .then((response) => response.json())
         .then((responseJSON) => {
+          console.log(`got movie suggestions for prefix ${newMovieTitle}`);
           this.setState({
             movieTitleSuggestions: responseJSON.movieTitles
           });
@@ -91,7 +93,7 @@ class App extends Component {
             return;
           }
 
-          console.err(err);
+          console.error(err);
         });
     } else {
       this.setState({
