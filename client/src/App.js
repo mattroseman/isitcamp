@@ -78,11 +78,9 @@ class App extends Component {
         signal = controller.signal;
       }
 
-      console.log(`getting movie suggestions for prefix ${newMovieTitle}`);
       fetch(url, {signal})
         .then((response) => response.json())
         .then((responseJSON) => {
-          console.log(`got movie suggestions for prefix ${newMovieTitle}`);
           this.setState({
             movieTitleSuggestions: responseJSON.movieTitles
           });
