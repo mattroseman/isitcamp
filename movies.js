@@ -50,6 +50,14 @@ async function getMovieTitlesFromPrefix(prefix) {
     }
   });
 
+  // sort the top movies by numVotes
+  topMovies.sort((a, b) => {
+    const aNumVotes = isFinite(parseInt(a.numVotes)) ? parseInt(a.numVotes) : 0;
+    const bNumVotes = isFinite(parseInt(b.numVotes)) ? parseInt(b.numVotes) : 0;
+
+    return bNumVotes - aNumVotes;
+  });
+
   // find any duplicate movie titles in the top 10
   const duplicateMovieTitles = topMovies.reduce((duplicateMovieTitles, movie, i, movies) => {
     movies.forEach((duplicateMovie, j) => {

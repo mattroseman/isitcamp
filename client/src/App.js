@@ -82,7 +82,7 @@ class App extends Component {
         .then((response) => response.json())
         .then((responseJSON) => {
           this.setState({
-            movieTitleSuggestions: responseJSON.movieTitles
+            movieTitleSuggestions: Array.from(new Set(responseJSON.movieTitles))
           });
         })
         .catch((err) => {
