@@ -25,10 +25,13 @@ export default class Home extends React.Component {
     // blur the input field if window is resized (like virtual keyboard closing)
     window.addEventListener('resize', this.handleWindowResize);
 
-    const inputElement = document.getElementById('movie-title-input');
-    inputElement.style.width = '277px';
-    inputElement.style.top = `${inputElement.getBoundingClientRect().top}px`;
-    inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
+    if (window.innerWidth <= 575) {
+      const inputElement = document.getElementById('movie-title-input');
+      inputElement.style.width = '277px';
+      inputElement.style.top = `${inputElement.getBoundingClientRect().top}px`;
+      inputElement.style.left = `${inputElement.getBoundingClientRect().left}px`;
+      inputElement.blur();
+    }
   }
 
   componentWillUnmount() {
@@ -90,21 +93,17 @@ export default class Home extends React.Component {
 
       // wait for animations to complete
       setTimeout(() => {
-        /*
-        const suggestionMenu = document.getElementById('suggestion-menu');
-        suggestionMenu.style.top = `${inputElement.getBoundingClientRect().top + inputElement.getBoundingClientRect().height + 3}px`;
-        */
-
-        this.setState({
-          showSuggestions: true
-        });
+        if (inputElement.classList.contains('floating')) {
+          this.setState({
+            showSuggestions: true
+          });
+        }
       }, transitionTime);
     } else {
       this.setState({
         showSuggestions: true
       });
     }
-
   }
 
   /*
@@ -128,7 +127,6 @@ export default class Home extends React.Component {
       inputElement.style.width = `${placeholderInputElement.style.width}`;
       inputElement.classList.remove('floating');
       inputElement.style.width = '277px';
-      inputElement.classList.remove('floating');
 
       backgroundFilter.classList.remove('active');
 

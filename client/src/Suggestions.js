@@ -24,7 +24,11 @@ export default class Suggestions extends React.Component {
       suggestionMenuElement.style.maxHeight = '0px';
       suggestionMenuElement.style.padding = '0px';
       setTimeout(() => {
-        suggestionMenuElement.style.maxHeight = null;
+        if (window.innerWidth <= 575) {
+          suggestionMenuElement.style.maxHeight = `${window.innerHeight - suggestionMenuElement.getBoundingClientRect().top - 20}px`;
+        } else {
+          suggestionMenuElement.style.maxHeight = null;
+        }
         suggestionMenuElement.style.padding = null;
       }, 10);
     }

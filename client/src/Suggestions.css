@@ -29,8 +29,6 @@
   #movie-title-input.focused ~ #suggestion-menu {
     box-shadow: -4px 4px 4px #000000;
 
-    max-height: 100%;
-
     margin: 0px;
   }
 }
