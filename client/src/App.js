@@ -67,7 +67,7 @@ class App extends Component {
       let url = '/movies?prefix=' + newMovieTitle;
       if (window.location.hostname === 'localhost') {
         url = 'http://localhost:5000' + url;
-      } else if (window.location.hostname.indexOf('ngrok')) {
+      } else if (window.location.hostname.indexOf('ngrok') !== -1) {
         // This is test data when using ngrok since it can't reach the backend server
         this.setState({
           movieTitleSuggestions: [
