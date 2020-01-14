@@ -28,6 +28,9 @@
 
 #movie-title-input-container, #movie-title-input-container-placeholder {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
 
   border-radius: .4rem;
 
