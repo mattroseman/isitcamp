@@ -1,6 +1,6 @@
 {
   "name": "isitcamp",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Asks questions to determine if a movie is campy or not",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.0",
     "eslint-plugin-react": "^7.17.0",
+    "file-loader": "^5.0.2",
     "style-loader": "^1.1.1",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",

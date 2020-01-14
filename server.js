@@ -22,7 +22,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // SETUP PUBLIC FILES
-app.use(express.static(path.join(__dirname, 'client/dist/')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 
 // SETUP PATHS
 app.get('/', (req, res) => {
