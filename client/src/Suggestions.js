@@ -9,7 +9,7 @@ export default class Suggestions extends React.Component {
 
     const styleTop = `${inputElement.getBoundingClientRect().top + inputElement.getBoundingClientRect().height}px`;
     const styleLeft = `${inputElement.getBoundingClientRect().left}px`;
-    const styleWidth = `${inputElement.getBoundingClientRect().width - 2}px`;
+    const styleWidth = `${inputElement.getBoundingClientRect().width}px`;
 
     suggestionMenuElement.style.top = styleTop;
     suggestionMenuElement.style.left = styleLeft;

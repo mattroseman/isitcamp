@@ -36,7 +36,7 @@ body {
 
 button {
   background: #F0F0F0;
-  border: 1px solid #000000;
+  border: none;
   outline: none;
   box-shadow: -4px 4px 4px #000000;
 
@@ -51,7 +51,7 @@ button {
 input, input:focus {
   background: #F0F0F0;
   outline: none;
-  border: 1px solid #000000;
+  border: none;
   outline: none;
   outline-offset: 0;
   box-shadow: -4px 4px 4px #000000;

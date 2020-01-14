@@ -1,6 +1,5 @@
 #suggestion-menu {
-  border: 1px solid #000000;
-  border-top: none;
+  border: none;
   border-bottom-left-radius: .4rem;
   border-bottom-right-radius: .4rem;
   background: #F0F0F0;
