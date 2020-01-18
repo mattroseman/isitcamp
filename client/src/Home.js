@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Title from './Title.js';
 import Suggestions from './Suggestions.js';
@@ -29,7 +31,6 @@ export default class Home extends React.Component {
       const inputElementContainer = document.getElementById('movie-title-input-container');
       const inputElement = document.getElementById('movie-title-input');
 
-      inputElementContainer.style.width = '297px';
       inputElementContainer.style.top = `${inputElementContainer.getBoundingClientRect().top}px`;
       inputElementContainer.style.left = `${inputElementContainer.getBoundingClientRect().left}px`;
       inputElement.blur();
@@ -41,15 +42,31 @@ export default class Home extends React.Component {
   }
 
   componentDidUpdate() {
+    const inputElementContainer = document.getElementById('movie-title-input-container');
     const inputElement = document.getElementById('movie-title-input');
+    const inputElementClear = document.getElementById('movie-title-input-clear');
 
     // if the input element is focused, and there are suggestions showing
     if (this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0) {
+      inputElementContainer.style.borderBottomLeftRadius = '0px';
       inputElement.style.borderBottomLeftRadius = '0px';
-      inputElement.style.borderBottomRightRadius = '0px';
+
+      inputElementContainer.style.borderBottomRightRadius = '0px';
+      if (window.innerWidth <= 575) {
+        inputElementClear.style.borderBottomRightRadius = '0px';
+      } else {
+        inputElement.style.borderBottomRightRadius = '0px';
+      }
     } else {
+      inputElementContainer.style.borderBottomLeftRadius = '.4rem';
       inputElement.style.borderBottomLeftRadius = '.4rem';
-      inputElement.style.borderBottomRightRadius = '.4rem';
+
+      inputElementContainer.style.borderBottomRightRadius = '.4rem';
+      if (window.innerWidth <= 575) {
+        inputElementClear.style.borderBottomRightRadius = '.4rem';
+      } else {
+        inputElement.style.borderBottomRightRadius = '.4rem';
+      }
     }
   }
 
@@ -81,7 +98,9 @@ export default class Home extends React.Component {
     if (window.innerWidth <= 575) {
       inputElementContainer.style.top = `${inputElementContainer.getBoundingClientRect().top}px`;
       inputElementContainer.style.left = `${inputElementContainer.getBoundingClientRect().left}px`;
+      inputElementContainer.style.width = `${inputElementContainer.getBoundingClientRect().width}px`;
       inputElementContainer.style.position = 'fixed';
+
       inputElementContainer.classList.add('focused');
       inputElementContainer.classList.add('floating');
       inputElementContainer.style.top = '5%';
@@ -124,10 +143,9 @@ export default class Home extends React.Component {
     if (window.innerWidth <= 575) {
       inputElementContainer.style.top = `${placeholderInputElement.getBoundingClientRect().top}px`;
       inputElementContainer.style.left = `${placeholderInputElement.getBoundingClientRect().left}px`;
+      inputElementContainer.style.width = `${placeholderInputElement.getBoundingClientRect().width}px`;
       inputElementContainer.style.zIndex = '0';
-      inputElementContainer.style.width = `${placeholderInputElement.style.width}`;
       inputElementContainer.classList.remove('floating');
-      inputElementContainer.style.width = '297px';
 
       backgroundFilter.classList.remove('active');
 
@@ -135,8 +153,9 @@ export default class Home extends React.Component {
       setTimeout(() => {
         inputElementContainer.classList.remove('focused');
         inputElementContainer.style.position = 'static';
-        delete inputElementContainer.style.top;
-        delete inputElementContainer.style.left;
+        inputElementContainer.style.top = null;
+        inputElementContainer.style.left = null;
+        inputElementContainer.style.width = null;
       }, transitionTime);
     }
   }
@@ -171,6 +190,16 @@ export default class Home extends React.Component {
               onFocus={() => this.handleMovieTitleFocus()}
               onBlur={() => this.handleMovieTitleBlur()}
             />
+            {window.innerWidth <= 575 &&
+            <button
+              id="movie-title-input-clear"
+              onMouseDown={() => {
+                this.props.onMovieTitleChange('');
+              }}
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            }
           </div>
           <div id="movie-title-input-container-placeholder" disabled={true}></div>
 

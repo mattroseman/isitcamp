@@ -4,12 +4,12 @@ import './Suggestions.css';
 
 export default class Suggestions extends React.Component {
   componentDidUpdate() {
-    const inputElement = document.getElementById('movie-title-input');
+    const inputElementContainer = document.getElementById('movie-title-input-container');
     const suggestionMenuElement = document.getElementById('suggestion-menu');
 
-    const styleTop = `${inputElement.getBoundingClientRect().top + inputElement.getBoundingClientRect().height}px`;
-    const styleLeft = `${inputElement.getBoundingClientRect().left}px`;
-    const styleWidth = `${inputElement.getBoundingClientRect().width}px`;
+    const styleTop = `${inputElementContainer.getBoundingClientRect().top + inputElementContainer.getBoundingClientRect().height}px`;
+    const styleLeft = `${inputElementContainer.getBoundingClientRect().left}px`;
+    const styleWidth = `${inputElementContainer.getBoundingClientRect().width}px`;
 
     suggestionMenuElement.style.top = styleTop;
     suggestionMenuElement.style.left = styleLeft;
