@@ -11,10 +11,8 @@ export default function Decision(props) {
         {movieTitle}
       </h1>
 
-      <div id="question-container">
-        <div id="question">
-          {props.question}
-        </div>
+      <div id="question">
+        {props.question}
       </div>
 
       <div id="options">

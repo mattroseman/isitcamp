@@ -50,9 +50,6 @@
   }
 }
 
-#question-container {
-}
-
 #question {
   background-color: #F0F0F0;
 
@@ -67,6 +64,11 @@
   padding: 1rem;
 
   font-size: 1.5rem;
+}
+@media only screen and (max-width: 575px) {
+  #question {
+    width: 100%;
+  }
 }
 
 #options {
