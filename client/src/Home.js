@@ -2,7 +2,6 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import Title from './Title.js';
 import Suggestions from './Suggestions.js';
 
 import './Home.css';
@@ -24,15 +23,12 @@ export default class Home extends React.Component {
     // set initial height/width of screen
     window.lastInnerHeight = window.innerHeight;
     window.lastInnerWidth = window.innerWidth;
-    // blur the input field if window is resized (like virtual keyboard closing)
+
     window.addEventListener('resize', this.handleWindowResize);
 
     if (window.innerWidth <= 575) {
-      const inputElementContainer = document.getElementById('movie-title-input-container');
+      // on mobile, blur the input element when component firsts mounts
       const inputElement = document.getElementById('movie-title-input');
-
-      inputElementContainer.style.top = `${inputElementContainer.getBoundingClientRect().top}px`;
-      inputElementContainer.style.left = `${inputElementContainer.getBoundingClientRect().left}px`;
       inputElement.blur();
     }
   }
@@ -42,37 +38,20 @@ export default class Home extends React.Component {
   }
 
   componentDidUpdate() {
-    const inputElementContainer = document.getElementById('movie-title-input-container');
-    const inputElement = document.getElementById('movie-title-input');
-    const inputElementClear = document.getElementById('movie-title-input-clear');
+    const movieTitleField = document.getElementById('movie-title-field');
 
-    // if the input element is focused, and there are suggestions showing
     if (this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0) {
-      inputElementContainer.style.borderBottomLeftRadius = '0px';
-      inputElement.style.borderBottomLeftRadius = '0px';
-
-      inputElementContainer.style.borderBottomRightRadius = '0px';
-      if (window.innerWidth <= 575) {
-        inputElementClear.style.borderBottomRightRadius = '0px';
-      } else {
-        inputElement.style.borderBottomRightRadius = '0px';
-      }
+      movieTitleField.style.borderBottomLeftRadius = '0rem';
+      movieTitleField.style.borderBottomRightRadius = '0rem';
     } else {
-      inputElementContainer.style.borderBottomLeftRadius = '.4rem';
-      inputElement.style.borderBottomLeftRadius = '.4rem';
-
-      inputElementContainer.style.borderBottomRightRadius = '.4rem';
-      if (window.innerWidth <= 575) {
-        inputElementClear.style.borderBottomRightRadius = '.4rem';
-      } else {
-        inputElement.style.borderBottomRightRadius = '.4rem';
-      }
+      movieTitleField.style.borderBottomLeftRadius = '.4rem';
+      movieTitleField.style.borderBottomRightRadius = '.4rem';
     }
   }
 
   /*
    * handleWindowResize is fired whenever the size of the window is changed.
-   * If the height shrinks over 150px, then the movie-title-input field is blured
+   * If the height shrinks over a certain amount, then the movie-title-input field is blured
    */
   handleWindowResize() {
     // No orientation change, keyboard closing
@@ -91,29 +70,31 @@ export default class Home extends React.Component {
    * When that happens the showSuggestions state is set to true to show the suggestion dropdown
    */
   handleMovieTitleFocus() {
-    // if this is a mobile screen, change input element to a fixed position,
-    // but don't move it's actual position yet
-    const inputElementContainer = document.getElementById('movie-title-input-container');
-    const backgroundFilter = document.getElementById('movie-title-input-background-filter');
     if (window.innerWidth <= 575) {
-      inputElementContainer.style.top = `${inputElementContainer.getBoundingClientRect().top}px`;
-      inputElementContainer.style.left = `${inputElementContainer.getBoundingClientRect().left}px`;
-      inputElementContainer.style.width = `${inputElementContainer.getBoundingClientRect().width}px`;
-      inputElementContainer.style.position = 'fixed';
+      // if this is a mobile screen, change the movie title field to a fixed position, and move to top of the screen
+      const movieTitleField = document.getElementById('movie-title-field');
 
-      inputElementContainer.classList.add('focused');
-      inputElementContainer.classList.add('floating');
-      inputElementContainer.style.top = '5%';
-      inputElementContainer.style.left = '5%';
-      inputElementContainer.style.zIndex = '2';
-      inputElementContainer.style.width = '90%';
-      inputElementContainer.style.boxShadow = '-4px 4px 4px #000000;';
+      // convert the movieTitleField to a fixed position, but keep it in the same spot
+      movieTitleField.style.top = `${movieTitleField.getBoundingClientRect().top}px`;
+      movieTitleField.style.left = `${movieTitleField.getBoundingClientRect().left}px`;
+      movieTitleField.style.width = `${movieTitleField.getBoundingClientRect().width}px`;
+      movieTitleField.style.position = 'fixed';
 
-      backgroundFilter.classList.add('active');
+      // move the movieTitle field to top of the screen
+      movieTitleField.style.top = '5%';
+      movieTitleField.style.left = '5%';
+      movieTitleField.style.width = '90%';
+      movieTitleField.style.zIndex = '2';
+      movieTitleField.classList.add('floating');
+      movieTitleField.classList.add('focused');
 
-      // wait for animations to complete
+      // show the background filter
+      document.getElementById('background-filter').classList.add('active');
+
+      // wait for the animations to complete
       setTimeout(() => {
-        if (inputElementContainer.classList.contains('floating')) {
+        // make sure the movie title wasn't unfocused before animation timeout finishes
+        if (movieTitleField.classList.contains('focused')) {
           this.setState({
             showSuggestions: true
           });
@@ -136,26 +117,25 @@ export default class Home extends React.Component {
       showSuggestions: false
     });
 
-    const placeholderInputElement = document.getElementById('movie-title-input-container-placeholder');
-    const inputElementContainer = document.getElementById('movie-title-input-container');
-    const backgroundFilter = document.getElementById('movie-title-input-background-filter');
-
     if (window.innerWidth <= 575) {
-      inputElementContainer.style.top = `${placeholderInputElement.getBoundingClientRect().top}px`;
-      inputElementContainer.style.left = `${placeholderInputElement.getBoundingClientRect().left}px`;
-      inputElementContainer.style.width = `${placeholderInputElement.getBoundingClientRect().width}px`;
-      inputElementContainer.style.zIndex = '0';
-      inputElementContainer.classList.remove('floating');
+      const movieTitleField = document.getElementById('movie-title-field');
+      const movieTitleFieldPlaceholder = document.getElementById('movie-title-field-placeholder');
+      movieTitleField.style.top = `${movieTitleFieldPlaceholder.getBoundingClientRect().top}px`;
+      movieTitleField.style.left = `${movieTitleFieldPlaceholder.getBoundingClientRect().left}px`;
+      movieTitleField.style.width = `${movieTitleFieldPlaceholder.getBoundingClientRect().width}px`;
+      movieTitleField.style.zIndex = '0';
+      movieTitleField.classList.remove('focused');
 
-      backgroundFilter.classList.remove('active');
+      document.getElementById('background-filter').classList.remove('active');
 
-      // wait for animations to complete
+      // wait for the animations to complete
       setTimeout(() => {
-        inputElementContainer.classList.remove('focused');
-        inputElementContainer.style.position = 'static';
-        inputElementContainer.style.top = null;
-        inputElementContainer.style.left = null;
-        inputElementContainer.style.width = null;
+        movieTitleField.style.position = 'static';
+        movieTitleField.style.top = null;
+        movieTitleField.style.left = null;
+        movieTitleField.style.width = null;
+
+        movieTitleField.classList.remove('floating');
       }, transitionTime);
     }
   }
@@ -174,22 +154,26 @@ export default class Home extends React.Component {
   render() {
     return (
       <div id="home">
-        <Title />
+        <h1 id="site-title">
+          Is It Camp?
+        </h1>
 
-        <form id="movie-title-field" onSubmit={() => this.props.onStartSurvey()}>
-          <div id="movie-title-input-container">
-            <input
-              id="movie-title-input"
-              type="text"
-              placeholder="Enter movie title"
-              spellCheck="false"
-              autoComplete="off"
-              list="movie-title-suggestions"
-              value={this.props.movieTitle}
-              onChange={(event) => this.props.onMovieTitleChange(event)}
-              onFocus={() => this.handleMovieTitleFocus()}
-              onBlur={() => this.handleMovieTitleBlur()}
-            />
+        <form id="movie-title-form" onSubmit={() => this.props.onStartSurvey()}>
+          <div id="movie-title-field">
+            <div id="movie-title-input-container">
+              <input
+                id="movie-title-input"
+                type="text"
+                placeholder="Enter movie title"
+                spellCheck="false"
+                autoComplete="off"
+                list="movie-title-suggestions"
+                value={this.props.movieTitle}
+                onChange={(event) => this.props.onMovieTitleChange(event)}
+                onFocus={() => this.handleMovieTitleFocus()}
+                onBlur={() => this.handleMovieTitleBlur()}
+              />
+            </div>
             {window.innerWidth <= 575 &&
             <button
               id="movie-title-input-clear"
@@ -201,9 +185,9 @@ export default class Home extends React.Component {
             </button>
             }
           </div>
-          <div id="movie-title-input-container-placeholder" disabled={true}></div>
+          <div id="movie-title-field-placeholder" disabled={true}></div>
 
-          <div id="movie-title-input-background-filter"></div>
+          <div id="background-filter"></div>
 
           <Suggestions
             suggestions={this.props.movieTitleSuggestions}

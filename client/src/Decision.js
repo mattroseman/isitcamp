@@ -4,20 +4,31 @@ import './Decision.css';
 
 export default function Decision(props) {
   return (
-    <div className="decision-page">
-      <h1>{props.movieTitle}</h1>
-      <div className="decision">
-        <div className="decision-question">
-          {props.question}
-        </div>
-        <div className="decision-options">
-          <button className='decision-option yes-option' onClick={() => props.onOptionClick('yes')}>
-            Yes
-          </button>
-          <button className="decision-option no-option" onClick={() => props.onOptionClick('no')}>
-            No
-          </button>
-        </div>
+    <div id="decision-page">
+      <h1 id="movie-title">
+        {props.movieTitle}
+      </h1>
+
+      <div id="question">
+        {props.question}
+      </div>
+
+      <div id="options">
+        <button
+          id="yes-option"
+          className="option"
+          onClick={() => props.onOptionClick('yes')}
+        >
+          Yes
+        </button>
+
+        <button
+          id="no-option"
+          className="option"
+          onClick={() => props.onOptionClick('no')}
+        >
+          No
+        </button>
       </div>
     </div>
   );

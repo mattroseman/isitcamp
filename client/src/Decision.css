@@ -1,84 +1,63 @@
-.decision-page {
+#decision-page {
+  align-self: center;
+
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: center;
+  align-items: stretch;
 
-  position: relative;
-}
-@media only screen and (max-width: 575px) {
-  .decision-page {
-    width: 100%;
-    height: 100%;
-  }
+  height: 100%;
+  max-width: 40rem;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.decision {
+#movie-title {
+  background-color: #F0F0F0;
+  box-shadow: -4px 4px 4px #000000;
+  border-radius: .4rem;
+
+  padding: 1rem;
+}
+
+#question {
+  background-color: #F0F0F0;
+  box-shadow: -4px 4px 4px #000000;
+  border-radius: .4rem;
+
+  padding: 1rem;
+
+  font-size: 1.5rem;
+}
+
+#options {
+  flex-grow: 1;
+
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
 
-  max-width: 500px;
-  min-width: 500px;
-  min-height: 450px;
-}
-@media only screen and (max-width: 575px) {
-  .decision {
-    max-width: 100%;
-    min-width: 0px;
-    width: 100%;
-  }
+
+  padding: 1rem;
 }
 
-.decision-question {
-  text-align: center;
+.option {
+  background-color: #F0F0F0;
+  box-shadow: -4px 4px 4px #000000;
+  border: none;
+  outline: none;
+  border-radius: .4rem;
 
-  padding-bottom: 3rem;
+  height: 2rem;
+  width: 6rem;
 
-  font-size: 2rem;
-}
-@media only screen and (max-width: 575px) {
-  .decision-question {
-    font-size: 1.25rem;
-    margin: 2rem;
-  }
-}
-
-.decision-options {
+  font-size: 1.5rem;
 }
 
-.decision-option {
-  width: 3.75em;
-  height: 1.5em;
-
-  font-size: 2rem;
-}
-@media only screen and (max-width: 575px) {
-  .decision-option {
-    width: 2.75em;
-    height: 1.5em;
-  }
+#yes-option {
 }
 
-.yes-option {
-  position: absolute;
-  left: 1.25em;
-  bottom: 2em;
-}
-@media only screen and (max-width: 575px) {
-  .yes-option {
-    left: 1em;
-  }
-}
-
-.no-option {
-  position: absolute;
-  right: 1.25em;
-  bottom: 2em;
-}
-@media only screen and (max-width: 575px) {
-  .no-option {
-    right: 1em;
-  }
+#no-option {
 }

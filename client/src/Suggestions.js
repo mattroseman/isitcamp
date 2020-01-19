@@ -4,12 +4,12 @@ import './Suggestions.css';
 
 export default class Suggestions extends React.Component {
   componentDidUpdate() {
-    const inputElementContainer = document.getElementById('movie-title-input-container');
+    const movieTitleField = document.getElementById('movie-title-field');
     const suggestionMenuElement = document.getElementById('suggestion-menu');
 
-    const styleTop = `${inputElementContainer.getBoundingClientRect().top + inputElementContainer.getBoundingClientRect().height}px`;
-    const styleLeft = `${inputElementContainer.getBoundingClientRect().left}px`;
-    const styleWidth = `${inputElementContainer.getBoundingClientRect().width}px`;
+    const styleTop = `${movieTitleField.getBoundingClientRect().top + movieTitleField.getBoundingClientRect().height}px`;
+    const styleLeft = `${movieTitleField.getBoundingClientRect().left}px`;
+    const styleWidth = `${movieTitleField.getBoundingClientRect().width}px`;
 
     suggestionMenuElement.style.top = styleTop;
     suggestionMenuElement.style.left = styleLeft;
@@ -19,7 +19,7 @@ export default class Suggestions extends React.Component {
 
   render() {
     const suggestionMenuElement = document.getElementById('suggestion-menu');
-    // if the show prop changed to show the suggesiton menu
+    // if the show prop changed to show, animate the the suggesiton menu dropping down
     if (suggestionMenuElement && suggestionMenuElement.classList.contains('hidden') && this.props.show) {
       suggestionMenuElement.style.maxHeight = '0px';
       suggestionMenuElement.style.padding = '0px';
