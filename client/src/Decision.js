@@ -3,14 +3,18 @@ import React from 'react';
 import './Decision.css';
 
 export default function Decision(props) {
+  const movieTitle = props.movieTitle.length > 37 ? props.movieTitle.substr(0, 37).trim() + '...' : props.movieTitle;
+
   return (
-    <div id="decision-page">
+    <div id="decision">
       <h1 id="movie-title">
-        {props.movieTitle}
+        {movieTitle}
       </h1>
 
-      <div id="question">
-        {props.question}
+      <div id="question-container">
+        <div id="question">
+          {props.question}
+        </div>
       </div>
 
       <div id="options">
