@@ -1,13 +1,54 @@
 import React from 'react';
 
-export default function Results(props) {
-  const campPercentage = Math.round((props.points / props.maxPossiblePoints) * 100);
+import './Results.css';
 
-  return (
-    <div>
-      <div>this film is {campPercentage}% camp</div>
-      <button onClick={() => props.onRestart()}>Start Another Film</button>
-    </div>
-  );
+const transitionTime = 1000;
 
+export default class Results extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      shownPercentage: 0
+    };
+  }
+
+  componentDidMount() {
+    const campPercentage = Math.round((this.props.points / this.props.maxPossiblePoints) * 100);
+
+    // starting at 0, increment the shownPercentage by one count, until it matches the given campPercentage
+    const tickTime = transitionTime / campPercentage;
+    this.setState({
+      shownPercentage: 0
+    }, () => {
+      const animationTickInterval = setInterval(() => {
+        if (this.state.shownPercentage === campPercentage) {
+          clearInterval(animationTickInterval);
+        } else {
+          this.setState({
+            shownPercentage: this.state.shownPercentage + 1
+          });
+        }
+      }, tickTime); 
+    });
+  }
+
+  render() {
+    return (
+      <div id="results">
+        <div id="camp-percentage">
+          <p>this film is</p>
+          <h3>{this.state.shownPercentage}%</h3>
+          <p>camp</p>
+        </div>
+
+        <button
+          id="restart-button"
+          onClick={() => props.onRestart()}
+        >
+          Start Another Film
+        </button>
+      </div>
+    );
+  }
 }
