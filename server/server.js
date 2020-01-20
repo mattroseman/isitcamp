@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
+const { MovieTrie } = require('./movies.js');
+
 /* TESTING CODE */
 /*
 const blocked = require('blocked');
@@ -10,8 +12,6 @@ blocked(function(ms) {
 }, {threshold:1, interval: 1000});
 */
 /* END TESTING CODE */
-
-const movies = require('./movies.js');
 
 let app = express();
 
@@ -22,20 +22,21 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // SETUP PUBLIC FILES
-app.use(express.static(path.join(__dirname, 'client/dist')));
-app.use(express.static(path.join(__dirname, 'client/public')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 // SETUP PATHS
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/public/index.html'));
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
+const movieTrie = new MovieTrie();
 app.get('/movies', async (req, res, next) => {
   const prefix = req.query.prefix;
 
   console.log(`getting movies for prefix: ${prefix}`);
 
-  movies.getMovieTitlesFromPrefix(prefix)
+  movieTrie.getMovieTitlesFromPrefix(prefix)
     .then((movieTitles) => {
       console.log(`movie titles for prefix: ${prefix}\n${movieTitles}`);
       res.send(JSON.stringify({
