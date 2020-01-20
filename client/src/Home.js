@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Suggestions from './Suggestions.js';
+import About from './About.js';
 
 import './Home.css';
 
@@ -202,6 +203,8 @@ export default class Home extends React.Component {
             {this.props.surveyInProgress ? 'Continue' : 'Start'}
           </button>
         </form>
+
+        <About />
       </div>
     );
   }

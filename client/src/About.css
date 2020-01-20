@@ -1,0 +1,76 @@
+#about-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background: #F0F0F0;
+
+  box-shadow: -4px 4px 4px #000000;
+
+  border-radius: .4rem;
+
+  box-sizing: border-box;
+
+  width: 35rem;
+
+  margin-top: 4rem;
+  margin-bottom: 7rem;
+  padding: 1rem;
+}
+@media only screen and (max-width: 575px) {
+  #about-container {
+    width: 100%;
+  }
+}
+
+#about-title {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+}
+
+#about-quote-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+
+  font-size: 1.3rem;
+}
+
+#about-quote-opening-quotation {
+  font-size: 1rem;
+}
+
+#about-quote {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+
+  text-align: center;
+}
+
+#about-quote-closing-quotation {
+  align-self: end;
+
+  font-size: 1rem;
+}
+
+#about-quote-attribution {
+  align-self: end;
+}
+
+#about-body {
+  margin-top: .3rem;
+  margin-bottom: 1rem;
+
+  font-size: 1.3rem;
+}
+
+#about-body > p {
+  margin-top: .2rem;
+  margin-bottom: .2rem;
+
+  text-indent: .8rem;
+}
