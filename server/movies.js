@@ -145,7 +145,7 @@ class MovieTrie extends Trie {
       // get the movie in topMovies with the lowest number of votes
       let minTopMovieIndex = 0;
       const minTopMovie = topMovies.reduce((currentMinTopMovie, topMovie, i) => {
-        if (topMovie.compare(currentMinTopMovie) < 0) {
+        if (topMovie.compare(currentMinTopMovie) > 0) {
           minTopMovieIndex = i;
           return topMovie;
         }

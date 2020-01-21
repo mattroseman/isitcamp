@@ -102,6 +102,11 @@ class Trie {
   async getWords(prefix) {
     prefix = prefix.toLowerCase();
 
+    // a prefix is expensive if it's small or is the beginning of the string 'the '
+    // if a prefix is expensive a slower async method is used that doesn't block the event loop
+    // if it isn't expensive a faster method is used that may block the event loop for a couple of milliseconds, but not substantially
+    const expensivePrefix = prefix.length < 3 || prefix === 'the '.substr(0, prefix.length);
+
     let currentNode = this.root;
 
     // iterate over the characters of the given prefix, following the trie tree to find which node it ends at
@@ -132,13 +137,25 @@ class Trie {
       }
 
       for (let character of Object.keys(startingNode.children)) {
-        await (async () => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              dfs(startingNode.children[character]).then(resolve);
-            }, 0);
-          });
-        })();
+        if (expensivePrefix) {
+          // if this is an expensive prefix, don't block event loop
+          await (async () => {
+            return new Promise((resolve) => {
+              /*
+              setTimeout(() => {
+                dfs(startingNode.children[character]).then(resolve);
+              }, 0);
+              */
+              setImmediate(() => {
+                dfs(startingNode.children[character]).then(resolve);
+              });
+            });
+          })();
+        } else {
+          // if this isn't an expensive prefix, process shouldn't take long, so block event loop for a very short amount of time
+          // this method is quicker overall
+          await dfs(startingNode.children[character])
+        }
       }
     }
 

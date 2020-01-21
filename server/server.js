@@ -31,14 +31,20 @@ app.get('/', (req, res) => {
 });
 
 const movieTrie = new MovieTrie();
-app.get('/movies', async (req, res, next) => {
+app.get('/movies', (req, res, next) => {
   const prefix = req.query.prefix;
 
   console.log(`getting movies for prefix: ${prefix}`);
 
+  const startTime = new Date() / 1000;
+
   movieTrie.getMovieTitlesFromPrefix(prefix)
     .then((movieTitles) => {
       console.log(`movie titles for prefix: ${prefix}\n${movieTitles}`);
+
+      const endTime = new Date() / 1000;
+      console.log(`${prefix} took ${endTime - startTime} seconds`);
+
       res.send(JSON.stringify({
         'movieTitles': movieTitles
       }));
