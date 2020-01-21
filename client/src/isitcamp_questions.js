@@ -36,13 +36,13 @@ function getMaxPossiblePoints(startingQuestion=firstQuestion) {
 }
 
 export const questions = { 
-  'version': 1,
+  'version': 2,
   '1': { 
-    'question': 'Does this movie seem to place style over beauty?',
+    'question': 'Does this movie have an apparent style?',
     'options': { 
       'yes': { 
         'next_question': '2',
-        'points': 1
+        'points': 2
       },
       'no': { 
         'next_question': '2',
@@ -105,11 +105,11 @@ export const questions = {
     }
   },
   '6': { 
-    'question': 'If you look at the movie seriously, is it bad?',
+    'question': 'If you look at this movie seriously, is it bad?',
     'options': { 
       'yes': { 
         'next_question': '7',
-        'points': 1
+        'points': 2
       },
       'no': { 
         'next_question': '7',
@@ -118,7 +118,7 @@ export const questions = {
     }
   },
   '7': { 
-    'question': 'Does the movie seem realistic? Could the events happen in the real world?',
+    'question': 'Could the events of this movie happen in the real world?',
     'options': { 
       'yes': { 
         'next_question': '8',
@@ -199,15 +199,16 @@ export const questions = {
     'question': 'Does there seem to be deeper meaning in the movie through metaphors? For example, A sleigh thrown into a furnace representing the lost innocence of childhood.',
     'options': { 
       'yes': { 
-        'next_question': '17',
+        'next_question': '24',
         'points': 0
       },
       'no': { 
-        'next_question': '17',
+        'next_question': '24',
         'points': 1
       }
     }
   },
+  // skipping 17 for now, since it seems like a vague question
   '17': { 
     'question': 'Does it seem like there\'s a double meaning of things in the film, not like metaphor, but like an inside joke?',
     'options': { 
@@ -226,7 +227,7 @@ export const questions = {
     'options': { 
       'yes': { 
         'next_question': '27',
-        'points': 1
+        'points': 2
       },
       'no': { 
         'next_question': '27',
@@ -239,7 +240,7 @@ export const questions = {
     'options': { 
       'yes': { 
         'next_question': '28',
-        'points': 1
+        'points': 2
       },
       'no': { 
         'next_question': '28',
@@ -300,7 +301,7 @@ export const questions = {
     }
   },
   '31': { 
-    'question': 'Does the film make you feel nostalgia, or are you engaged in something that might once be considered banal?',
+    'question': 'Does the film make you nostalgic, especially for something once considered banal?',
     'options': { 
       'yes': { 
         'next_question': '32a',
@@ -326,7 +327,7 @@ export const questions = {
     }
   },
   '32b': { 
-    'question': 'Do any of the characters appear in other unconnected movies? Maybe with a different names and back stories, but essentially the same character played by the same actor or actress.',
+    'question': 'Do any of the characters appear in other unconnected movies? Maybe with a different names and back stories, but essentially the same character.',
     'options': { 
       'yes': { 
         'next_question': '33',
@@ -339,7 +340,7 @@ export const questions = {
     }
   },
   '33': { 
-    'question': 'Are characters in the film one very intense thing, and that trait is unchanging throughout the film? Basically, is there a lack of character development?',
+    'question': 'Is there a lack of character development? Are characters one very intense thing, unchanging throughout the film?',
     'options': { 
       'yes': { 
         'next_question': '41',
@@ -381,7 +382,7 @@ export const questions = {
     'question': 'Is it good because it is awful?',
     'options': { 
       'yes': { 
-        'points': 1
+        'points': 3
       },
       'no': { 
         'points': 0
