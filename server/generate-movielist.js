@@ -8,7 +8,7 @@ const movies = {};
 function downloadBasicsFile() {
   console.log('downloading IMDb basics file');
 
-  const imdbBasicsFileOutStream = fs.createWriteStream('./data/title.basics.tsv', {flags: 'w'});
+  const imdbBasicsFileOutStream = fs.createWriteStream('./server/data/title.basics.tsv', {flags: 'w'});
   const unzip = zlib.createUnzip();
   https.get('https://datasets.imdbws.com/title.basics.tsv.gz', (res) => {
     res.pipe(unzip).pipe(imdbBasicsFileOutStream).on('finish', processBasicsFile);
@@ -18,7 +18,7 @@ function downloadBasicsFile() {
 function processBasicsFile() {
   console.log('processing IMDb basics file');
 
-  const imdbBasicsFileInStream = fs.createReadStream('./data/title.basics.tsv', 'utf8');
+  const imdbBasicsFileInStream = fs.createReadStream('./server/data/title.basics.tsv', 'utf8');
 
   const rl = readline.createInterface({
     input: imdbBasicsFileInStream,
@@ -49,7 +49,7 @@ function processBasicsFile() {
 function downloadRatingsFile() {
   console.log('downloading IMDb ratings file');
 
-  const imdbRatingsFileOutStream = fs.createWriteStream('./data/title.ratings.tsv', {flags: 'w'});
+  const imdbRatingsFileOutStream = fs.createWriteStream('./server/data/title.ratings.tsv', {flags: 'w'});
   const unzip = zlib.createUnzip();
   https.get('https://datasets.imdbws.com/title.ratings.tsv.gz', (res) => {
     res.pipe(unzip).pipe(imdbRatingsFileOutStream).on('finish', processRatingsFile);
@@ -59,7 +59,7 @@ function downloadRatingsFile() {
 function processRatingsFile() {
   console.log('processing IMDb ratings file');
 
-  const imdbRatingsFileInStream = fs.createReadStream('./data/title.ratings.tsv', 'utf8');
+  const imdbRatingsFileInStream = fs.createReadStream('./server/data/title.ratings.tsv', 'utf8');
 
   const rl = readline.createInterface({
     input: imdbRatingsFileInStream,
@@ -83,7 +83,7 @@ function processRatingsFile() {
 
 function saveProcessedMovies() {
   // const moviesJSON = JSON.stringify(movies);
-  const moviesFileOutStream = fs.createWriteStream('./data/movies.csv', {flags: 'w'});
+  const moviesFileOutStream = fs.createWriteStream('./server/data/movies.csv', {flags: 'w'});
 
   for (let id in movies) {
     const movie = movies[id];

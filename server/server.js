@@ -32,13 +32,17 @@ app.get('/', (req, res) => {
 
 const movieTrie = new MovieTrie();
 app.get('/movies', (req, res, next) => {
+  const startTime = new Date() / 1000;
+
   const prefix = req.query.prefix;
+
+  const cancelToken = {
+    cancelled: false
+  };
 
   console.log(`getting movies for prefix: ${prefix}`);
 
-  const startTime = new Date() / 1000;
-
-  movieTrie.getMovieTitlesFromPrefix(prefix)
+  movieTrie.getMovieTitlesFromPrefix(prefix, cancelToken)
     .then((movieTitles) => {
       console.log(`movie titles for prefix: ${prefix}\n${movieTitles}`);
 
@@ -50,9 +54,27 @@ app.get('/movies', (req, res, next) => {
       }));
     })
     .catch((err) => {
-      console.error(err);
+      if (err === 'getWords cancelled') {
+        res.send(JSON.stringify({
+          'movieTitles': []
+        }));
+
+        return;
+      }
       next(err);
     });
+
+  req.on('close', () => {
+    console.log(`${prefix} request closed`);
+    cancelToken.cancelled = true;
+  });
+
+  setTimeout(() => {
+    if (!cancelToken.cancelled) {
+      console.log(`${prefix} request timedout`);
+      cancelToken.cancelled = true;
+    }
+  }, 3000);
 });
 
 // START APP

@@ -1,3 +1,6 @@
+const util = require('util');
+const setImmediatePromise = util.promisify(setImmediate);
+
 class trieNode {
   constructor(edgeLabel, data=[]) {
     this.edgeLabel = edgeLabel;
@@ -99,7 +102,7 @@ class Trie {
     }
   }
 
-  async getWords(prefix) {
+  async getWords(prefix, cancelToken={}) {
     prefix = prefix.toLowerCase();
 
     // a prefix is expensive if it's small or is the beginning of the string 'the '
@@ -125,6 +128,10 @@ class Trie {
     // DFS starting at currentNode to get all possible words with the given prefix
     let words = [];
     async function dfs(startingNode) {
+      if (cancelToken.cancelled && expensivePrefix) {
+        throw('getWords cancelled');
+      }
+
       // if we are currently visiting a node that's a word
       if (startingNode.isWord) {
         // concat it's data to the running array
@@ -139,27 +146,36 @@ class Trie {
       for (let character of Object.keys(startingNode.children)) {
         if (expensivePrefix) {
           // if this is an expensive prefix, don't block event loop
+          await setImmediatePromise()
+            .then(async () => {
+              await dfs(startingNode.children[character]);
+            })
+          /*
           await (async () => {
             return new Promise((resolve) => {
-              /*
-              setTimeout(() => {
-                dfs(startingNode.children[character]).then(resolve);
-              }, 0);
-              */
               setImmediate(() => {
-                dfs(startingNode.children[character]).then(resolve);
+                dfs(startingNode.children[character])
+                  .then(resolve)
+                  .catch((err) => {
+                    console.log('\n\n\n\ntest\n\n\n\n');
+                    throw err;
+                  });
               });
             });
-          })();
+          })().catch((err) => {
+            console.log('\n\n\n\ntest\n\n\n\n');
+            throw err;
+          });
+          */
         } else {
           // if this isn't an expensive prefix, process shouldn't take long, so block event loop for a very short amount of time
           // this method is quicker overall
-          await dfs(startingNode.children[character])
+          await dfs(startingNode.children[character]);
         }
       }
     }
 
-    await dfs(currentNode);
+    await dfs(currentNode)
 
     return words;
   }
