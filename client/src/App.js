@@ -125,6 +125,7 @@ class App extends Component {
   }
 
   handleStartSurvey() {
+    console.log('test');
     this.setState({
       page: PAGES.survey,
       surveyInProgress: true

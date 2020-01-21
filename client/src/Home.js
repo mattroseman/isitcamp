@@ -142,6 +142,15 @@ export default class Home extends React.Component {
   }
 
   /*
+   * handleMovieTitleClearMouseDown is fired when a user clicks on the X in the movie title input field.
+   */
+  handleMovieTitleClearMouseDown(event) {
+    event.preventDefault();
+
+    this.props.onMovieTitleChange('');
+  }
+
+  /*
    * handleSuggestionClick is fired when a user clicks on a suggestion.
    */
   handleSuggestionClick(event, suggestion) {
@@ -178,9 +187,8 @@ export default class Home extends React.Component {
             {window.innerWidth <= 575 &&
             <button
               id="movie-title-input-clear"
-              onMouseDown={() => {
-                this.props.onMovieTitleChange('');
-              }}
+              type="button"
+              onMouseDown={(event) => this.handleMovieTitleClearMouseDown(event)}
             >
               <FontAwesomeIcon icon={faTimes} />
             </button>
