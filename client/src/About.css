@@ -37,11 +37,11 @@
   padding-top: .5rem;
   padding-bottom: .5rem;
 
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 #about-quote-opening-quotation {
-  font-size: 1rem;
+  font-size: .8rem;
 }
 
 #about-quote {
@@ -52,13 +52,13 @@
 }
 
 #about-quote-closing-quotation {
-  align-self: end;
+  margin-left: auto;
 
-  font-size: 1rem;
+  font-size: .8rem;
 }
 
 #about-quote-attribution {
-  align-self: end;
+  margin-left: auto;
 }
 
 #about-body {
