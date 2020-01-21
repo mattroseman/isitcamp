@@ -63,58 +63,65 @@ class App extends Component {
       movieTitle: newMovieTitle
     });
 
-    if (newMovieTitle.length > 0) {
-      let url = '/movies?prefix=' + newMovieTitle;
-      if (window.location.hostname === 'localhost') {
-        url = 'http://localhost:5000' + url;
-      } else if (window.location.hostname.indexOf('ngrok') !== -1) {
-        // This is test data when using ngrok since it can't reach the backend server
-        this.setState({
-          movieTitleSuggestions: [
-            'Dr. Strangelove',
-            'Eraserhead',
-            'Trainspotting',
-            'In The Mood For Love',
-            'The Wizard of Oz',
-            'Pink Flamingos',
-            'The Italian Job',
-            'Blue Velvet',
-            'Chungking Express',
-            'The Truman Show'
-          ]
-        });
-        return;
-      }
-
+    if (newMovieTitle.length === 0) {
       if (controller !== undefined) {
         // cancel the previous request
         controller.abort();
       }
-      if('AbortController' in window) {
-        controller = new AbortController;
-        signal = controller.signal;
-      }
 
-      fetch(url, {signal})
-        .then((response) => response.json())
-        .then((responseJSON) => {
-          this.setState({
-            movieTitleSuggestions: Array.from(new Set(responseJSON.movieTitles))
-          });
-        })
-        .catch((err) => {
-          // AbortError's are expected
-          if (err.name === 'AbortError') {
-            return;
-          }
-
-          console.error(err);
-        });
-    } else {
       this.setState({
         movieTitleSuggestions: []
       });
+
+      return;
     }
+
+    let url = '/movies?prefix=' + newMovieTitle;
+    if (window.location.hostname === 'localhost') {
+      url = 'http://localhost:5000' + url;
+    } else if (window.location.hostname.indexOf('ngrok') !== -1) {
+      // This is test data when using ngrok since it can't reach the backend server
+      this.setState({
+        movieTitleSuggestions: [
+          'Dr. Strangelove',
+          'Eraserhead',
+          'Trainspotting',
+          'In The Mood For Love',
+          'The Wizard of Oz',
+          'Pink Flamingos',
+          'The Italian Job',
+          'Blue Velvet',
+          'Chungking Express',
+          'The Truman Show'
+        ]
+      });
+      return;
+    }
+
+    if (controller !== undefined) {
+      // cancel the previous request
+      controller.abort();
+    }
+    if('AbortController' in window) {
+      controller = new AbortController;
+      signal = controller.signal;
+    }
+
+    fetch(url, {signal})
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        this.setState({
+          movieTitleSuggestions: Array.from(new Set(responseJSON.movieTitles))
+        });
+      })
+      .catch((err) => {
+        // AbortError's are expected
+        if (err.name === 'AbortError') {
+          return;
+        }
+
+        console.error(err);
+      });
   }
 
   handleStartSurvey() {

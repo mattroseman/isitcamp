@@ -96,11 +96,11 @@ class MovieTrie extends Trie {
   /*
    * getMovieTitlesFromPrefix returns a promise that resolves with a list of movie titles that begin with the given prefix
    */
-  async getMovieTitlesFromPrefix(prefix) {
+  async getMovieTitlesFromPrefix(prefix, cancelToken={}) {
     prefix = prefix.toLowerCase();
 
     // get movies that start with the given prefix
-    const movies = await this.getWords(prefix);
+    const movies = await this.getWords(prefix, cancelToken);
     console.log(`gotten list of ${movies.length} suggestions for prefix: ${prefix}`);
 
     // iterate through them and get the top 10 ones with most votes
