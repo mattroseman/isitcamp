@@ -19,8 +19,8 @@ export default class Suggestions extends React.Component {
 
   render() {
     const suggestionMenuElement = document.getElementById('suggestion-menu');
-    // if the show prop changed to show, animate the the suggesiton menu dropping down
     if (suggestionMenuElement && suggestionMenuElement.classList.contains('hidden') && this.props.show) {
+      // if the show prop changed to show, animate the suggestion menu dropping down
       suggestionMenuElement.style.maxHeight = '0px';
       suggestionMenuElement.style.padding = '0px';
       setTimeout(() => {

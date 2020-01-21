@@ -44,7 +44,7 @@ export default class Results extends React.Component {
 
         <button
           id="restart-button"
-          onClick={() => props.onRestart()}
+          onClick={() => this.props.onRestart()}
         >
           Start Another Film
         </button>

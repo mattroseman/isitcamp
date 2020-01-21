@@ -9,8 +9,8 @@
   width: 100%;
   height: 100%;
 
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
 }
 @media only screen and (max-width: 575px) {
   #decision {
