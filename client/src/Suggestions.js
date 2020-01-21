@@ -7,8 +7,8 @@ export default class Suggestions extends React.Component {
     const movieTitleField = document.getElementById('movie-title-field');
     const suggestionMenuElement = document.getElementById('suggestion-menu');
 
-    const styleTop = `${movieTitleField.getBoundingClientRect().top + movieTitleField.getBoundingClientRect().height}px`;
-    const styleLeft = `${movieTitleField.getBoundingClientRect().left}px`;
+    const styleTop = `${movieTitleField.getBoundingClientRect().height}px`;
+    const styleLeft = '0px';
     const styleWidth = `${movieTitleField.getBoundingClientRect().width}px`;
 
     suggestionMenuElement.style.top = styleTop;

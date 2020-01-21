@@ -81,6 +81,8 @@
   border-radius: .4rem;
   box-shadow: -4px 4px 4px #000000;
 
+  position: relative;
+
   min-height: 2.25rem;
   max-height: 2.25rem;
 

@@ -193,16 +193,16 @@ export default class Home extends React.Component {
               <FontAwesomeIcon icon={faTimes} />
             </button>
             }
+
+            <Suggestions
+              suggestions={this.props.movieTitleSuggestions}
+              onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
+              show={this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0}
+            />
           </div>
           <div id="movie-title-field-placeholder" disabled={true}></div>
 
           <div id="background-filter"></div>
-
-          <Suggestions
-            suggestions={this.props.movieTitleSuggestions}
-            onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
-            show={this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0}
-          />
 
           <button
             id="start-survey-button"
