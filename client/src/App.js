@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader/root';
 
-import Decision from './Decision';
-import Results from './Results';
-import Home from './Home';
+import Decision from './Decision/Decision';
+import Results from './Result/Result';
+import Home from './Home/Home';
 import { questions, firstQuestion, maxPossiblePoints } from './isitcamp_questions';
 
 import './App.css';

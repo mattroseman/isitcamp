@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Results.css';
+import './Result.css';
 
 const transitionTime = 1000;
 

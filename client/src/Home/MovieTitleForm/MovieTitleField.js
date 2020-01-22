@@ -3,13 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Suggestions from './Suggestions.js';
-import About from './About.js';
-
-import './Home.css';
 
 const transitionTime = 400;
 
-export default class Home extends React.Component {
+export default class MovieTitleField extends React.Component {
   constructor(props) {
     super(props);
 
@@ -163,57 +160,38 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div id="home">
-        <h1 id="site-title">
-          Is It Camp?
-        </h1>
+      <div id="movie-title-field">
+        <div id="movie-title-input-container">
+          <input
+            id="movie-title-input"
+            type="text"
+            placeholder="Enter movie title"
+            spellCheck="false"
+            autoComplete="off"
+            list="movie-title-suggestions"
+            value={this.props.movieTitle}
+            onChange={(event) => this.props.onMovieTitleChange(event)}
+            onFocus={() => this.handleMovieTitleFocus()}
+            onBlur={() => this.handleMovieTitleBlur()}
+          />
+        </div>
+        {window.innerWidth <= 575 &&
+        <button
+          id="movie-title-input-clear"
+          type="button"
+          onMouseDown={(event) => this.handleMovieTitleClearMouseDown(event)}
+        >
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        }
 
-        <form id="movie-title-form" onSubmit={() => this.props.onStartSurvey()}>
-          <div id="movie-title-field">
-            <div id="movie-title-input-container">
-              <input
-                id="movie-title-input"
-                type="text"
-                placeholder="Enter movie title"
-                spellCheck="false"
-                autoComplete="off"
-                list="movie-title-suggestions"
-                value={this.props.movieTitle}
-                onChange={(event) => this.props.onMovieTitleChange(event)}
-                onFocus={() => this.handleMovieTitleFocus()}
-                onBlur={() => this.handleMovieTitleBlur()}
-              />
-            </div>
-            {window.innerWidth <= 575 &&
-            <button
-              id="movie-title-input-clear"
-              type="button"
-              onMouseDown={(event) => this.handleMovieTitleClearMouseDown(event)}
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-            }
-
-            <Suggestions
-              suggestions={this.props.movieTitleSuggestions}
-              onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
-              show={this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0}
-            />
-          </div>
-          <div id="movie-title-field-placeholder" disabled={true}></div>
-
-          <div id="background-filter"></div>
-
-          <button
-            id="start-survey-button"
-            onMouseDown={() => {this.props.onStartSurvey()}}
-          >
-            {this.props.surveyInProgress ? 'Continue' : 'Start'}
-          </button>
-        </form>
-
-        <About />
+        <Suggestions
+          suggestions={this.props.movieTitleSuggestions}
+          onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
+          show={this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0}
+        />
       </div>
     );
   }
+
 }

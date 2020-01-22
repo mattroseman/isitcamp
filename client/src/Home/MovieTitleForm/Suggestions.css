@@ -1,8 +1,8 @@
 #suggestion-menu {
+  background: #F0F0F0;
   border: none;
   border-bottom-left-radius: .4rem;
   border-bottom-right-radius: .4rem;
-  background: #F0F0F0;
   box-shadow: -4px 4px 4px #000000;
 
   max-height: 3000px;
@@ -24,13 +24,13 @@
 
   max-height: 0px;
 }
+/*
 @media only screen and (max-width: 575px) {
   #movie-title-input-container.focused ~ #suggestion-menu {
-    box-shadow: -4px 4px 4px #000000;
-
     margin: 0px;
   }
 }
+*/
 
 .suggestion {
   white-space: nowrap;

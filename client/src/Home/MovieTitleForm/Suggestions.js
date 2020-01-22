@@ -34,7 +34,10 @@ export default class Suggestions extends React.Component {
     }
 
     return (
-      <div id="suggestion-menu" className={this.props.show ? '' : 'hidden'}>
+      <div
+        id="suggestion-menu"
+        className={this.props.show ? '' : ' hidden'}
+      >
         {this.props.suggestions.map((suggestion) => {
           return (
             <div

@@ -29,6 +29,7 @@ class trieNode {
       this._data.push(data);
     }
   }
+
   get data() {
     return this._data;
   }
