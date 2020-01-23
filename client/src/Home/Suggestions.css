@@ -4,6 +4,7 @@
   border-bottom-left-radius: .4rem;
   border-bottom-right-radius: .4rem;
   box-shadow: -4px 4px 4px #000000;
+  clip:rect(0px, 100000px, 100000px, -100000px);
 
   max-height: 3000px;
 
@@ -24,13 +25,11 @@
 
   max-height: 0px;
 }
-/*
 @media only screen and (max-width: 575px) {
-  #movie-title-input-container.focused ~ #suggestion-menu {
-    margin: 0px;
+  #movie-title-field.focused > #suggestion-menu {
+    box-shadow: -4px 4px 8px 4px #000000;
   }
 }
-*/
 
 .suggestion {
   white-space: nowrap;
