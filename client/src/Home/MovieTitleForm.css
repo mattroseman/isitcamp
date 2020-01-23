@@ -45,6 +45,10 @@
     margin-right: 0rem;
     margin-bottom: 1rem;
   }
+  #movie-title-form.continue-showing > #movie-title-field {
+    margin-right: 0rem;
+    margin-bottom: 1rem;
+  }
 }
 
 #movie-title-field {
@@ -140,4 +144,11 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+}
+@media only screen and (max-width: 575px) {
+  #movie-title-submit-container {
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
+  }
 }
