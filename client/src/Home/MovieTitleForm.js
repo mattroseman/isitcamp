@@ -2,11 +2,15 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+import StartSurveyButton from './StartSurveyButton.js';
+import ContinueSurveyButton from './ContinueSurveyButton.js';
 import Suggestions from './Suggestions.js';
+
+import './MovieTitleForm.css';
 
 const transitionTime = 400;
 
-export default class MovieTitleField extends React.Component {
+export default class MovieTitleForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -157,41 +161,60 @@ export default class MovieTitleField extends React.Component {
       showSuggestions: false
     });
   }
-
   render() {
-    return (
-      <div id="movie-title-field">
-        <div id="movie-title-input-container">
-          <input
-            id="movie-title-input"
-            type="text"
-            placeholder="Enter movie title"
-            spellCheck="false"
-            autoComplete="off"
-            list="movie-title-suggestions"
-            value={this.props.movieTitle}
-            onChange={(event) => this.props.onMovieTitleChange(event)}
-            onFocus={() => this.handleMovieTitleFocus()}
-            onBlur={() => this.handleMovieTitleBlur()}
+    return(
+      <form
+        id="movie-title-form"
+        className={this.props.surveyInProgress ? 'continue-showing' : ''}
+        onSubmit={this.props.surveyInProgress ? this.props.onContinueSurvey : this.props.onStartSurvey}
+      >
+        <div id="movie-title-field">
+          <div id="movie-title-input-container">
+            <input
+              id="movie-title-input"
+              type="text"
+              placeholder="Enter movie title"
+              spellCheck="false"
+              autoComplete="off"
+              list="movie-title-suggestions"
+              value={this.props.movieTitle}
+              onChange={(event) => this.props.onMovieTitleChange(event)}
+              onFocus={() => this.handleMovieTitleFocus()}
+              onBlur={() => this.handleMovieTitleBlur()}
+            />
+          </div>
+          {window.innerWidth <= 575 &&
+          <button
+            id="movie-title-input-clear"
+            type="button"
+            onMouseDown={(event) => this.handleMovieTitleClearMouseDown(event)}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+          }
+
+          <Suggestions
+            suggestions={this.props.movieTitleSuggestions}
+            onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
+            show={this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0}
           />
         </div>
-        {window.innerWidth <= 575 &&
-        <button
-          id="movie-title-input-clear"
-          type="button"
-          onMouseDown={(event) => this.handleMovieTitleClearMouseDown(event)}
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
-        }
 
-        <Suggestions
-          suggestions={this.props.movieTitleSuggestions}
-          onSuggestionClick={(event, suggestion) => this.handleSuggestionClick(event, suggestion)}
-          show={this.state.showSuggestions && this.props.movieTitleSuggestions.length > 0}
-        />
-      </div>
+        <div id="movie-title-field-placeholder" disabled={true}></div>
+        <div id="background-filter"></div>
+
+        <div id="movie-title-submit-container">
+          {this.props.surveyInProgress &&
+          <ContinueSurveyButton
+            onContinueSurvey={this.props.onContinueSurvey}
+          />
+          }
+          <StartSurveyButton
+            onStartSurvey={this.props.onStartSurvey}
+            surveyInProgress={this.props.surveyInProgress}
+          />
+        </div>
+      </form>
     );
   }
-
 }

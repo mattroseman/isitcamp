@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MovieTitleForm from './MovieTitleForm/MovieTitleForm.js';
+import MovieTitleForm from './MovieTitleForm.js';
 import About from './About.js';
 
 import './Home.css';
