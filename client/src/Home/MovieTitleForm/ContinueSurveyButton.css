@@ -1,4 +1,4 @@
-#start-survey-button {
+#continue-survey-button {
   width: 10rem;
   min-height: 2.25rem;
   max-height: 2.25rem;
@@ -7,6 +7,7 @@
   padding-right: 1rem;
 }
 @media only screen and (max-width: 575px) {
-  #start-survey-button {
+  #continue-survey-button {
+    margin-bottom: 1rem;
   }
 }

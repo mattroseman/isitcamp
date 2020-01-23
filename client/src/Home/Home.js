@@ -18,6 +18,7 @@ export default function Home(props) {
         onMovieTitleChange={props.onMovieTitleChange}
         surveyInProgress={props.surveyInProgress}
         onStartSurvey={props.onStartSurvey}
+        onContinueSurvey={props.onContinueSurvey}
       />
 
       <About />

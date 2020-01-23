@@ -6,6 +6,11 @@
 
   width: 35rem;
 }
+#movie-title-form.continue-showing {
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+}
 @media only screen and (max-width: 575px) {
   #movie-title-form {
     flex-direction: column;
@@ -30,6 +35,10 @@
   max-height: 2.25rem;
 
   margin-right: 2rem;
+}
+#movie-title-form.continue-showing > #movie-title-field {
+  margin-right: 0rem;
+  margin-bottom: 2rem;
 }
 @media only screen and (max-width: 575px) {
   #movie-title-field, #movie-title-field-placeholder {
@@ -125,3 +134,10 @@
   backdrop-filter: blur(4px);
 }
 
+
+#movie-title-submit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
