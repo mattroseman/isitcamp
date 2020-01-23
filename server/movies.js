@@ -70,10 +70,11 @@ class MovieTrie extends Trie {
       // for each movie read in, add it to the trie
       rl.on('line', (line) => {
         const data = line.split(',');
-        const movieTitle = data[0];
+        let movieTitle = data[0];
         const movieYear = data[1] !== 'null' ? data[1] : null;
         const movieNumVotes = isFinite(parseInt(data[2])) ? parseInt(data[2]) : 0;
         const movie = new Movie(movieTitle, movieNumVotes, movieYear);
+        movieTitle = movieTitle.replace(/[^a-zA-Z0-9 ]/g, '');
 
         this.addWord(movieTitle, movie);
 
@@ -97,7 +98,7 @@ class MovieTrie extends Trie {
    * getMovieTitlesFromPrefix returns a promise that resolves with a list of movie titles that begin with the given prefix
    */
   async getMovieTitlesFromPrefix(prefix, cancelToken={}) {
-    prefix = prefix.toLowerCase();
+    prefix = prefix.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '');
 
     // get movies that start with the given prefix
     const movies = await this.getWords(prefix, cancelToken);
