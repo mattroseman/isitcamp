@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import StartSurveyButton from './StartSurveyButton.js';
-import ContinueSurveyButton from './ContinueSurveyButton.js';
 import Suggestions from './Suggestions.js';
 
 import './MovieTitleForm.css';
@@ -161,11 +160,11 @@ export default class MovieTitleForm extends React.Component {
       showSuggestions: false
     });
   }
+
   render() {
     return(
       <form
         id="movie-title-form"
-        className={this.props.surveyInProgress ? 'continue-showing' : ''}
         onSubmit={this.props.surveyInProgress ? this.props.onContinueSurvey : this.props.onStartSurvey}
       >
         <div id="movie-title-field">
@@ -201,19 +200,14 @@ export default class MovieTitleForm extends React.Component {
         </div>
 
         <div id="movie-title-field-placeholder" disabled={true}></div>
+
         <div id="background-filter"></div>
 
-        <div id="movie-title-submit-container">
-          {this.props.surveyInProgress &&
-          <ContinueSurveyButton
-            onContinueSurvey={this.props.onContinueSurvey}
-          />
-          }
-          <StartSurveyButton
-            onStartSurvey={this.props.onStartSurvey}
-            surveyInProgress={this.props.surveyInProgress}
-          />
-        </div>
+        <StartSurveyButton
+          onStartSurvey={this.props.onStartSurvey}
+          onContinueSurvey={this.props.onContinueSurvey}
+          surveyInProgress={this.props.surveyInProgress}
+        />
       </form>
     );
   }

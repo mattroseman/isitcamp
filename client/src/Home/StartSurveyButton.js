@@ -6,9 +6,9 @@ export default function StartSurveyButton(props) {
   return (
     <button
       id="start-survey-button"
-      onMouseDown={props.onStartSurvey}
+      onMouseDown={props.surveyInProgress ? props.onContinueSurvey : props.onStartSurvey}
     >
-      {props.surveyInProgress ? 'Start New' : 'Start'}
+      {props.surveyInProgress ? 'Continue' : 'Start'}
     </button>
   );
 }

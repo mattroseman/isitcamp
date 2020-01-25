@@ -11,7 +11,7 @@
 
   box-sizing: border-box;
 
-  position: fixed;
+  position: absolute;
   top: 1rem;
   left: 1rem;
 
@@ -19,7 +19,18 @@
 
   cursor: pointer;
 }
+@media only screen and (max-width: 575px) {
+  #restart-btn {
+    top: .5rem;
+    left: .5rem;
+  }
+}
 
 #restart-btn-text {
   margin-left: .5rem;
+}
+@media only screen and (max-width: 575px) {
+  #restart-btn-text {
+    display: none;
+  }
 }
