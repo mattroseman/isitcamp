@@ -148,6 +148,7 @@ export default class MovieTitleForm extends React.Component {
     event.preventDefault();
 
     this.props.onMovieTitleChange('');
+    document.getElementById('movie-title-input').blur();
   }
 
   /*
