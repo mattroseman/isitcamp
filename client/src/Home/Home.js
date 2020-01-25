@@ -1,5 +1,6 @@
 import React from 'react';
 
+import RestartSurveyButton from '../RestartSurveyButton.js';
 import MovieTitleForm from './MovieTitleForm.js';
 import About from './About.js';
 
@@ -8,6 +9,10 @@ import './Home.css';
 export default function Home(props) {
   return (
     <div id="home">
+      {props.surveyInProgress &&
+      <RestartSurveyButton onRestartSurvey={props.onRestartSurvey} />
+      }
+
       <h1 id="site-title">
         Is It Camp?
       </h1>

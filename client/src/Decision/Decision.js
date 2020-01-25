@@ -1,5 +1,7 @@
 import React from 'react';
 
+import RestartSurveyButton from '../RestartSurveyButton.js';
+
 import './Decision.css';
 
 export default function Decision(props) {
@@ -7,6 +9,8 @@ export default function Decision(props) {
 
   return (
     <div id="decision">
+      <RestartSurveyButton onRestartSurvey={props.onRestartSurvey} />
+
       <h1 id="movie-title">
         {movieTitle}
       </h1>

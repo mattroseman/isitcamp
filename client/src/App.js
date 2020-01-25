@@ -35,7 +35,7 @@ class App extends Component {
     this.handleStartSurvey = this.handleStartSurvey.bind(this);
     this.handleContinueSurvey = this.handleContinueSurvey.bind(this);
     this.handleOptionClick = this.handleOptionClick.bind(this);
-    this.handleRestart = this.handleRestart.bind(this);
+    this.handleRestartSurvey = this.handleRestartSurvey.bind(this);
   }
 
   componentDidMount() {
@@ -154,6 +154,20 @@ class App extends Component {
     }, '', '/');
   }
 
+  handleRestartSurvey() {
+    this.setState({
+      movieTitle: '',
+      page: PAGES.home,
+      surveyInProgress: false,
+      question: questions[firstQuestion],
+      points: 0
+    });
+
+    history.pushState({
+      page: PAGES.home
+    }, '', '/');
+  }
+
   handleOptionClick(option) {
     let newPoints = this.state.points;
     let newQuestion = this.state.question;
@@ -185,20 +199,6 @@ class App extends Component {
     }
   }
 
-  handleRestart() {
-    this.setState({
-      movieTitle: '',
-      page: PAGES.home,
-      surveyInProgress: false,
-      question: questions[firstQuestion],
-      points: 0
-    });
-
-    history.pushState({
-      page: PAGES.home
-    }, '', '/');
-  }
-
   render() {
     if (this.state.page === PAGES.home) {
       return (
@@ -209,6 +209,7 @@ class App extends Component {
           surveyInProgress = {this.state.surveyInProgress}
           onStartSurvey={this.handleStartSurvey}
           onContinueSurvey={this.handleContinueSurvey}
+          onRestartSurvey={this.handleRestartSurvey}
         />
       );
     }
@@ -219,6 +220,7 @@ class App extends Component {
           movieTitle={this.state.movieTitle}
           question={this.state.question['question']}
           onOptionClick={(option) => this.handleOptionClick(option)}
+          onRestartSurvey={this.handleRestartSurvey}
         />
       );
     }

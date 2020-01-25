@@ -1,0 +1,25 @@
+#restart-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #F0F0F0;
+
+  box-shadow: -4px 4px 4px #000000;
+
+  border-radius: .4rem;
+
+  box-sizing: border-box;
+
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+
+  padding: .5rem;
+
+  cursor: pointer;
+}
+
+#restart-btn-text {
+  margin-left: .5rem;
+}
