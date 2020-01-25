@@ -6,11 +6,11 @@ import './RestartSurveyButton.css';
 
 export default function RestartSurveyButton(props) {
   return (
-    <div id="restart-btn" onClick={props.onRestartSurvey}>
+    <button id="restart-btn" onClick={props.onRestartSurvey}>
       <FontAwesomeIcon id="restart-btn-icon" icon={faRedoAlt} />
       <div id="restart-btn-text">
         Start New Movie
       </div>
-    </div>
+    </button>
   );
 }

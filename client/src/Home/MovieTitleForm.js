@@ -201,8 +201,6 @@ export default class MovieTitleForm extends React.Component {
 
         <div id="movie-title-field-placeholder" disabled={true}></div>
 
-        <div id="background-filter"></div>
-
         <StartSurveyButton
           onStartSurvey={this.props.onStartSurvey}
           onContinueSurvey={this.props.onContinueSurvey}

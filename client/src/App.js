@@ -5,6 +5,7 @@ import Decision from './Decision/Decision';
 import Results from './Result/Result';
 import Home from './Home/Home';
 import { questions, firstQuestion, maxPossiblePoints } from './isitcamp_questions';
+import RestartConfirmModal from './RestartConfirmModal';
 
 import './App.css';
 
@@ -28,7 +29,8 @@ class App extends Component {
       page: PAGES.home,
       surveyInProgress: false,
       question: questions[firstQuestion],
-      points: 0
+      points: 0,
+      showRestartConfirmModal: false
     };
 
     this.handleMovieTitleChange = this.handleMovieTitleChange.bind(this);
@@ -36,6 +38,8 @@ class App extends Component {
     this.handleContinueSurvey = this.handleContinueSurvey.bind(this);
     this.handleOptionClick = this.handleOptionClick.bind(this);
     this.handleRestartSurvey = this.handleRestartSurvey.bind(this);
+    this.handleShowRestartConfirmModal = this.handleShowRestartConfirmModal.bind(this);
+    this.handleCloseRestartConfirmModal = this.handleCloseRestartConfirmModal.bind(this);
   }
 
   componentDidMount() {
@@ -154,13 +158,32 @@ class App extends Component {
     }, '', '/');
   }
 
+  handleShowRestartConfirmModal() {
+    document.getElementById('background-filter').classList.add('active');
+
+    this.setState({
+      showRestartConfirmModal: true
+    });
+  }
+
+  handleCloseRestartConfirmModal() {
+    document.getElementById('background-filter').classList.remove('active');
+
+    this.setState({
+      showRestartConfirmModal: false
+    });
+  }
+
   handleRestartSurvey() {
+    this.handleCloseRestartConfirmModal();
+
     this.setState({
       movieTitle: '',
       page: PAGES.home,
       surveyInProgress: false,
       question: questions[firstQuestion],
-      points: 0
+      points: 0,
+      showRestartConfirmModal: false
     });
 
     history.pushState({
@@ -200,8 +223,9 @@ class App extends Component {
   }
 
   render() {
+    let page;
     if (this.state.page === PAGES.home) {
-      return (
+      page = (
         <Home
           movieTitle={this.state.movieTitle}
           movieTitleSuggestions={this.state.movieTitleSuggestions}
@@ -209,24 +233,24 @@ class App extends Component {
           surveyInProgress = {this.state.surveyInProgress}
           onStartSurvey={this.handleStartSurvey}
           onContinueSurvey={this.handleContinueSurvey}
-          onRestartSurvey={this.handleRestartSurvey}
+          onRestartSurvey={this.handleShowRestartConfirmModal}
         />
       );
     }
 
     if (this.state.page === PAGES.survey) {
-      return(
+      page = (
         <Decision
           movieTitle={this.state.movieTitle}
           question={this.state.question['question']}
           onOptionClick={(option) => this.handleOptionClick(option)}
-          onRestartSurvey={this.handleRestartSurvey}
+          onRestartSurvey={this.handleShowRestartConfirmModal}
         />
       );
     }
 
     if (this.state.page === PAGES.results) {
-      return (
+      page = (
         <Results
           points={this.state.points}
           maxPossiblePoints={maxPossiblePoints}
@@ -234,6 +258,21 @@ class App extends Component {
         />
       );
     }
+
+    return (
+      <div id="app-container">
+        {page}
+
+        <div id="background-filter"></div>
+
+        {this.state.showRestartConfirmModal &&
+        <RestartConfirmModal
+          onRestartSurvey={this.handleRestartSurvey}
+          onCloseRestartConfirmModal={this.handleCloseRestartConfirmModal}
+        />
+        }
+      </div>
+    );
   }
 }
 
