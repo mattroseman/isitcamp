@@ -10,12 +10,16 @@
 
   padding: .5rem;
 
+  font-size: 1rem;
+
   cursor: pointer;
 }
 @media only screen and (max-width: 575px) {
   #restart-btn {
     top: .5rem;
     left: .5rem;
+
+    font-size: 1.5rem;
   }
 }
 
