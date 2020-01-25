@@ -63,7 +63,15 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    sessionStorage.setItem('isitcampSnapshot', JSON.stringify(this.state));
+    // persistentState are items that are retained on reload
+    const persistentState = {
+      movieTitle: this.state.movieTitle,
+      page: this.state.page,
+      surveyInProgress: this.state.surveyInProgress,
+      question: this.state.question,
+      point: this.state.points
+    };
+    sessionStorage.setItem('isitcampSnapshot', JSON.stringify(persistentState));
   }
 
   handleMovieTitleChange(event) {
