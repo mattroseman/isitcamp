@@ -5,7 +5,7 @@ import './Suggestions.css';
 export default class Suggestions extends React.Component {
   componentDidUpdate() {
     const movieTitleField = document.getElementById('movie-title-field');
-    const suggestionMenuElement = document.getElementById('suggestion-menu');
+    const suggestionMenuElement = document.getElementById('suggestion-menu-container');
 
     const styleTop = `${movieTitleField.getBoundingClientRect().height}px`;
     const styleLeft = '0px';
@@ -18,7 +18,7 @@ export default class Suggestions extends React.Component {
   }
 
   render() {
-    const suggestionMenuElement = document.getElementById('suggestion-menu');
+    const suggestionMenuElement = document.getElementById('suggestion-menu-container');
     if (suggestionMenuElement && suggestionMenuElement.classList.contains('hidden') && this.props.show) {
       // if the show prop changed to show, animate the suggestion menu dropping down
       suggestionMenuElement.style.maxHeight = '0px';
@@ -35,20 +35,22 @@ export default class Suggestions extends React.Component {
 
     return (
       <div
-        id="suggestion-menu"
-        className={this.props.show ? '' : ' hidden'}
+        id="suggestion-menu-container"
+        className={this.props.show ? '' : 'hidden'}
       >
-        {this.props.suggestions.map((suggestion) => {
-          return (
-            <div
-              key={suggestion}
-              className='suggestion'
-              onMouseDown={(event) => this.props.onSuggestionClick(event, suggestion)}
-            >
-              {suggestion}
-            </div>
-          );
-        })}
+        <div id="suggestion-menu">
+          {this.props.suggestions.map((suggestion) => {
+            return (
+              <div
+                key={suggestion}
+                className='suggestion'
+                onMouseDown={(event) => this.props.onSuggestionClick(event, suggestion)}
+              >
+                {suggestion}
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
