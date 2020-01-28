@@ -1,0 +1,26 @@
+---
+version: "3.5"
+
+services:
+  isitcamp_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: isitcamp_api:local
+    container_name: isitcamp_api
+    command: bash -c "npm run build && npm start"
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 5000:5000
+  isitcamp_dev_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: isitcamp_dev_server:local
+    container_name: isitcamp_dev_server
+    command: bash -c "npm run client-dev"
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 3000:3000
