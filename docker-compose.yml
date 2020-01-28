@@ -2,6 +2,18 @@
 version: "3.5"
 
 services:
+  mongodb:
+    image: mongo:3.4
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_DATABASE: isitcamp
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./data/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./data/mongo-volume:/data/db
+    ports:
+      - 27017-27019:27017-27019
   isitcamp_api:
     build:
       context: .
