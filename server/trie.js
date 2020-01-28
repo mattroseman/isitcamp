@@ -103,13 +103,8 @@ class Trie {
     }
   }
 
-  async getWords(prefix, cancelToken={}) {
+  async getWords(prefix, cancelToken={}, expensivePrefix) {
     prefix = prefix.toLowerCase();
-
-    // a prefix is expensive if it's small or is the beginning of the string 'the '
-    // if a prefix is expensive a slower async method is used that doesn't block the event loop
-    // if it isn't expensive a faster method is used that may block the event loop for a couple of milliseconds, but not substantially
-    const expensivePrefix = prefix.length < 3 || prefix === 'the '.substr(0, prefix.length);
 
     let currentNode = this.root;
 
@@ -151,23 +146,6 @@ class Trie {
             .then(async () => {
               await dfs(startingNode.children[character]);
             })
-          /*
-          await (async () => {
-            return new Promise((resolve) => {
-              setImmediate(() => {
-                dfs(startingNode.children[character])
-                  .then(resolve)
-                  .catch((err) => {
-                    console.log('\n\n\n\ntest\n\n\n\n');
-                    throw err;
-                  });
-              });
-            });
-          })().catch((err) => {
-            console.log('\n\n\n\ntest\n\n\n\n');
-            throw err;
-          });
-          */
         } else {
           // if this isn't an expensive prefix, process shouldn't take long, so block event loop for a very short amount of time
           // this method is quicker overall

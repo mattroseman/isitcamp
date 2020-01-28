@@ -101,7 +101,7 @@ class MovieTrie extends Trie {
     prefix = prefix.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '');
 
     // get movies that start with the given prefix
-    const movies = await this.getWords(prefix, cancelToken);
+    const movies = await this.getWords(prefix, cancelToken, this.isExpensiveMoviePrefix(prefix));
     console.log(`gotten list of ${movies.length} suggestions for prefix: ${prefix}`);
 
     // iterate through them and get the top 10 ones with most votes
@@ -133,6 +133,14 @@ class MovieTrie extends Trie {
     });
 
     return movieTitles;
+  }
+
+  /*
+   * calculates if the given prefix will be an expensive prefix to look up in the prefix tree
+   */
+  isExpensiveMoviePrefix(prefix) {
+    // If it's short or is the beginning of the string 'the ' it's considered expensive
+    return prefix.length < 3 || prefix === 'the '.substr(0, prefix.length)
   }
 
   /*
