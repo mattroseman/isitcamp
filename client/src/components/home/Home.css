@@ -24,12 +24,12 @@
   justify-content: center;
   align-items: center;
 
-  background: #F0F0F0;
+  background: var(--background-grey);
   border: none;
   border-radius: .4rem;
-  box-shadow: -4px 4px 4px #000000;
+  box-shadow: -4px 4px 4px var(--shadow-color);
 
-  width: 35rem;
+  width: var(--desktop-floating-width);
   min-height: 10rem;
   max-height: 10rem;
 
@@ -37,6 +37,7 @@
   margin-bottom: 7rem;
 
   font-size: 4rem;
+  font-weight: 900;
 }
 @media only screen and (max-width: 575px) {
   #site-title {
@@ -48,5 +49,6 @@
     margin-bottom: 4rem;
 
     font-size: 2.8rem;
+    font-weight: 900;
   }
 }
