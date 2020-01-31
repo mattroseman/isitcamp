@@ -3,17 +3,22 @@ version: "3.5"
 
 services:
   mongodb:
+    # mongo 172.18.0.1:27017 --username root --password password --authenticationDatabase admin
     image: mongo:3.4
     container_name: mongodb
     environment:
-      MONGO_INITDB_DATABASE: isitcamp
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: isitcamp
+      DB_USER: isitcamp_user
+      DB_PASS: password
     volumes:
-      - ./data/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./data/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
       - ./data/mongo-volume:/data/db
     ports:
       - 27017-27019:27017-27019
+    networks:
+      - isitcamp
   isitcamp_api:
     build:
       context: .
@@ -21,10 +26,18 @@ services:
     image: isitcamp_api:local
     container_name: isitcamp_api
     command: bash -c "npm run build && npm start"
+    environment:
+      DB_HOST: mongodb
+      DB_PORT: 27017
+      DB_USER: isitcamp_user
+      DB_PASS: password
+      DB_NAME: isitcamp
     volumes:
-      - ./:/usr/src/app
+      - .:/usr/src/app
     ports:
       - 5000:5000
+    networks:
+      - isitcamp
   isitcamp_dev_server:
     build:
       context: .
@@ -33,6 +46,12 @@ services:
     container_name: isitcamp_dev_server
     command: bash -c "npm run client-dev"
     volumes:
-      - ./:/usr/src/app
+      - .:/usr/src/app
     ports:
       - 3000:3000
+    networks:
+      - isitcamp
+
+networks:
+  isitcamp:
+    name: isitcamp
