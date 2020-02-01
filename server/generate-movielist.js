@@ -72,40 +72,60 @@ async function addBasicInfoToDb() {
   return new Promise((resolve, reject) => {
     console.log('downloading and processing IMDb basics file');
 
+    const startTime = new Date();
+
     downloadBasicInfo().then((rl) => {
-      const movieDocuments = [];
+      const newMovies = [];
+      let newMoviesTotalLength = 0;
+      const newMovieInsertionPromises = [];
 
       rl.on('line', async (line) => {
         const basicInfo = processBasicInfo(line);
 
         // if this line was successfully processed, add it to the upsertOperations array
         if (basicInfo) {
-          movieDocuments.push({
+          newMovies.push({
             _id: basicInfo.id,
             title: basicInfo.title,
             year: basicInfo.year
           });
+
+          newMoviesTotalLength++;
+        }
+
+        if (newMovies.length >= 10000) {
+          newMovieInsertionPromises.push(Movie.insertMany([...newMovies], {ordered: false, lean: true}, (err) => {
+            if (err) {
+              reject(`error adding documents: ${err}`);
+              // console.error(`error inserting new movies to db: ${err}`);
+            }
+          }));
+          newMovies.length = 0;
         }
       });
 
       rl.on('close', async () => {
-        console.log('IMDb basics file downloaded and processed');
-
-        if (movieDocuments.length === 0) {
+        if (newMoviesTotalLength === 0) {
           console.log('no new movies to add to db');
 
           resolve();
           return;
         }
 
-        console.log('adding basic movie info to db');
-        try {
-          await Movie.insertMany(movieDocuments);
+        // one final isnertMany to clear out newMovies buffer
+        newMovieInsertionPromises.push(Movie.insertMany([...newMovies], {ordered: false, lean: true}, (err) => {
+          if (err) {
+            reject(`error adding documents: ${err}`);
+          }
+        }));
+        console.log(`${newMoviesTotalLength} new documents added`);
 
-          console.log(`${movieDocuments.length} new documents added`);
-        } catch (err) {
-          reject(`error adding documents: ${err}`);
-        }
+        // wait for all the insertions to finish
+        await Promise.all(newMovieInsertionPromises);
+
+        console.log('IMDb basics file downloaded and processed');
+
+        console.log(`${Math.round((new Date() - startTime) / 1000)}s`);
 
         resolve();
       });
@@ -146,6 +166,7 @@ function processBasicInfo(line) {
   if (data[1] !== 'movie') {
     return null;
   }
+
 
   const id = data[0];
   let title = data[2];
