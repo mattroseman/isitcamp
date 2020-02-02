@@ -19,6 +19,7 @@ const DB_PORT = process.env.DB_PORT;
 const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
 const DB_NAME = process.env.DB_NAME;
+const DB_BULK_OP_MAX_SIZE = process.env.DB_BULK_OP_MAX_SIZE;
 
 // config mongoose
 mongoose.set('useFindAndModify', false);
@@ -69,68 +70,69 @@ async function addAllMoviesToDb() {
  * addBasicInfoToDb downloads the basic info from IMDb, and adds all basic movie info to the database
  */
 async function addBasicInfoToDb() {
-  return new Promise((resolve, reject) => {
-    console.log('downloading and processing IMDb basics file');
+  console.log('downloading and processing IMDb basics file');
 
-    const startTime = new Date();
+  const startTime = new Date();
 
-    downloadBasicInfo().then((rl) => {
-      const newMovies = [];
-      let newMoviesTotalLength = 0;
-      const newMovieInsertionPromises = [];
+  const newMoviesBuffer = [];
+  let newMoviesTotalLength = 0;
+  const insertionPromises = [];
 
-      rl.on('line', async (line) => {
-        const basicInfo = processBasicInfo(line);
+  let basicInfo;
+  try {
+    basicInfo = await downloadBasicInfo();
+  } catch (err) {
+    console.error(`error downloading basic info file from IMDB: ${err}`);
+  }
 
-        // if this line was successfully processed, add it to the upsertOperations array
-        if (basicInfo) {
-          newMovies.push({
-            _id: basicInfo.id,
-            title: basicInfo.title,
-            year: basicInfo.year
-          });
+  for await (const line of basicInfo) {
+    const basicInfo = processBasicInfo(line);
 
-          newMoviesTotalLength++;
-        }
-
-        if (newMovies.length >= 10000) {
-          newMovieInsertionPromises.push(Movie.insertMany([...newMovies], {ordered: false, lean: true}, (err) => {
-            if (err) {
-              reject(`error adding documents: ${err}`);
-              // console.error(`error inserting new movies to db: ${err}`);
-            }
-          }));
-          newMovies.length = 0;
-        }
+    // if this line was successfully processed, add it ot the new movies buffer
+    if (basicInfo) {
+      newMoviesBuffer.push({
+        _id: basicInfo.id,
+        title: basicInfo.title,
+        year: basicInfo.year
       });
 
-      rl.on('close', async () => {
-        if (newMoviesTotalLength === 0) {
-          console.log('no new movies to add to db');
+      newMoviesTotalLength++;
+    }
 
-          resolve();
-          return;
-        }
+    // if the buffer is filled up, insert the movies, and flush the buffer
+    if (newMoviesBuffer.length >= DB_BULK_OP_MAX_SIZE) {
+      try {
+        insertionPromises.push(Movie.insertMany([...newMoviesBuffer], {ordered: false, lean: true}));
+      } catch (err) {
+        console.error(`error adding movies to db: ${err}`);
+      }
 
-        // one final isnertMany to clear out newMovies buffer
-        newMovieInsertionPromises.push(Movie.insertMany([...newMovies], {ordered: false, lean: true}, (err) => {
-          if (err) {
-            reject(`error adding documents: ${err}`);
-          }
-        }));
-        console.log(`${newMoviesTotalLength} new documents added`);
+      // reset the buffer for more movies
+      newMoviesBuffer.length = 0;
+    }
+  }
 
-        // wait for all the insertions to finish
-        await Promise.all(newMovieInsertionPromises);
+  if (newMoviesTotalLength === 0) {
+    console.log('no new movies to add to db');
 
-        console.log('IMDb basics file downloaded and processed');
+    return;
+  }
 
-        console.log(`${Math.round((new Date() - startTime) / 1000)}s`);
+  // one final isnertMany to clear out newMovies buffer
+  try {
+    insertionPromises.push(Movie.insertMany([...newMoviesBuffer], {ordered: false, lean: true}));
+  } catch (err) {
+    console.error(`error adding movies to db: ${err}`);
+  }
 
-        resolve();
-      });
-    });
-  });
+  console.log(`${newMoviesTotalLength} new documents added`);
+
+  // wait for all the insertions to finish
+  await Promise.all(insertionPromises);
+
+  console.log('IMDb basics file downloaded and processed');
+
+  console.log(`${Math.round((new Date() - startTime) / 1000)}s`);
 }
 
 /*
@@ -138,19 +140,41 @@ async function addBasicInfoToDb() {
  * readline interface that'll fire a 'line' event for each line of the file.
  * @return: a readline interface for the downloaded file
  */
-async function downloadBasicInfo() {
-  return new Promise((resolve, reject) => {
+async function* downloadBasicInfo() {
+  // download and unzip the basics file
+  const unzippedStream = await new Promise((resolve, reject) => {
     const unzip = zlib.createUnzip();
 
     https.get(IMDB_BASIC_FILE_URL, (res) => {
-      resolve(readline.createInterface({
-        input: res.pipe(unzip),
-        crlfDelay: Infinity
-      }));
+      resolve(res.pipe(unzip));
     }).on('error', (err) => {
       reject(err);
     });
   });
+
+  // iterate over the unzipped chunks of the stream yielding complete lines
+  let previous = '';
+  for await (const chunk of unzippedStream) {
+    previous += chunk;
+
+    while (true) {
+      const eolIndex = previous.indexOf('\n');
+      if (eolIndex < 0) {
+        break;
+      }
+
+      // if eol is in previous, split it and yield everything up to it
+      const line = previous.slice(0, eolIndex);
+      yield line;
+
+      // then reset previous to everything after the eol
+      previous = previous.slice(eolIndex + 1);
+    }
+  }
+
+  if (previous.length > 0) {
+    yield previous;
+  }
 }
 
 /*

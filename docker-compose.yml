@@ -32,6 +32,7 @@ services:
       DB_USER: isitcamp_user
       DB_PASS: password
       DB_NAME: isitcamp
+      DB_BULK_OP_MAX_SIZE: 10000
     volumes:
       - .:/usr/src/app
     ports:
