@@ -1,6 +1,5 @@
 const zlib = require('zlib');
 const https = require('https');
-const readline = require('readline');
 
 const mongoose = require('mongoose');
 
@@ -62,8 +61,6 @@ async function addAllMoviesToDb() {
   console.log('All movie data has been downloaded and updated');
 
   console.log('took: ' + Math.round(new Date() - startTime) / 1000 + 's');
-
-  return;
 }
 
 /*
@@ -78,17 +75,17 @@ async function addBasicInfoToDb() {
   let newMoviesTotalLength = 0;
   const insertionPromises = [];
 
-  let basicInfo;
+  let basicInfoLines;
   try {
-    basicInfo = await downloadBasicInfo();
+    basicInfoLines = await downloadZippedFile(IMDB_BASIC_FILE_URL);
   } catch (err) {
-    console.error(`error downloading basic info file from IMDB: ${err}`);
+    console.error(`error downloading basic info file from IMDb: ${err}`);
   }
 
-  for await (const line of basicInfo) {
+  for await (const line of basicInfoLines) {
     const basicInfo = processBasicInfo(line);
 
-    // if this line was successfully processed, add it ot the new movies buffer
+    // if this line was successfully processed, add it to the new movies buffer
     if (basicInfo) {
       newMoviesBuffer.push({
         _id: basicInfo.id,
@@ -118,7 +115,7 @@ async function addBasicInfoToDb() {
     return;
   }
 
-  // one final isnertMany to clear out newMovies buffer
+  // one final insertMany to clear out newMovies buffer
   try {
     insertionPromises.push(Movie.insertMany([...newMoviesBuffer], {ordered: false, lean: true}));
   } catch (err) {
@@ -136,16 +133,120 @@ async function addBasicInfoToDb() {
 }
 
 /*
- * downloadBasicInfo queries IMDb to get the basiv movie info file, uncompresses it and returns a
- * readline interface that'll fire a 'line' event for each line of the file.
- * @return: a readline interface for the downloaded file
+ * processBasicInfo takes a line from the IMDb basics info uncompressed download, grabs the relevant data
+ * and returns it as an object
+ * @param line: a string that's a tab seperated line from IMDb basics file
+ * @return: an object that is the relevant data parsed out of the given line, null if the given line isn't a movie
  */
-async function* downloadBasicInfo() {
+function processBasicInfo(line) {
+  const data = line.split('\t');
+
+  // if this isn't a movie
+  if (data[1] !== 'movie') {
+    return null;
+  }
+
+  const id = data[0];
+  let title = data[2];
+  const year = isFinite(parseInt(data[5])) ? parseInt(data[5]) : null;
+
+  if (preExistingMovieIds.has(id)){
+    return null;
+  }
+
+  return {
+    id,
+    title,
+    year
+  };
+}
+
+/*
+ * addRatingInfoToDb downloads the rating info from IMDb, and adds all movie rating info to the database
+ */
+async function addRatingInfoToDb() {
+  console.log('downloading and processing IMDb ratings file');
+
+  const startTime = new Date();
+
+  const updateOperations = [];
+
+  let ratingInfoLines;
+  try {
+    ratingInfoLines = await downloadZippedFile(IMDB_RATING_FILE_URL);
+  } catch (err) {
+    console.error(`error downloading ratings info file form IMDb: ${err}`);
+  }
+
+  for await (const line of ratingInfoLines) {
+    const ratingInfo = processRatingInfo(line);
+
+    // if this line was successfully processed, add it to the updateOperations array
+    if (ratingInfo) {
+      updateOperations.push({
+        updateOne: {
+          filter: { _id: ratingInfo.id },
+          update: { numVotes: ratingInfo.numVotes, rating: ratingInfo.rating }
+        }
+      });
+    }
+  }
+
+  if (updateOperations.length === 0) {
+    console.log('no new ratings to update in db');
+
+    return;
+  }
+
+  // send a bulk update to the db to update all movies with ratings info
+  try {
+    const res = await Movie.bulkWrite(updateOperations);
+
+    console.log(`${res.modifiedCount} documents updated`);
+  } catch (err) {
+    console.error(`error updating movies in db: ${err}`);
+  }
+
+  console.log('IMDb ratings file downloaded and processed');
+
+  console.log(`${Math.round((new Date() - startTime) / 1000)}s`);
+}
+
+/*
+ * processRatingInfo takes a line from the IMDb movies ratings info uncompressed download, grabs the relevant data
+ * and returns it as an object
+ * @param line: a string that's a tab seperated line from IMDb ratings file
+ * @return: an object that is the relevant data parsed out of the given line, null if the movie id isn't in the database
+ */
+function processRatingInfo(line) {
+  const data = line.split('\t');
+  const id = data[0];
+  const rating = isFinite(parseInt(data[1])) ? parseInt(data[1]) : null;
+  const numVotes = isFinite(parseInt(data[2])) ? parseInt(data[2]) : null;
+
+  // if there isn't a movie for the current rating in the database, return null
+  if (!movieIds.has(id)) {
+    return null;
+  }
+
+  return {
+    id,
+    rating,
+    numVotes
+  };
+}
+
+/*
+ * downloadZippedFile queries the given url to get a zipped file, unzips it, and yields it line by line
+ * @pram url: a string that's the url to get the file at
+ * @return: an asyncronous iterable over the lines of the file
+ */
+async function* downloadZippedFile(url) {
   // download and unzip the basics file
   const unzippedStream = await new Promise((resolve, reject) => {
     const unzip = zlib.createUnzip();
 
-    https.get(IMDB_BASIC_FILE_URL, (res) => {
+    https.get(url, (res) => {
       resolve(res.pipe(unzip));
     }).on('error', (err) => {
       reject(err);
@@ -175,129 +276,6 @@ async function* downloadBasicInfo() {
   if (previous.length > 0) {
     yield previous;
   }
-}
-
-/*
- * processBasicInfo takes a line from the IMDb basics info uncompressed download, grabs the relevant data
- * and returns it as an object
- * @param line: a string that's a tab seperated line from IMDb basics file
- * @return: an object that is the relevant data parsed out of the given line, null if the given line isn't a movie
- */
-function processBasicInfo(line) {
-  const data = line.split('\t');
-
-  // if this isn't a movie
-  if (data[1] !== 'movie') {
-    return null;
-  }
-
-
-  const id = data[0];
-  let title = data[2];
-  const year = isFinite(parseInt(data[5])) ? parseInt(data[5]) : null;
-
-  if (preExistingMovieIds.has(id)){
-    return null;
-  }
-
-  return {
-    id,
-    title,
-    year
-  };
-}
-
-/*
- * addRatingInfoToDb downloads the rating info from IMDb, and adds all movie rating info to the database
- */
-async function addRatingInfoToDb() {
-  return new Promise((resolve, reject) => {
-    console.log('downloading and processing IMDb ratings file');
-
-    downloadRatingInfo().then((rl) => {
-      const updateOperations = [];
-
-      rl.on('line', async (line) => {
-        const ratingInfo = processRatingInfo(line);
-
-        // if this line was successfully processed, add it to the upsertOperations array
-        if (ratingInfo) {
-          updateOperations.push({
-            updateOne: {
-              filter: { _id: ratingInfo.id },
-              update: { numVotes: ratingInfo.numVotes, rating: ratingInfo.rating }
-            }
-          });
-        }
-      });
-
-      rl.on('close', async () => {
-        console.log('IMDb ratings file downloaded and processed');
-
-        if (updateOperations.length === 0) {
-          console.log('no new movie ratings to add to db');
-
-          resolve();
-          return;
-        }
-
-        console.log('updating movie ratings in db');
-        try {
-          const res = await Movie.bulkWrite(updateOperations)
-
-          console.log(`${res.modifiedCount} documents updated`);
-        } catch (err) {
-          reject(`error adding documents: ${err}`);
-        }
-
-        resolve();
-      });
-    });
-  });
-}
-
-/*
- * downloadRatingInfo queries IMDb to get the movie ratings info file, uncompresses it and returns a
- * readline interface that'll fire a 'line' event for each line of the file.
- * @return: a readline interface for the downloaded file
- */
-async function downloadRatingInfo() {
-  return new Promise((resolve, reject) => {
-    const unzip = zlib.createUnzip();
-
-    https.get(IMDB_RATING_FILE_URL, (res) => {
-      resolve(readline.createInterface({
-        input: res.pipe(unzip),
-        crlfDelay: Infinity
-      }));
-    }).on('error', (err) => {
-      reject(err);
-    });
-  });
-}
-
-/*
- * processRatingInfo takes a line from the IMDb movies ratings info uncompressed download, grabs the relevant data
- * and returns it as an object
- * @param line: a string that's a tab seperated line from IMDb ratings file
- * @return: an object that is the relevant data parsed out of the given line, null if the movie id isn't in the database
- */
-function processRatingInfo(line) {
-  const data = line.split('\t');
-  const id = data[0];
-  const rating = isFinite(parseInt(data[1])) ? parseInt(data[1]) : null;
-  const numVotes = isFinite(parseInt(data[2])) ? parseInt(data[2]) : null;
-
-  // if there isn't a movie for the current rating in the database, return null
-  if (!movieIds.has(id)) {
-    return null;
-  }
-
-  return {
-    id,
-    rating,
-    numVotes
-  };
 }
 
 (async () => {
