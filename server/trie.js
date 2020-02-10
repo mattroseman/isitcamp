@@ -68,7 +68,7 @@ class Trie {
         if (commonPrefix.length < edgeLabel.length && commonPrefix.length === word.substr(i).length) {
           // insert a new node between the currentNode and this child with the given data
           const newNode = new trieNode(word.substr(i), data);
-          newNode.children[edgeLabel[commonPrefix.length]] = currentNode.children[character]
+          newNode.children[edgeLabel[commonPrefix.length]] = currentNode.children[character];
           newNode.children[edgeLabel[commonPrefix.length]].edgeLabel = edgeLabel.substr(commonPrefix.length);
           currentNode.children[character] = newNode;
 
@@ -80,7 +80,7 @@ class Trie {
           // insert a new node between the currentNode and this child
           const newNode = new trieNode(commonPrefix);
           // add this child as a child of new node instead of the current node
-          newNode.children[edgeLabel[commonPrefix.length]] = currentNode.children[character]
+          newNode.children[edgeLabel[commonPrefix.length]] = currentNode.children[character];
           newNode.children[edgeLabel[commonPrefix.length]].edgeLabel = edgeLabel.substr(commonPrefix.length);
           currentNode.children[character] = newNode;
           // add what's left of the word as another child to the new node
@@ -113,6 +113,16 @@ class Trie {
       const character = prefix[i];
 
       if (character in currentNode.children) {
+        const edgeLabel = currentNode.children[character].edgeLabel;
+        const commonPrefix = getCommonPrefix(edgeLabel, prefix.substr(i));
+
+        // if the commonPrefix is different than the edgeLabel or what's left of the given prefix
+        // than this edgeLabel differs from what's left of the given prefix, and there are no words that begin
+        // with the given prefix
+        if (commonPrefix.length !== edgeLabel.length && commonPrefix.length !== prefix.substr(i).length) {
+          return [];
+        }
+
         i += currentNode.children[character].edgeLabel.length - 1;
         currentNode = currentNode.children[character];
       } else {
@@ -142,10 +152,8 @@ class Trie {
       for (let character of Object.keys(startingNode.children)) {
         if (expensivePrefix) {
           // if this is an expensive prefix, don't block event loop
-          await setImmediatePromise()
-            .then(async () => {
-              await dfs(startingNode.children[character]);
-            })
+          await setImmediatePromise();
+          await dfs(startingNode.children[character]);
         } else {
           // if this isn't an expensive prefix, process shouldn't take long, so block event loop for a very short amount of time
           // this method is quicker overall
@@ -154,8 +162,9 @@ class Trie {
       }
     }
 
-    await dfs(currentNode)
+    await dfs(currentNode);
 
+    console.log(words);
     return words;
   }
 }
