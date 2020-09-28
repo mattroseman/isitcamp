@@ -274,7 +274,7 @@ class App extends Component {
           movieTitle={this.state.movieTitle}
           points={points}
           maxPossiblePoints={MAX_POSSIBLE_POINTS}
-          onRestart={() => this.handleRestart()}
+          onRestart={this.handleRestartSurvey}
         />
       );
     }
