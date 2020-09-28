@@ -3,23 +3,24 @@
         "react"
     ],
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": 9,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
         }
     },
     "env": {
-        "es6":     true,
+        "es6": true,
         "browser": true,
         "node":    true,
         "mocha":   true
     },
     "extends": [
-        "eslint:recommended",
+        "eslint:recommended"
         "plugin:react/recommended"
     ],
     "rules": {
-      "react/prop-types": 0
+        "eqeqeq": 1,
+        "react/prop-types": 0
     }
 }
