@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader/root';
 import Decision from './decisions/Decision';
 import Results from './results/Result';
 import Home from './home/Home';
-import { questions, firstQuestion, maxPossiblePoints } from './isitcamp_questions';
+import { QUESTIONS, FIRST_QUESTION, MAX_POSSIBLE_POINTS } from './isitcamp_questions';
 import RestartConfirmModal from './RestartConfirmModal';
 
 import './App.css';
@@ -18,6 +18,19 @@ const PAGES = Object.freeze({
 let controller;
 let signal;
 
+/*
+ * calculatePoints takes an object of answers with keys being questin id's and values being the selected options
+ */ 
+function calculatePoints(answers) {
+  let points = 0;
+
+  for (const question in answers) {
+    points += QUESTIONS[question]['options'][answers[question]]['points'];
+  }
+
+  return points;
+}
+
 
 class App extends Component {
   constructor(props) {
@@ -28,8 +41,8 @@ class App extends Component {
       movieTitleSuggestions: [],
       page: PAGES.home,
       surveyInProgress: false,
-      question: questions[firstQuestion],
-      points: 0,
+      currentQuestion: FIRST_QUESTION,
+      answers: {},
       showRestartConfirmModal: false
     };
 
@@ -68,8 +81,8 @@ class App extends Component {
       movieTitle: this.state.movieTitle,
       page: this.state.page,
       surveyInProgress: this.state.surveyInProgress,
-      question: this.state.question,
-      point: this.state.points
+      currentQuestion: this.state.currentQuestion,
+      answers: this.state.answers,
     };
     sessionStorage.setItem('isitcampSnapshot', JSON.stringify(persistentState));
   }
@@ -146,8 +159,8 @@ class App extends Component {
     this.setState({
       page: PAGES.survey,
       surveyInProgress: true,
-      question: questions[firstQuestion],
-      points: 0
+      currentQuestion: FIRST_QUESTION,
+      answers: {},
     });
 
     history.pushState({
@@ -189,8 +202,8 @@ class App extends Component {
       movieTitle: '',
       page: PAGES.home,
       surveyInProgress: false,
-      question: questions[firstQuestion],
-      points: 0,
+      currentQuestion: FIRST_QUESTION,
+      answers: {},
       showRestartConfirmModal: false
     });
 
@@ -200,32 +213,28 @@ class App extends Component {
   }
 
   handleOptionClick(option) {
-    let newPoints = this.state.points;
-    let newQuestion = this.state.question;
-    let newPage = this.state.page;
-
-    // add the points this options has to the points in state
-    newPoints = this.state.points + this.state.question['options'][option]['points'];
+    // add this answer to answers
     this.setState({
-      points: newPoints
+      answers: {
+        ...this.state.answers,
+        [this.state.currentQuestion]: option
+      }
     });
 
     // calculate the next question, or go to the results page if there isn't one
-    if ('next_question' in this.state.question['options'][option]) {
+    if ('next_question' in QUESTIONS[this.state.currentQuestion]['options'][option]) {
       // update the question value in state to whatever this options next_question is
-      newQuestion = questions[this.state.question['options'][option]['next_question']];
       this.setState({
-        question: newQuestion,
+        currentQuestion: QUESTIONS[this.state.currentQuestion]['options'][option]['next_question'],
       });
     } else {
       // if there is no next question go to the results page
-      newPage = PAGES.results;
       this.setState({
-        page: newPage
+        page: PAGES.results
       });
 
       history.pushState({
-        page: newPage
+        page: PAGES.results
       }, '', '/');
     }
   }
@@ -250,7 +259,7 @@ class App extends Component {
       page = (
         <Decision
           movieTitle={this.state.movieTitle}
-          question={this.state.question['question']}
+          question={QUESTIONS[this.state.currentQuestion]['question']}
           onOptionClick={(option) => this.handleOptionClick(option)}
           onRestartSurvey={this.handleShowRestartConfirmModal}
         />
@@ -258,11 +267,13 @@ class App extends Component {
     }
 
     if (this.state.page === PAGES.results) {
+      const points = calculatePoints(this.state.answers);
+
       page = (
         <Results
           movieTitle={this.state.movieTitle}
-          points={this.state.points}
-          maxPossiblePoints={maxPossiblePoints}
+          points={points}
+          maxPossiblePoints={MAX_POSSIBLE_POINTS}
           onRestart={() => this.handleRestart()}
         />
       );

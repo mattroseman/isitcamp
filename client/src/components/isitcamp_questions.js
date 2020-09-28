@@ -3,8 +3,8 @@
  * Each answer points to a next question, using a depth first search, it determines the maximum possible points you can get.
  */
 let questionMaxPoints = {}
-function getMaxPossiblePoints(startingQuestion=firstQuestion) {
-  const question = questions[startingQuestion]
+function getMaxPossiblePoints(startingQuestion=FIRST_QUESTION) {
+  const question = QUESTIONS[startingQuestion]
 
   let yesPoints = question['options']['yes']['points'];
   // if there is another question following the yes option, recursively calculate it's maximum points
@@ -35,7 +35,7 @@ function getMaxPossiblePoints(startingQuestion=firstQuestion) {
   return maxPoints;
 }
 
-export const questions = { 
+export const QUESTIONS = { 
   'version': 2,
   '1': { 
     'question': 'Does this movie have an apparent style?',
@@ -391,5 +391,5 @@ export const questions = {
   }
 };
 
-export const firstQuestion = '1';
-export const maxPossiblePoints = getMaxPossiblePoints();
+export const FIRST_QUESTION = '1';
+export const MAX_POSSIBLE_POINTS = getMaxPossiblePoints();
