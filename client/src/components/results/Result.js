@@ -31,7 +31,7 @@ export default class Results extends React.Component {
             shownPercentage: this.state.shownPercentage + 1
           });
         }
-      }, tickTime); 
+      }, tickTime);
     });
   }
 
@@ -48,7 +48,7 @@ export default class Results extends React.Component {
 
         <button
           id="restart-button"
-          onClick={() => this.props.onRestart()}
+          onClick={this.props.onRestart}
         >
           Start Another Film
         </button>
