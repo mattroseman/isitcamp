@@ -35,5 +35,6 @@ module.exports = {
     hotOnly: true,
     disableHostCheck: true
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+  plugins: [new webpack.HotModuleReplacementPlugin()],
+  devtool: 'source-map',
 };
