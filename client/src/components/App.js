@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader/root';
 import Decision from './decisions/Decision';
 import Results from './results/Result';
 import Home from './home/Home';
-import { QUESTIONS, FIRST_QUESTION, MAX_POSSIBLE_POINTS } from './isitcamp_questions';
+import { QUESTIONS, FIRST_QUESTION, MAX_POSSIBLE_POINTS } from '../isitcamp_questions';
 import RestartConfirmModal from './RestartConfirmModal';
 
 import './App.css';
