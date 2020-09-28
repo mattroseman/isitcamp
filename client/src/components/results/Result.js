@@ -1,5 +1,7 @@
 import React from 'react';
 
+import MovieTitle from '../MovieTitle.js';
+
 import './Result.css';
 
 const transitionTime = 1000;
@@ -36,6 +38,8 @@ export default class Results extends React.Component {
   render() {
     return (
       <div id="results">
+        <MovieTitle title={this.props.movieTitle} />
+
         <div id="camp-percentage">
           <p>this film is</p>
           <h3>{this.state.shownPercentage}%</h3>

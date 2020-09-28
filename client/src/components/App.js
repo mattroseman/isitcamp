@@ -260,6 +260,7 @@ class App extends Component {
     if (this.state.page === PAGES.results) {
       page = (
         <Results
+          movieTitle={this.state.movieTitle}
           points={this.state.points}
           maxPossiblePoints={maxPossiblePoints}
           onRestart={() => this.handleRestart()}

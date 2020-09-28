@@ -1,0 +1,32 @@
+#movie-title {
+  display: inline;
+
+  background: #F0F0F0;
+
+  box-shadow: -4px 4px 4px #000000;
+
+  border-radius: .4rem;
+
+  box-sizing: border-box;
+  width: 35rem;
+
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  padding: 1rem;
+
+  font-size: 3rem;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media only screen and (max-width: 575px) {
+  #movie-title {
+    width: 100%;
+
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+
+    font-size: 1.5rem;
+  }
+}
