@@ -27,6 +27,14 @@ export default function Decision(props) {
         </button>
 
         <button
+          id="idk-option"
+          className="option"
+          onClick={() => props.onOptionClick('idk')}
+        >
+          I Don't Know
+        </button>
+
+        <button
           id="no-option"
           className="option"
           onClick={() => props.onOptionClick('no')}

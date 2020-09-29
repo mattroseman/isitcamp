@@ -38,11 +38,15 @@ function getMaxPossiblePoints(startingQuestion=FIRST_QUESTION) {
 export const QUESTIONS = { 
   'version': 2,
   '1': { 
-    'question': 'Does this movie have an apparent style?',
+    'question': 'Does this movie have a style?',
     'options': { 
       'yes': { 
         'next_question': '2',
         'points': 2
+      },
+      'idk': {
+        'next_question': '2',
+        'points': 0
       },
       'no': { 
         'next_question': '2',
@@ -51,9 +55,13 @@ export const QUESTIONS = {
     }
   },
   '2': { 
-    'question': 'Is there some political or moral message the movie tries to empart through its content? In other words, is it preachy?',
+    'question': 'Is there a preachy political or moral message?',
     'options': { 
       'yes': { 
+        'next_question': '5',
+        'points': 0
+      },
+      'idk': {
         'next_question': '5',
         'points': 0
       },
@@ -64,10 +72,14 @@ export const QUESTIONS = {
     }
   },
   '5': { 
-    'question': 'Does the movie take itself seriously. Does it avoid anything silly or extravagant?',
+    'question': 'Does the movie take itself seriously?',
     'options': { 
       'yes': { 
         'next_question': '23',
+        'points': 0
+      },
+      'idk': {
+        'next_question': '6',
         'points': 0
       },
       'no': { 
@@ -83,6 +95,10 @@ export const QUESTIONS = {
         'next_question': '6',
         'points': 0
       },
+      'idk': {
+        'next_question': '6',
+        'points': 0,
+      },
       'no': { 
         'next_question': '26',
         'points': 1,
@@ -91,12 +107,16 @@ export const QUESTIONS = {
     }
   },
   '26': { 
-    'question': 'Does the film fail in its serious intentions because it went too far, or was too much? Did it overstep?',
+    'question': 'Does the film fail being serious because it was too much? Did it overstep?',
     'options': { 
       'yes': { 
         'next_question': '6',
         'points': 1,
         'quantifier': 'naive'
+      },
+      'idk': {
+        'next_question': '6',
+        'points': 0
       },
       'no': { 
         'next_question': '6',
@@ -105,11 +125,15 @@ export const QUESTIONS = {
     }
   },
   '6': { 
-    'question': 'If you look at this movie seriously, is it bad?',
+    'question': 'If you take the movie seriously, is it bad?',
     'options': { 
       'yes': { 
         'next_question': '7',
         'points': 2
+      },
+      'idk': {
+        'next_question': '7',
+        'points': 0
       },
       'no': { 
         'next_question': '7',
@@ -118,18 +142,23 @@ export const QUESTIONS = {
     }
   },
   '7': { 
-    'question': 'Could the events of this movie happen in the real world?',
+    'question': 'Could the events happen in the real world?',
     'options': { 
       'yes': { 
-        'next_question': '8',
+        'next_question': '9a',
+        'points': 0
+      },
+      'idk': {
+        'next_question': '9a',
         'points': 0
       },
       'no': { 
-        'next_question': '8',
+        'next_question': '9a',
         'points': 1
       }
     }
   },
+  /*
   '8': { 
     'question': 'Do characters or elements of the movie seem off to an exaggerated degree? Something or someone you wouldn\'t expect in that role.',
     'options': { 
@@ -143,12 +172,17 @@ export const QUESTIONS = {
       }
     }
   },
+  */
   '9a': { 
     'question': 'Are there overly androgynous or sexless characters?',
     'options': { 
       'yes': { 
         'next_question': '9b',
         'points': 1
+      },
+      'idk': {
+        'next_question': '9b',
+        'points': 0
       },
       'no': { 
         'next_question': '9b',
@@ -163,6 +197,10 @@ export const QUESTIONS = {
         'next_question': '10',
         'points': 1
       },
+      'idk': {
+        'next_question': '10',
+        'points': 0
+      },
       'no': { 
         'next_question': '10',
         'points': 0
@@ -170,11 +208,15 @@ export const QUESTIONS = {
     }
   },
   '10': { 
-    'question': 'Is it obvious characters are playing a roll? Maybe through 4th wall breaks, or small winks at the audience letting them in on the joke?',
+    'question': 'Are there 4th wall breaks or winks to the audience letting you in on the joke?',
     'options': { 
       'yes': { 
         'next_question': '11',
         'points': 1
+      },
+      'idk': {
+        'next_question': '11',
+        'points': 0
       },
       'no': { 
         'next_question': '11',
@@ -189,6 +231,10 @@ export const QUESTIONS = {
         'next_question': '16',
         'points': 0
       },
+      'idk': {
+        'next_question': '16',
+        'points': 0
+      },
       'no': { 
         'next_question': '16',
         'points': 1
@@ -196,9 +242,13 @@ export const QUESTIONS = {
     }
   },
   '16': { 
-    'question': 'Does there seem to be deeper meaning in the movie through metaphors? For example, A sleigh thrown into a furnace representing the lost innocence of childhood.',
+    'question': 'Does there seem to be deeper meaning in the movie through metaphors?',// For example, A sleigh thrown into a furnace representing the lost innocence of childhood.',
     'options': { 
       'yes': { 
+        'next_question': '24',
+        'points': 0
+      },
+      'idk': {
         'next_question': '24',
         'points': 0
       },
@@ -209,6 +259,7 @@ export const QUESTIONS = {
     }
   },
   // skipping 17 for now, since it seems like a vague question
+  /*
   '17': { 
     'question': 'Does it seem like there\'s a double meaning of things in the film, not like metaphor, but like an inside joke?',
     'options': { 
@@ -222,12 +273,17 @@ export const QUESTIONS = {
       }
     }
   },
+  */
   '24': { 
-    'question': 'Is this an ambitious film for the director? Have they attempted something outlandish and fantastical in making this film?',
+    'question': 'Is this an ambitious film for the director?',// Have they attempted something outlandish and fantastical in making this film?',
     'options': { 
       'yes': { 
         'next_question': '27',
         'points': 2
+      },
+      'idk': {
+        'next_question': '27',
+        'points': 0
       },
       'no': { 
         'next_question': '27',
@@ -236,11 +292,15 @@ export const QUESTIONS = {
     }
   },
   '27': { 
-    'question': 'Does there appear to be passion behind the making of this film? Does the extravagance in the film seem to follow a consistent vision?',
+    'question': 'Do you think there was a strong passion or vision behind the making of this film?',// Does the extravagance in the film seem to follow a consistent vision?',
     'options': { 
       'yes': { 
         'next_question': '28',
         'points': 2
+      },
+      'idk': {
+        'next_question': '28',
+        'points': 0
       },
       'no': { 
         'next_question': '28',
@@ -249,11 +309,15 @@ export const QUESTIONS = {
     }
   },
   '28': { 
-    'question': 'Is the film extraordinary in a visual sense? Not in a sense of effort put in, but in theatricality and glamour?',
+    'question': 'Is the film visually extraordinary or glamorous?', // 'Is the film extraordinary in a visual sense? Not in a sense of effort put in, but in theatricality and glamour?',
     'options': { 
       'yes': { 
         'next_question': '29',
         'points': 1
+      },
+      'idk': {
+        'next_question': '29',
+        'points': 0
       },
       'no': { 
         'next_question': '29',
@@ -268,6 +332,10 @@ export const QUESTIONS = {
         'next_question': '30a',
         'points': 0
       },
+      'idk': {
+        'next_question': '30a',
+        'points': 0
+      },
       'no': { 
         'next_question': '30a',
         'points': 1
@@ -278,7 +346,11 @@ export const QUESTIONS = {
     'question': 'Is this a recent film?',
     'options': { 
       'yes': { 
-        'next_question': '32a',
+        'next_question': '33',
+        'points': 0
+      },
+      'idk': {
+        'next_question': '33',
         'points': 0
       },
       'no': { 
@@ -291,7 +363,11 @@ export const QUESTIONS = {
     'question': 'Has the film aged well? Does the film feel timeless, in the sense that it\'s still relatable?',
     'options': { 
       'yes': { 
-        'next_question': '32a',
+        'next_question': '33',
+        'points': 0
+      },
+      'idk': {
+        'next_question': '33',
         'points': 0
       },
       'no': { 
@@ -301,18 +377,23 @@ export const QUESTIONS = {
     }
   },
   '31': { 
-    'question': 'Does the film make you nostalgic, especially for something once considered banal?',
+    'question': 'Does the film make you nostalgic?', // especially for something once considered banal?',
     'options': { 
       'yes': { 
-        'next_question': '32a',
+        'next_question': '33',
         'points': 1
       },
+      'idk': {
+        'next_question': '33',
+        'points': 0
+      },
       'no': { 
-        'next_question': '32a',
+        'next_question': '33',
         'points': 0
       }
     }
   },
+  /*
   '32a': { 
     'question': 'Are actors playing themselves?',
     'options': { 
@@ -339,19 +420,25 @@ export const QUESTIONS = {
       }
     }
   },
+  */
   '33': { 
-    'question': 'Is there a lack of character development? Are characters one very intense thing, unchanging throughout the film?',
+    'question': 'Do characters grow or change by the end of the film?',
     'options': { 
       'yes': { 
-        'next_question': '41',
+        'next_question': '48',
         'points': 1
       },
+      'idk': {
+        'next_question': '48',
+        'points': 0
+      },
       'no': { 
-        'next_question': '41',
+        'next_question': '48',
         'points': 0
       }
     }
   },
+  /*
   '41': { 
     'question': 'Ignoring the director\'s intentions, are frivolous moments in the film taken seriously or serious moments taken frivolously?',
     'options': { 
@@ -365,12 +452,17 @@ export const QUESTIONS = {
       }
     }
   },
+  */
   '48': { 
     'question': 'Is the film vulgar?',
     'options': { 
       'yes': { 
         'next_question': '58',
         'points': 1
+      },
+      'idk': {
+        'next_question': '58',
+        'points': 0
       },
       'no': { 
         'next_question': '58',
@@ -383,6 +475,9 @@ export const QUESTIONS = {
     'options': { 
       'yes': { 
         'points': 3
+      },
+      'idk': {
+        'points': 0
       },
       'no': { 
         'points': 0
