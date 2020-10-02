@@ -8,7 +8,7 @@
 }
 
 html {
-  font-family: 'Faustina', sans-serif;
+  font-family: 'Poppins', sans-serif;
 
   color: var(--main-color);
 
@@ -32,13 +32,10 @@ body {
   }
 }
 
-button {
+p {
   font-family: 'Faustina', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', sans-serif;
-}
 
 #root {
   display: flex;
