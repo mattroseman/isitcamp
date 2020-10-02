@@ -19,6 +19,11 @@
 }
 
 #question {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: stretch;
+
   background-color: #F0F0F0;
 
   box-shadow: -4px 4px 4px #000000;
@@ -26,6 +31,7 @@
   border-radius: .4rem;
 
   box-sizing: border-box;
+  min-height: 12rem;
   width: 35rem;
 
   margin-bottom: 4rem;
@@ -35,18 +41,24 @@
 }
 @media only screen and (max-width: 575px) {
   #question {
+  min-height: 0;
     width: 100%;
   }
+}
+
+#prompt {
+  margin: 0;
+
+  text-align: center;
 }
 
 #options {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   box-sizing: border-box;
-  width: 35rem;
 }
 @media only screen and (max-width: 575px) {
   #options {
@@ -61,16 +73,22 @@
 }
 
 .option {
-  background-color: #F0F0F0;
+  box-shadow: none;
 
-  box-shadow: -4px 4px 4px #000000;
-
-  border: none;
+  border: 1px solid #000000;
   border-radius: .4rem;
   outline: none;
 
   height: 2.5rem;
   width: 6rem;
+}
+@media only screen and (max-width: 575px) {
+  .option {
+    box-shadow: -4px 4px 4px var(--shadow-color);
+    border: none;
+
+    width: 4rem;
+  }
 }
 
 #yes-option {
@@ -78,6 +96,11 @@
 
 #idk-option {
   width: 12rem;
+}
+@media only screen and (max-width: 575px) {
+  #idk-option {
+    width: 10.5rem;
+  }
 }
 
 #no-option {

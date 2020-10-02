@@ -14,34 +14,34 @@ export default function Decision(props) {
       <MovieTitle title={props.movieTitle} />
 
       <div id="question">
-        {props.question}
+        <p id="prompt">{props.question}</p>
+        <div id="options">
+          <button
+            id="yes-option"
+            className="option"
+            onClick={() => props.onOptionClick('yes')}
+          >
+            Yes
+          </button>
+
+          <button
+            id="idk-option"
+            className="option"
+            onClick={() => props.onOptionClick('idk')}
+          >
+            I Don't Know
+          </button>
+
+          <button
+            id="no-option"
+            className="option"
+            onClick={() => props.onOptionClick('no')}
+          >
+            No
+          </button>
+        </div>
       </div>
 
-      <div id="options">
-        <button
-          id="yes-option"
-          className="option"
-          onClick={() => props.onOptionClick('yes')}
-        >
-          Yes
-        </button>
-
-        <button
-          id="idk-option"
-          className="option"
-          onClick={() => props.onOptionClick('idk')}
-        >
-          I Don't Know
-        </button>
-
-        <button
-          id="no-option"
-          className="option"
-          onClick={() => props.onOptionClick('no')}
-        >
-          No
-        </button>
-      </div>
     </div>
   );
 }
