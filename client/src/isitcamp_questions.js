@@ -360,7 +360,7 @@ export const QUESTIONS = {
     }
   },
   '30b': { 
-    'question': 'Has the film aged well? Does the film feel timeless, in the sense that it\'s still relatable?',
+    'question': 'Has the film aged well? Does it feel timeless and still relatable?',
     'options': { 
       'yes': { 
         'next_question': '33',
