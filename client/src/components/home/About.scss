@@ -1,24 +1,25 @@
+@import '../variables.scss';
+
 #about-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  background: var(--background-grey);
+  background: $background-gray;
 
-  box-shadow: -4px 4px 4px var(--shadow-color);
+  box-shadow: -4px 4px 4px $shadow-color;
 
   border-radius: .4rem;
 
   box-sizing: border-box;
 
-  width: var(--desktop-floating-width);
+  width: $desktop-floating-width;
 
   margin-top: 7rem;
   margin-bottom: 7rem;
   padding: 1rem;
-}
-@media only screen and (max-width: 575px) {
-  #about-container {
+
+  @media only screen and (max-width: 575px) {
     width: 100%;
 
     margin-top: 4rem;
@@ -69,11 +70,11 @@
   margin-bottom: 1rem;
 
   font-size: 1.1rem;
-}
 
-#about-body > p {
-  margin-top: .5rem;
-  margin-bottom: .5rem;
+  & > p {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
 
-  text-indent: .8rem;
+    text-indent: .8rem;
+  }
 }

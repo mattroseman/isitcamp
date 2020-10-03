@@ -7,7 +7,8 @@ import Home from './home/Home';
 import { QUESTIONS, FIRST_QUESTION, MAX_POSSIBLE_POINTS } from '../isitcamp_questions';
 import RestartConfirmModal from './RestartConfirmModal';
 
-import './App.css';
+import './App.scss';
+import './global.scss';
 
 const PAGES = Object.freeze({
   'home': 1,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './RestartConfirmModal.css';
+import './RestartConfirmModal.scss';
 
 export default function RestartConfirmModal(props) {
   return (

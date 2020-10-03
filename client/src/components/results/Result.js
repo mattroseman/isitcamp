@@ -2,7 +2,7 @@ import React from 'react';
 
 import MovieTitle from '../MovieTitle.js';
 
-import './Result.css';
+import './Result.scss';
 
 const transitionTime = 1000;
 

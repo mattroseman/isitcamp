@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 #results {
   display: flex;
   flex-direction: column;
@@ -12,9 +14,8 @@
 
   padding-left: .5rem;
   padding-right: .5rem;
-}
-@media only screen and (max-width: 575px) {
-  #results {
+
+  @media only screen and (max-width: 575px) {
     align-items: stretch;
   }
 }
@@ -25,9 +26,9 @@
   justify-content: center;
   align-items: center;
 
-  background: #F0F0F0;
+  background: $background-gray;
 
-  box-shadow: -4px 4px 4px #000000;
+  box-shadow: -4px 4px 4px $shadow-color;
 
   border-radius: .4rem;
 
@@ -38,9 +39,8 @@
   padding: 1rem;
 
   font-size: 2.5rem;
-}
-@media only screen and (max-width: 575px) {
-  #camp-percentage {
+
+  @media only screen and (max-width: 575px) {
     width: 100%;
 
     margin-top: 2rem;
@@ -48,12 +48,9 @@
 
     font-size: 1.5rem;
   }
-}
 
-#camp-percentage > p, #camp-percentage > h3 {
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-}
-
-#restart-button {
+  & > p, & > h3 {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+  }
 }

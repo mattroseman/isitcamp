@@ -5,7 +5,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import StartSurveyButton from './StartSurveyButton.js';
 import Suggestions from './Suggestions.js';
 
-import './MovieTitleForm.css';
+import './MovieTitleForm.scss';
 
 const transitionTime = 400;
 

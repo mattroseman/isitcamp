@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './StartSurveyButton.css';
+import './StartSurveyButton.scss';
 
 export default function StartSurveyButton(props) {
   return (

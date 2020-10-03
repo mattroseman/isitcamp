@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 #home {
   display: flex;
   flex-direction: column;
@@ -11,9 +13,8 @@
 
   padding-left: .5rem;
   padding-right: .5rem;
-}
-@media only screen and (max-width: 575px) {
-  #home {
+
+  @media only screen and (max-width: 575px) {
     align-items: stretch;
   }
 }
@@ -24,12 +25,12 @@
   justify-content: center;
   align-items: center;
 
-  background: var(--background-grey);
+  background: $background-gray;
   border: none;
   border-radius: .4rem;
-  box-shadow: -4px 4px 4px var(--shadow-color);
+  box-shadow: -4px 4px 4px $shadow-color;
 
-  width: var(--desktop-floating-width);
+  width: $desktop-floating-width;
   min-height: 10rem;
   max-height: 10rem;
 
@@ -38,9 +39,8 @@
 
   font-size: 4rem;
   font-weight: 900;
-}
-@media only screen and (max-width: 575px) {
-  #site-title {
+
+  @media only screen and (max-width: 575px) {
     width: 100%;
     min-height: 7rem;
     max-height: 7rem;

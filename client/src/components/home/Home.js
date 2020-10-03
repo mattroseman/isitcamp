@@ -4,7 +4,7 @@ import RestartSurveyButton from '../RestartSurveyButton.js';
 import MovieTitleForm from './MovieTitleForm.js';
 import About from './About.js';
 
-import './Home.css';
+import './Home.scss';
 
 export default function Home(props) {
   return (

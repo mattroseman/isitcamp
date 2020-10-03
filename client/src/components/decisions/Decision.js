@@ -4,7 +4,7 @@ import MovieTitle from '../MovieTitle.js';
 
 import RestartSurveyButton from '../RestartSurveyButton.js';
 
-import './Decision.css';
+import './Decision.scss';
 
 export default function Decision(props) {
   return (

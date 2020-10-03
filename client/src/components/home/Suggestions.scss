@@ -1,9 +1,11 @@
+@import '../variables.scss';
+
 #suggestion-menu-container {
-  background: var(--background-grey);
+  background: $background-gray;
   border: none;
   border-bottom-left-radius: .4rem;
   border-bottom-right-radius: .4rem;
-  box-shadow: -4px 4px 4px var(--shadow-color);
+  box-shadow: -4px 4px 4px $shadow-color;
   clip:rect(0px, 100000px, 100000px, -100000px);
 
   max-height: 3000px;
@@ -17,15 +19,17 @@
   -o-transition: padding .4s, max-height .4s;
   -webkit-transition: padding .4s, max-height .4s;
   transition: padding .4s, max-height .4s linear;
+
+  &.hidden {
+    display: none;
+    
+    max-height: 0px;
+  }
 }
-#suggestion-menu-container.hidden {
-  display: none;
-  
-  max-height: 0px;
-}
+
 @media only screen and (max-width: 575px) {
   #movie-title-field.focused > #suggestion-menu-container {
-    box-shadow: -4px 4px 8px 4px var(--shadow-color);
+    box-shadow: -4px 4px 8px 4px $shadow-color;
   }
 }
 
@@ -48,6 +52,6 @@
   cursor: pointer;
 }
 .suggestion:hover {
-  color: var(--background-grey);
-  background-color: var(--secondary-color);
+  color: $background-gray;
+  background-color: $secondary-color;
 }

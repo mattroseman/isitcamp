@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './MovieTitle.css';
+import './MovieTitle.scss';
 
 
 export default function MovieTitle(props) {

@@ -1,9 +1,11 @@
+@import './variables.scss';
+
 #movie-title {
   display: inline;
 
-  background: #F0F0F0;
+  background: $background-gray;
 
-  box-shadow: -4px 4px 4px #000000;
+  box-shadow: -4px 4px 4px $shadow-color;
 
   border-radius: .4rem;
 
@@ -16,26 +18,27 @@
   margin-bottom: 4rem;
   padding: 1rem 2rem;
 
-  font-size: 3rem;
   text-align: center;
+
+  font-size: 3rem;
+  &.long-title {
+    font-size: 2rem;
+  }
 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-#movie-title.long-title {
-  font-size: 2rem;
-}
-@media only screen and (max-width: 575px) {
-  #movie-title {
+
+  @media only screen and (max-width: 575px) {
     min-width: 100%;
 
     margin-top: 4rem;
     margin-bottom: 4rem;
 
     font-size: 1.5rem;
-  }
-  #movie-title.long-title {
-    font-size: 1.5rem;
+
+    &.long-title {
+      font-size: 1.5rem;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import './Suggestions.css';
+import './Suggestions.scss';
 
 // element selectors that are used throughout Suggestions
 let movieTitleField;

@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 
-import './RestartSurveyButton.css';
+import './RestartSurveyButton.scss';
 
 export default function RestartSurveyButton(props) {
   return (
