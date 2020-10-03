@@ -225,7 +225,7 @@ export const QUESTIONS = {
     }
   },
   '11': { 
-    'question': 'Do characters stick to traditional gender stereotypes? Men are all masculine, and women only feminine.',
+    'question': 'Do characters stick to traditional gender stereotypes: men are all masculine and women only feminine?',
     'options': { 
       'yes': { 
         'next_question': '16',
