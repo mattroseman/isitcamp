@@ -79,7 +79,7 @@ export const QUESTIONS = {
         'points': 0
       },
       'idk': {
-        'next_question': '6',
+        'next_question': '7',
         'points': 0
       },
       'no': { 
@@ -88,15 +88,32 @@ export const QUESTIONS = {
       }
     }
   },
+  '6': { 
+    'question': 'If you take the movie seriously, is it bad?',
+    'options': { 
+      'yes': { 
+        'next_question': '7',
+        'points': 2
+      },
+      'idk': {
+        'next_question': '7',
+        'points': 0
+      },
+      'no': { 
+        'next_question': '7',
+        'points': 0
+      }
+    }
+  },
   '23': { 
     'question': 'Did this film succeed in its serious intentions?',
     'options': { 
       'yes': { 
-        'next_question': '6',
+        'next_question': '7',
         'points': 0
       },
       'idk': {
-        'next_question': '6',
+        'next_question': '7',
         'points': 0,
       },
       'no': { 
@@ -110,26 +127,9 @@ export const QUESTIONS = {
     'question': 'Does the film fail being serious because it was too much? Did it overstep?',
     'options': { 
       'yes': { 
-        'next_question': '6',
+        'next_question': '7',
         'points': 1,
         'quantifier': 'naive'
-      },
-      'idk': {
-        'next_question': '6',
-        'points': 0
-      },
-      'no': { 
-        'next_question': '6',
-        'points': 0
-      }
-    }
-  },
-  '6': { 
-    'question': 'If you take the movie seriously, is it bad?',
-    'options': { 
-      'yes': { 
-        'next_question': '7',
-        'points': 2
       },
       'idk': {
         'next_question': '7',
