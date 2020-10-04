@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,29 +10,21 @@ import './MovieTitleForm.scss';
 const TRANSITION_TIME = 400;
 const BORDER_RADIUS = '.4rem';
 
-// element selectors that are used throughout MovieTitleForm
-let movieTitleField;
-let movieTitleFieldPlaceholder;
-let movieTitleInput;
-
 export default function MovieTitleForm(props) {
-  // initialize the element selectors when the component first loads
-  useEffect(() => {
-    movieTitleField = document.getElementById('movie-title-field');
-    movieTitleFieldPlaceholder = document.getElementById('movie-title-field-placeholder');
-    movieTitleInput = document.getElementById('movie-title-input');
-  }, []);
+  const movieTitleFieldRef = useRef(null);
+  const movieTitleFieldPlaceholderRef = useRef(null);
+  const movieTitleInputRef = useRef(null);
 
   const [showSuggestions, setShowSuggestions] = useState(false);
   useEffect(() => {
     // change the border radius of the movieTitleField depending on if the Suggestions element
     // is showing (showSuggestions is true, and there are actually suggestions to show)
     if (showSuggestions && props.movieTitleSuggestions.length > 0) {
-      movieTitleField.style.borderBottomLeftRadius = '0rem';
-      movieTitleField.style.borderBottomRightRadius = '0rem';
+      movieTitleFieldRef.current.style.borderBottomLeftRadius = '0rem';
+      movieTitleFieldRef.current.style.borderBottomRightRadius = '0rem';
     } else {
-      movieTitleField.style.borderBottomLeftRadius = BORDER_RADIUS;
-      movieTitleField.style.borderBottomRightRadius = BORDER_RADIUS;
+      movieTitleFieldRef.current.style.borderBottomLeftRadius = BORDER_RADIUS;
+      movieTitleFieldRef.current.style.borderBottomRightRadius = BORDER_RADIUS;
     }
   }, [showSuggestions, props.movieTitleSuggestions.length]);
 
@@ -50,7 +42,7 @@ export default function MovieTitleForm(props) {
       // No orientation change, keyboard closing
       if ((window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth === window.lastInnerWidth) {
         // on keyboard close, blur the movie title input field
-        movieTitleInput.blur();
+        movieTitleInputRef.current.blur();
       }
 
       // update the last height/width variables
@@ -63,7 +55,7 @@ export default function MovieTitleForm(props) {
     window.lastInnerWidth = window.innerWidth;
 
     // also blur the movieTitleInput element when the component firsts mounts
-    movieTitleInput.blur();
+    movieTitleInputRef.current.blur();
 
     window.addEventListener('resize', handleWindowResize);
     return () => {
@@ -83,18 +75,18 @@ export default function MovieTitleForm(props) {
     }
 
     // convert the movie title field to a fixed position, but keep in the same position
-    movieTitleField.style.top = `${movieTitleField.getBoundingClientRect().top}px`;
-    movieTitleField.style.left = `${movieTitleField.getBoundingClientRect().left}px`;
-    movieTitleField.style.width = `${movieTitleField.getBoundingClientRect().width}px`;
-    movieTitleField.style.position = 'fixed';
+    movieTitleFieldRef.current.style.top = `${movieTitleFieldRef.current.getBoundingClientRect().top}px`;
+    movieTitleFieldRef.current.style.left = `${movieTitleFieldRef.current.getBoundingClientRect().left}px`;
+    movieTitleFieldRef.current.style.width = `${movieTitleFieldRef.current.getBoundingClientRect().width}px`;
+    movieTitleFieldRef.current.style.position = 'fixed';
 
     // animate the movieTitle field to the top of the screen
-    movieTitleField.style.top = '5%';
-    movieTitleField.style.left = '5%';
-    movieTitleField.style.width = '90%';
-    movieTitleField.style.zIndex = '2';
-    movieTitleField.classList.add('floating');
-    movieTitleField.classList.add('focused');
+    movieTitleFieldRef.current.style.top = '5%';
+    movieTitleFieldRef.current.style.left = '5%';
+    movieTitleFieldRef.current.style.width = '90%';
+    movieTitleFieldRef.current.style.zIndex = '2';
+    movieTitleFieldRef.current.classList.add('floating');
+    movieTitleFieldRef.current.classList.add('focused');
 
     // show the background filter
     props.setBackgroundBlur(true);
@@ -102,7 +94,7 @@ export default function MovieTitleForm(props) {
     // wait for the animations to complete
     setTimeout(() => {
       // make sure the movie title wasn't unfocused before animation timeout finishes
-      if (movieTitleField.classList.contains('focused')) {
+      if (movieTitleFieldRef.current.classList.contains('focused')) {
         setShowSuggestions(true);
       }
     }, TRANSITION_TIME);
@@ -119,22 +111,22 @@ export default function MovieTitleForm(props) {
       return;
     }
 
-    movieTitleField.style.top = `${movieTitleFieldPlaceholder.getBoundingClientRect().top}px`;
-    movieTitleField.style.left = `${movieTitleFieldPlaceholder.getBoundingClientRect().left}px`;
-    movieTitleField.style.width = `${movieTitleFieldPlaceholder.getBoundingClientRect().width}px`;
-    movieTitleField.style.zIndex = '0';
-    movieTitleField.classList.remove('focused');
+    movieTitleFieldRef.current.style.top = `${movieTitleFieldPlaceholderRef.current.getBoundingClientRect().top}px`;
+    movieTitleFieldRef.current.style.left = `${movieTitleFieldPlaceholderRef.current.getBoundingClientRect().left}px`;
+    movieTitleFieldRef.current.style.width = `${movieTitleFieldPlaceholderRef.current.getBoundingClientRect().width}px`;
+    movieTitleFieldRef.current.style.zIndex = '0';
+    movieTitleFieldRef.current.classList.remove('focused');
 
     props.setBackgroundBlur(false);
 
     // wait for the animations to complete
     setTimeout(() => {
-      movieTitleField.style.position = 'static';
-      movieTitleField.style.top = null;
-      movieTitleField.style.left = null;
-      movieTitleField.style.width = null;
+      movieTitleFieldRef.current.style.position = 'static';
+      movieTitleFieldRef.current.style.top = null;
+      movieTitleFieldRef.current.style.left = null;
+      movieTitleFieldRef.current.style.width = null;
 
-      movieTitleField.classList.remove('floating');
+      movieTitleFieldRef.current.classList.remove('floating');
     }, TRANSITION_TIME);
   }
 
@@ -145,7 +137,7 @@ export default function MovieTitleForm(props) {
     event.preventDefault();
 
     props.onMovieTitleChange('');
-    movieTitleInput.blur();
+    movieTitleInputRef.current.blur();
   }
 
   /*
@@ -170,10 +162,11 @@ export default function MovieTitleForm(props) {
         }
       }}
     >
-      <div id="movie-title-field">
+      <div id="movie-title-field" ref={movieTitleFieldRef}>
         <div id="movie-title-input-container">
           <input
             id="movie-title-input"
+            ref={movieTitleInputRef}
             type="text"
             placeholder="Enter movie title"
             spellCheck="false"
@@ -202,7 +195,7 @@ export default function MovieTitleForm(props) {
         />
       </div>
 
-      <div id="movie-title-field-placeholder" disabled={true}></div>
+      <div id="movie-title-field-placeholder" ref={movieTitleFieldPlaceholderRef} disabled={true}></div>
 
       <StartSurveyButton
         onStartSurvey={props.onStartSurvey}
