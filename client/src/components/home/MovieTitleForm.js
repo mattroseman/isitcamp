@@ -162,7 +162,15 @@ export default function MovieTitleForm(props) {
   return(
     <form
       id="movie-title-form"
-      onSubmit={props.surveyInProgress ? props.onContinueSurvey : props.onStartSurvey}
+      onSubmit={() => {
+        backgroundFilter.classList.remove('active');
+
+        if (props.surveyInProgress) {
+          props.onContinueSurvey();
+        } else {
+          props.onStartSurvey();
+        }
+      }}
     >
       <div id="movie-title-field">
         <div id="movie-title-input-container">
