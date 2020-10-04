@@ -12,11 +12,11 @@
   z-index: 2;
   transform: translate(-50%, -50%);
 
-  background: $background-gray;
+  background: $white;
 
-  border-radius: .4rem;
+  border-radius: $border-radius;
 
-  box-shadow: -4px 4px 4px $shadow-color;
+  box-shadow: -4px 4px 4px $shadow;
 
   box-sizing: border-box;
   padding: 1rem;
@@ -51,14 +51,14 @@
 
 #restart-confirm-yes-btn {
   box-shadow: none;
-  border: 1px solid #000000;
+  border: 1px solid $black;
 
   width: 4rem;
 }
 
 #restart-confirm-no-btn {
   box-shadow: none;
-  border: 1px solid #000000;
+  border: 1px solid $black;
 
   width: 4rem;
 }

@@ -25,12 +25,12 @@
   justify-content: center;
   align-items: center;
 
-  background: $background-gray;
+  background: $white;
   border: none;
-  border-radius: .4rem;
-  box-shadow: -4px 4px 4px $shadow-color;
+  border-radius: $border-radius;
+  box-shadow: -4px 4px 4px $shadow;
 
-  width: $desktop-floating-width;
+  width: 40rem;
   min-height: 10rem;
   max-height: 10rem;
 

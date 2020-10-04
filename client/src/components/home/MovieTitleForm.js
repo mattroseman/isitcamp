@@ -7,7 +7,8 @@ import Suggestions from './Suggestions.js';
 
 import './MovieTitleForm.scss';
 
-const transitionTime = 400;
+const TRANSITION_TIME = 400;
+const BORDER_RADIUS = '.4rem';
 
 // element selectors that are used throughout MovieTitleForm
 let movieTitleField;
@@ -32,8 +33,8 @@ export default function MovieTitleForm(props) {
       movieTitleField.style.borderBottomLeftRadius = '0rem';
       movieTitleField.style.borderBottomRightRadius = '0rem';
     } else {
-      movieTitleField.style.borderBottomLeftRadius = '.4rem';
-      movieTitleField.style.borderBottomRightRadius = '.4rem';
+      movieTitleField.style.borderBottomLeftRadius = BORDER_RADIUS;
+      movieTitleField.style.borderBottomRightRadius = BORDER_RADIUS;
     }
   }, [showSuggestions, props.movieTitleSuggestions.length]);
 
@@ -106,7 +107,7 @@ export default function MovieTitleForm(props) {
       if (movieTitleField.classList.contains('focused')) {
         setShowSuggestions(true);
       }
-    }, transitionTime);
+    }, TRANSITION_TIME);
   }
 
   /*
@@ -136,7 +137,7 @@ export default function MovieTitleForm(props) {
       movieTitleField.style.width = null;
 
       movieTitleField.classList.remove('floating');
-    }, transitionTime);
+    }, TRANSITION_TIME);
   }
 
   /*

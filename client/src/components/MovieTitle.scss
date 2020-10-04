@@ -3,11 +3,11 @@
 #movie-title {
   display: inline;
 
-  background: $background-gray;
+  background: $white;
 
-  box-shadow: -4px 4px 4px $shadow-color;
+  box-shadow: -4px 4px 4px $shadow;
 
-  border-radius: .4rem;
+  border-radius: $border-radius;
 
   box-sizing: border-box;
 

@@ -25,11 +25,11 @@
   justify-content: space-around;
   align-items: stretch;
 
-  background-color: $background-gray;
+  background-color: $white;
 
-  box-shadow: -4px 4px 4px $shadow-color;
+  box-shadow: -4px 4px 4px $shadow;
 
-  border-radius: .4rem;
+  border-radius: $border-radius;
 
   box-sizing: border-box;
   min-height: 12rem;
@@ -76,15 +76,21 @@
 .option {
   box-shadow: none;
 
-  border: 2px solid $main-color;
-  border-radius: .4rem;
+  border: 2px solid $black;
+  border-radius: $border-radius;
   outline: none;
 
   height: 2.5rem;
   width: 6rem;
 
+  &:hover {
+    color: $white;
+    border-color: $primary-color;
+    background: $primary-color;
+  }
+
   @media only screen and (max-width: 575px) {
-    box-shadow: -4px 4px 4px $shadow-color;
+    box-shadow: -4px 4px 4px $shadow;
     border: none;
 
     width: 4rem;

@@ -5,15 +5,15 @@
   flex-direction: column;
   justify-content: center;
 
-  background: $background-gray;
+  background: $white;
 
-  box-shadow: -4px 4px 4px $shadow-color;
+  box-shadow: -4px 4px 4px $shadow;
 
-  border-radius: .4rem;
+  border-radius: $border-radius;
 
   box-sizing: border-box;
 
-  width: $desktop-floating-width;
+  width: 40rem;
 
   margin-top: 7rem;
   margin-bottom: 7rem;

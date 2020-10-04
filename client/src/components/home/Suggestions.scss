@@ -1,11 +1,12 @@
 @import '../variables.scss';
+@import '../mixins.scss';
 
 #suggestion-menu-container {
-  background: $background-gray;
+  background: $white;
   border: none;
-  border-bottom-left-radius: .4rem;
-  border-bottom-right-radius: .4rem;
-  box-shadow: -4px 4px 4px $shadow-color;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  box-shadow: -4px 4px 4px $shadow;
   clip:rect(0px, 100000px, 100000px, -100000px);
 
   max-height: 3000px;
@@ -15,10 +16,7 @@
 
   overflow: hidden;
 
-  -moz-transition: padding .4s, max-height .4s;
-  -o-transition: padding .4s, max-height .4s;
-  -webkit-transition: padding .4s, max-height .4s;
-  transition: padding .4s, max-height .4s linear;
+  @include transition(padding .4s linear, max-height .4s linear);
 
   &.hidden {
     display: none;
@@ -29,7 +27,7 @@
 
 @media only screen and (max-width: 575px) {
   #movie-title-field.focused > #suggestion-menu-container {
-    box-shadow: -4px 4px 8px 4px $shadow-color;
+    box-shadow: -4px 4px 8px 4px $shadow;
   }
 }
 
@@ -52,6 +50,6 @@
   cursor: pointer;
 }
 .suggestion:hover {
-  color: $background-gray;
-  background-color: $secondary-color;
+  color: $white;
+  background-color: $primary-color;
 }
