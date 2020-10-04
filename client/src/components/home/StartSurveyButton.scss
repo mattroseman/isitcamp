@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 #start-survey-button {
   width: 10rem;
   min-height: 2.25rem;
@@ -8,5 +10,10 @@
 
   @media only screen and (max-width: 575px) {
     width: 100%;
+  }
+
+  &:disabled {
+    background-color: adjust-color($white, $lightness: -20%);
+    color: adjust-color($black, $lightness: 20%);
   }
 }

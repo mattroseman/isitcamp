@@ -199,6 +199,7 @@ export default function MovieTitleForm(props) {
       <div id="movie-title-field-placeholder" ref={movieTitleFieldPlaceholderRef} disabled={true}></div>
 
       <StartSurveyButton
+        disabled={props.movieTitle.length <= 0}
         onStartSurvey={props.onStartSurvey}
         onContinueSurvey={props.onContinueSurvey}
         surveyInProgress={props.surveyInProgress}
