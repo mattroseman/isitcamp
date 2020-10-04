@@ -192,6 +192,7 @@ export default function MovieTitleForm(props) {
           suggestions={props.movieTitleSuggestions}
           onSuggestionClick={(event, suggestion) => handleSuggestionClick(event, suggestion)}
           show={showSuggestions && props.movieTitleSuggestions.length > 0}
+          movieTitleFieldRef={movieTitleFieldRef}
         />
       </div>
 
