@@ -14,7 +14,6 @@ const BORDER_RADIUS = '.4rem';
 let movieTitleField;
 let movieTitleFieldPlaceholder;
 let movieTitleInput;
-let backgroundFilter;
 
 export default function MovieTitleForm(props) {
   // initialize the element selectors when the component first loads
@@ -22,7 +21,6 @@ export default function MovieTitleForm(props) {
     movieTitleField = document.getElementById('movie-title-field');
     movieTitleFieldPlaceholder = document.getElementById('movie-title-field-placeholder');
     movieTitleInput = document.getElementById('movie-title-input');
-    backgroundFilter = document.getElementById('background-filter');
   }, []);
 
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -99,7 +97,7 @@ export default function MovieTitleForm(props) {
     movieTitleField.classList.add('focused');
 
     // show the background filter
-    backgroundFilter.classList.add('active');
+    props.setBackgroundBlur(true);
 
     // wait for the animations to complete
     setTimeout(() => {
@@ -127,7 +125,7 @@ export default function MovieTitleForm(props) {
     movieTitleField.style.zIndex = '0';
     movieTitleField.classList.remove('focused');
 
-    backgroundFilter.classList.remove('active');
+    props.setBackgroundBlur(false);
 
     // wait for the animations to complete
     setTimeout(() => {
@@ -163,7 +161,7 @@ export default function MovieTitleForm(props) {
     <form
       id="movie-title-form"
       onSubmit={() => {
-        backgroundFilter.classList.remove('active');
+        props.setBackgroundBlur(false);
 
         if (props.surveyInProgress) {
           props.onContinueSurvey();

@@ -47,6 +47,9 @@ class App extends Component {
       showRestartConfirmModal: false
     };
 
+    this.backgroundFilterRef = React.createRef();
+
+    this.setBackgroundBlur = this.setBackgroundBlur.bind(this);
     this.handleMovieTitleChange = this.handleMovieTitleChange.bind(this);
     this.handleStartSurvey = this.handleStartSurvey.bind(this);
     this.handleContinueSurvey = this.handleContinueSurvey.bind(this);
@@ -86,6 +89,14 @@ class App extends Component {
       answers: this.state.answers,
     };
     sessionStorage.setItem('isitcampSnapshot', JSON.stringify(persistentState));
+  }
+
+  setBackgroundBlur(blur=true) {
+    if (blur) {
+      this.backgroundFilterRef.current.classList.add('active');
+    } else {
+      this.backgroundFilterRef.current.classList.remove('active');
+    }
   }
 
   handleMovieTitleChange(event) {
@@ -181,7 +192,7 @@ class App extends Component {
   }
 
   handleShowRestartConfirmModal() {
-    document.getElementById('background-filter').classList.add('active');
+    this.setBackgroundBlur(true);
 
     this.setState({
       showRestartConfirmModal: true
@@ -189,7 +200,7 @@ class App extends Component {
   }
 
   handleCloseRestartConfirmModal() {
-    document.getElementById('background-filter').classList.remove('active');
+    this.setBackgroundBlur(false);
 
     this.setState({
       showRestartConfirmModal: false
@@ -252,6 +263,7 @@ class App extends Component {
           onStartSurvey={this.handleStartSurvey}
           onContinueSurvey={this.handleContinueSurvey}
           onRestartSurvey={this.handleShowRestartConfirmModal}
+          setBackgroundBlur={this.setBackgroundBlur}
         />
       );
     }
@@ -286,7 +298,7 @@ class App extends Component {
       <div id="app-container">
         {page}
 
-        <div id="background-filter"></div>
+        <div id="background-filter" ref={this.backgroundFilterRef}></div>
 
         {this.state.showRestartConfirmModal &&
         <RestartConfirmModal

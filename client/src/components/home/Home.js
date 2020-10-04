@@ -24,6 +24,7 @@ export default function Home(props) {
         surveyInProgress={props.surveyInProgress}
         onStartSurvey={props.onStartSurvey}
         onContinueSurvey={props.onContinueSurvey}
+        setBackgroundBlur={props.setBackgroundBlur}
       />
 
       <About />
