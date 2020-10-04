@@ -257,13 +257,14 @@ class App extends Component {
     }
 
     if (this.state.page === PAGES.survey) {
+      const progress = (MAX_POSSIBLE_POINTS - getMaxPossiblePoints(this.state.currentQuestion) + 3) / MAX_POSSIBLE_POINTS 
       page = (
         <Decision
           movieTitle={this.state.movieTitle}
           question={QUESTIONS[this.state.currentQuestion]['question']}
           onOptionClick={(option) => this.handleOptionClick(option)}
           onRestartSurvey={this.handleShowRestartConfirmModal}
-          progress={(MAX_POSSIBLE_POINTS - getMaxPossiblePoints(this.state.currentQuestion)) / MAX_POSSIBLE_POINTS}
+          progress={progress}
         />
       );
     }

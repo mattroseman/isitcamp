@@ -24,12 +24,16 @@
   .progress-bar__complete {
     background-color: $secondary-color;
 
-    border-top-left-radius: 4rem;
-    border-bottom-left-radius: 4rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
 
     height: 100%;
-    min-width: 1%;
+    min-width: 4%;
 
-    @include transition(width .8s ease-in-out);
+    @include transition(width .8s ease-in-out, border-radius .8s ease-in-out);
+  }
+
+  .progress-bar__complete--full {
+    border-radius: 2rem;
   }
 }
