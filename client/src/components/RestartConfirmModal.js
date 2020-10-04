@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import './RestartConfirmModal.scss';
 
 export default function RestartConfirmModal(props) {
+  const modalRef = useRef(null);
+
+  function handlePageClick(event) {
+    if (!modalRef.current.contains(event.target)) {
+      props.onCloseRestartConfirmModal();
+
+      event.preventDefault();
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', handlePageClick);
+
+    return () => {
+      document.removeEventListener('click', handlePageClick);
+    }
+  }, []);
+
   return (
-    <div id="restart-confirm-modal">
+    <div id="restart-confirm-modal" ref={modalRef}>
       <p id="restart-confirm-text">
         Restart with a new movie?
       </p>
