@@ -2,6 +2,8 @@
 @import '../mixins.scss';
 
 .progress-bar {
+  position: relative;
+
   display: flex;
   flex-direction: row;
   justify-content: stretch;
@@ -35,5 +37,43 @@
 
   .progress-bar__complete--full {
     border-radius: 2rem;
+  }
+
+  .progress-bar__tooltip {
+    visibility: hidden; 
+    opacity: 0;
+    @include transition(opacity .4s linear);
+
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+
+    width: 9rem;
+
+    margin-left: -4.5rem;
+    padding: .5rem;
+
+    color: $black;
+    background-color: $white;
+
+    text-align: center;
+
+    border-radius: $border-radius;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent $white transparent;
+    }
+  }
+  &:hover > .progress-bar__tooltip {
+    visibility: visible;
+    opacity: 1;
   }
 }
