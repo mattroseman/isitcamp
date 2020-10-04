@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader/root';
 import Decision from './decisions/Decision';
 import Results from './results/Result';
 import Home from './home/Home';
-import { QUESTIONS, FIRST_QUESTION, MAX_POSSIBLE_POINTS } from '../isitcamp_questions';
+import { QUESTIONS, FIRST_QUESTION, MAX_POSSIBLE_POINTS, getMaxPossiblePoints } from '../isitcamp_questions';
 import RestartConfirmModal from './RestartConfirmModal';
 
 import './App.scss';
@@ -21,7 +21,7 @@ let signal;
 
 /*
  * calculatePoints takes an object of answers with keys being questin id's and values being the selected options
- */ 
+ */
 function calculatePoints(answers) {
   let points = 0;
 
@@ -263,6 +263,7 @@ class App extends Component {
           question={QUESTIONS[this.state.currentQuestion]['question']}
           onOptionClick={(option) => this.handleOptionClick(option)}
           onRestartSurvey={this.handleShowRestartConfirmModal}
+          progress={(MAX_POSSIBLE_POINTS - getMaxPossiblePoints(this.state.currentQuestion)) / MAX_POSSIBLE_POINTS}
         />
       );
     }

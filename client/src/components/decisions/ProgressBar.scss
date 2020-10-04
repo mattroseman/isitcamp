@@ -1,0 +1,33 @@
+@import '../variables.scss';
+
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+
+  background-color: $background-gray;
+
+  width: 35rem;
+  height: 1rem;
+
+  margin-bottom: 4rem;
+
+  border: 1px solid #000000;
+  border-radius: 2rem;
+
+  .progress-bar__complete {
+    background-color: green;
+
+    border-top-left-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+
+    height: 100%;
+    min-width: 1%;
+
+    -moz-transition: width .4s ease-in-out;
+    -o-transition: width .4s ease-in-out;
+    -webkit-transition: width .4s ease-in-out;
+    transition: width .4s ease-in-out;
+  }
+}

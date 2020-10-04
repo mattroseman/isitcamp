@@ -1,8 +1,8 @@
 import React from 'react';
 
 import MovieTitle from '../MovieTitle.js';
-
 import RestartSurveyButton from '../RestartSurveyButton.js';
+import ProgressBar from './ProgressBar.js';
 
 import './Decision.scss';
 
@@ -12,6 +12,8 @@ export default function Decision(props) {
       <RestartSurveyButton onRestartSurvey={props.onRestartSurvey} />
 
       <MovieTitle title={props.movieTitle} />
+
+      <ProgressBar progress={props.progress}/>
 
       <div id="question">
         <p id="prompt">{props.question}</p>

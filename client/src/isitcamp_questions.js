@@ -3,7 +3,7 @@
  * Each answer points to a next question, using a depth first search, it determines the maximum possible points you can get.
  */
 let questionMaxPoints = {}
-function getMaxPossiblePoints(startingQuestion=FIRST_QUESTION) {
+export function getMaxPossiblePoints(startingQuestion=FIRST_QUESTION) {
   const question = QUESTIONS[startingQuestion]
 
   let yesPoints = question['options']['yes']['points'];
