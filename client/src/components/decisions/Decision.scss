@@ -83,12 +83,6 @@
   height: 2.5rem;
   width: 6rem;
 
-  &:hover {
-    color: $white;
-    border-color: $primary-color;
-    background: $primary-color;
-  }
-
   @media only screen and (max-width: 575px) {
     box-shadow: -4px 4px 4px $shadow;
     border: none;

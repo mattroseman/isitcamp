@@ -50,13 +50,21 @@ button {
   border-radius: $border-radius;
   outline: none;
 
-  @include transition(color $animation-timing, background-color $animation-timing, border-color $animation-timing);
+  @media only screen and (min-width: 576px) {
+    @include transition(color $animation-timing, background-color $animation-timing, border-color $animation-timing);
 
-  &:hover {
-    color: $white;
-    border-color: $primary-color;
-    background-color: $primary-color;
-    // background: adjust-color($white, $lightness: -10%);
+    &:hover {
+      color: $white;
+      border-color: $primary-color;
+      background-color: $primary-color;
+    }
+  }
+  @media only screen and (max-width: 575px) {
+    &:active {
+      color: $white;
+      border-color: $primary-color;
+      background-color: $primary-color;
+    }
   }
 
   box-sizing: border-box;
