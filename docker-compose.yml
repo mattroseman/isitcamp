@@ -24,3 +24,11 @@ services:
       - ./:/usr/src/app
     ports:
       - 3000:3000
+  isitcamp_reverse_proxy:
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    image: isitcamp-reverse-proxy
+    container_name: isitcamp_reverse_proxy
+    ports:
+      - 80:80
