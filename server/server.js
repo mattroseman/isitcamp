@@ -4,15 +4,6 @@ const cors = require('cors');
 
 const { MovieTrie } = require('./movies.js');
 
-/* TESTING CODE */
-/*
-const blocked = require('blocked');
-blocked(function(ms) {
-    console.log(`Blocked for ${ms}ms`);
-}, {threshold:1, interval: 1000});
-*/
-/* END TESTING CODE */
-
 let app = express();
 
 // SETUP CORS (if not in production mode)
