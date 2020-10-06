@@ -7,7 +7,8 @@ service google-fluentd restart &
 
 # Install dependencies
 apt-get update
-apt-get install -yq git supervisor build-essential
+add-apt-repository ppa:certbot/certbot
+apt-get install -yq git supervisor build-essential nginx certbot
 
 mkdir /opt/nodejs
 curl https://nodejs.org/dist/v13.7.0/node-v13.7.0-linux-x64.tar.gz | tar xvzf - -C /opt/nodejs --strip-components=1
@@ -34,6 +35,22 @@ autostart=true
 autorestart=true
 user=isitcamp
 environment=HOME="/home/isitcamp",USER="isitcamp",NODE_ENV="production",PORT=8080
+stdout_logfile=syslog
+stderr_logfile=syslog
+EOF
+
+cp /opt/app/isitcamp/nginx/nginx.conf /etc/nginx/nginx.conf
+
+systemctl stop nginx.service
+systemctl disable nginx.service
+
+# Configure supervisor to run the nginx server
+cat >/etc/supervisor/conf.d/nginx.conf << EOF
+[program:isitcamp-reverse-proxy]
+command=nginx
+autostart=true
+autorestart=true
+user=root
 stdout_logfile=syslog
 stderr_logfile=syslog
 EOF
