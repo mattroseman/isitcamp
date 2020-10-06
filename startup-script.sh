@@ -8,7 +8,7 @@ service google-fluentd restart &
 # Install dependencies
 apt-get update
 add-apt-repository ppa:certbot/certbot
-apt-get install -yq git supervisor build-essential nginx certbot
+apt-get install -yq git supervisor build-essential nginx certbot python-certbot-nginx
 
 mkdir /opt/nodejs
 curl https://nodejs.org/dist/v13.7.0/node-v13.7.0-linux-x64.tar.gz | tar xvzf - -C /opt/nodejs --strip-components=1
@@ -57,3 +57,7 @@ EOF
 
 supervisorctl reread
 supervisorctl update
+
+# setup certbot and certbot renewal
+# cerbot --nginx
+# certbot renew
