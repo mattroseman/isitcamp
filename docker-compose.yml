@@ -9,6 +9,8 @@ services:
     image: isitcamp-api:local
     container_name: isitcamp_api
     command: bash -c "npm run build && npm start"
+    environment:
+      - DEBUG=true
     volumes:
       - ./:/usr/src/app
     ports:

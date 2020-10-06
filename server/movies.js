@@ -1,6 +1,8 @@
 const fs = require('fs');
 const readline = require('readline');
 
+const LOGGER = require('./logger.js');
+
 const Trie = require('./trie.js');
 
 class Movie {
@@ -43,12 +45,12 @@ class MovieTrie extends Trie {
 
     // log memory usage before trie is generated
     const beforeUsed = process.memoryUsage().heapUsed / 1024 / 1024;
-    console.log(`The script uses approximately ${Math.round(beforeUsed * 100) / 100} MB`);
+    LOGGER.debug(`The script uses approximately ${Math.round(beforeUsed * 100) / 100} MB`);
 
     this.generateMovieTrie().then(() => {
       // log memory usage after trie is generated
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
-      console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+      LOGGER.debug(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
     });
   }
 
@@ -87,7 +89,7 @@ class MovieTrie extends Trie {
       });
 
       rl.on('close', () => {
-        console.log('movies added: ' + moviesAdded);
+        LOGGER.debug('movies added: ' + moviesAdded);
 
         resolve();
       });
@@ -102,7 +104,7 @@ class MovieTrie extends Trie {
 
     // get movies that start with the given prefix
     const movies = await this.getWords(prefix, cancelToken, this.isExpensiveMoviePrefix(prefix));
-    console.log(`gotten list of ${movies.length} suggestions for prefix: ${prefix}`);
+    LOGGER.debug(`gotten list of ${movies.length} suggestions for prefix: ${prefix}`);
 
     // iterate through them and get the top 10 ones with most votes
     const topMovies = this.getTopMoviesByNumVotes(movies, 10);

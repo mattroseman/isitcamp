@@ -164,7 +164,6 @@ class Trie {
 
     await dfs(currentNode);
 
-    console.log(words);
     return words;
   }
 }

@@ -2,13 +2,15 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
+const LOGGER = require('./logger.js');
+
 const { MovieTrie } = require('./movies.js');
 
-let app = express();
+const app = express();
 
 // SETUP CORS (if not in production mode)
 if (process.env.NODE_ENV !== 'production') {
-  console.log('allow requests from any domain');
+  LOGGER.info('allow requests from any domain');
   app.all('*', cors());
 }
 
@@ -31,14 +33,12 @@ app.get('/movies', (req, res, next) => {
     cancelled: false
   };
 
-  console.log(`getting movies for prefix: ${prefix}`);
+  LOGGER.debug(`getting movies for prefix: ${prefix}`);
 
   movieTrie.getMovieTitlesFromPrefix(prefix, cancelToken)
     .then((movieTitles) => {
-      console.log(`movie titles for prefix: ${prefix}\n${movieTitles}`);
-
       const endTime = new Date() / 1000;
-      console.log(`${prefix} took ${endTime - startTime} seconds`);
+      LOGGER.debug(`${prefix} took ${endTime - startTime} seconds`);
 
       res.send(JSON.stringify({
         'movieTitles': movieTitles
@@ -56,13 +56,13 @@ app.get('/movies', (req, res, next) => {
     });
 
   req.on('close', () => {
-    console.log(`${prefix} request closed`);
+    LOGGER.debug(`${prefix} request closed`);
     cancelToken.cancelled = true;
   });
 
   setTimeout(() => {
     if (!cancelToken.cancelled) {
-      console.log(`${prefix} request timedout`);
+      LOGGER.debug(`${prefix} request timedout`);
       cancelToken.cancelled = true;
     }
   }, 3000);
