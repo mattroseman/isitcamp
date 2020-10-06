@@ -1,6 +1,6 @@
 {
   "name": "isitcamp",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Asks questions to determine if a movie is campy or not",
   "main": "index.js",
   "scripts": {
