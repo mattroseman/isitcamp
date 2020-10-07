@@ -33,6 +33,7 @@ directory=/opt/app/isitcamp
 command=npm start
 autostart=true
 autorestart=true
+stopasgroup=true
 user=isitcamp
 environment=HOME="/home/isitcamp",USER="isitcamp",NODE_ENV="production",PORT=8080
 stdout_logfile=syslog
@@ -50,6 +51,7 @@ cat >/etc/supervisor/conf.d/nginx.conf << EOF
 command=nginx
 autostart=true
 autorestart=true
+stopasgroup=true
 user=root
 stdout_logfile=syslog
 stderr_logfile=syslog
