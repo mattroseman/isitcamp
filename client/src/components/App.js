@@ -178,6 +178,11 @@ class App extends Component {
     history.pushState({
       page: PAGES.survey
     }, '', '/');
+
+    gtag('event', 'Survey Started', {
+      'event_category': 'User Action',
+      'event_label': this.state.movieTitle,
+    });
   }
 
   handleContinueSurvey() {
@@ -189,6 +194,11 @@ class App extends Component {
     history.pushState({
       page: PAGES.survey
     }, '', '/');
+
+    gtag('event', 'Survey Continued', {
+      'event_category': 'User Action',
+      'event_label': this.state.movieTitle,
+    });
   }
 
   handleShowRestartConfirmModal() {
@@ -222,9 +232,18 @@ class App extends Component {
     history.pushState({
       page: PAGES.home
     }, '', '/');
+
+    gtag('event', 'Survey Restarted', {
+      'event_category': 'User Action',
+    });
   }
 
   handleOptionClick(option) {
+    gtag('event', 'Question Answered', {
+      'event_category': 'User Action',
+      'event_label': `${this.state.currentQuestion} -> ${option}`,
+    });
+
     // add this answer to answers
     this.setState({
       answers: {
@@ -248,6 +267,12 @@ class App extends Component {
       history.pushState({
         page: PAGES.results
       }, '', '/');
+
+      gtag('event', 'Survey Finished', {
+        'event_category': 'User Action',
+        'event_label': `${this.state.movieTitle}`,
+        'value': Math.round(this.state.points / this.state.maxPossiblePoints * 100)
+      });
     }
   }
 
