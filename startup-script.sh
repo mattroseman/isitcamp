@@ -30,7 +30,7 @@ chown -R isitcamp:isitcamp /opt/app/isitcamp
 cat >/etc/supervisor/conf.d/isitcamp.conf << EOF
 [program:isitcamp]
 directory=/opt/app/isitcamp
-command=npm start
+command=node server/server.js
 autostart=true
 autorestart=true
 stopasgroup=true
