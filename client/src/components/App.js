@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader/root';
+import ReactGA from 'react-ga';
 
 import Decision from './decisions/Decision';
 import Results from './results/Result';
@@ -9,6 +10,8 @@ import RestartConfirmModal from './RestartConfirmModal';
 
 import './App.scss';
 import './global.scss';
+
+ReactGA.initialize('UA-160019242-3');
 
 const PAGES = Object.freeze({
   'home': 1,
@@ -77,6 +80,8 @@ class App extends Component {
         page: event.state.page
       });
     });
+
+    ReactGA.pageview('/');
   }
 
   componentDidUpdate() {
@@ -179,9 +184,12 @@ class App extends Component {
       page: PAGES.survey
     }, '', '/');
 
-    gtag('event', 'Survey Started', {
-      'event_category': 'User Action',
-      'event_label': this.state.movieTitle,
+    ReactGA.pageview('/survey');
+
+    ReactGA.event({
+      category: 'User Action',
+      action: 'Survey Started',
+      label: this.state.movieTitle
     });
   }
 
@@ -195,9 +203,12 @@ class App extends Component {
       page: PAGES.survey
     }, '', '/');
 
-    gtag('event', 'Survey Continued', {
-      'event_category': 'User Action',
-      'event_label': this.state.movieTitle,
+    ReactGA.pageview('/survey');
+
+    ReactGA.event({
+      category: 'User Action',
+      action: 'Survey Continued',
+      label: this.state.movieTitle
     });
   }
 
@@ -233,34 +244,39 @@ class App extends Component {
       page: PAGES.home
     }, '', '/');
 
-    gtag('event', 'Survey Restarted', {
-      'event_category': 'User Action',
+    ReactGA.pageview('/');
+
+    ReactGA.event({
+      category: 'User Action',
+      action: 'Survey Restarted',
+      label: this.state.movieTitle
     });
   }
 
   handleOptionClick(option) {
-    gtag('event', 'Question Answered', {
-      'event_category': 'User Action',
-      'event_label': `${this.state.currentQuestion} -> ${option}`,
+    ReactGA.event({
+      category: 'User Action',
+      action: 'Question Answered',
+      label: `${this.state.currentQuestion} -> ${option}`,
     });
 
-    // add this answer to answers
-    this.setState({
-      answers: {
-        ...this.state.answers,
-        [this.state.currentQuestion]: option
-      }
-    });
+    const newAnswers = {
+      ...this.state.answers,
+      [this.state.currentQuestion]: option
+    };
+
 
     // calculate the next question, or go to the results page if there isn't one
     if ('next_question' in QUESTIONS[this.state.currentQuestion]['options'][option]) {
       // update the question value in state to whatever this options next_question is
       this.setState({
+        answers: newAnswers,
         currentQuestion: QUESTIONS[this.state.currentQuestion]['options'][option]['next_question'],
       });
     } else {
       // if there is no next question go to the results page
       this.setState({
+        answers: newAnswers,
         page: PAGES.results
       });
 
@@ -268,10 +284,13 @@ class App extends Component {
         page: PAGES.results
       }, '', '/');
 
-      gtag('event', 'Survey Finished', {
-        'event_category': 'User Action',
-        'event_label': `${this.state.movieTitle}`,
-        'value': Math.round(this.state.points / this.state.maxPossiblePoints * 100)
+      ReactGA.pageview('/result');
+
+      ReactGA.event({
+        category: 'User Action',
+        action: 'Survey Finished',
+        label: `${this.state.movieTitle}`,
+        value: Math.round(calculatePoints(newAnswers) / MAX_POSSIBLE_POINTS * 100)
       });
     }
   }
