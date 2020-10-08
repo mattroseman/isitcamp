@@ -11,6 +11,7 @@ const TRANSITION_TIME = 400;
 const BORDER_RADIUS = '.4rem';
 
 export default function MovieTitleForm(props) {
+  console.log('beginning of MovieTitleForm functon');
   const movieTitleFieldRef = useRef(null);
   const movieTitleFieldPlaceholderRef = useRef(null);
   const movieTitleInputRef = useRef(null);
@@ -33,12 +34,14 @@ export default function MovieTitleForm(props) {
    * If so, blur movieTitleInput element
    */
   useEffect(() => {
+    console.log('test1');
     // if this is desktop don't do any of this (handleWindowResize is only for mobile devices)
-    if (window.innerWidth >= 576) {
+    if (typeof window === 'undefined' || window.innerWidth >= 576) {
       return;
     }
 
     function handleWindowResize() {
+      console.log('test1');
       // No orientation change, keyboard closing
       if ((window.innerHeight - window.lastInnerHeight > 150 ) && window.innerWidth === window.lastInnerWidth) {
         // on keyboard close, blur the movie title input field
@@ -58,7 +61,12 @@ export default function MovieTitleForm(props) {
     movieTitleInputRef.current.blur();
 
     window.addEventListener('resize', handleWindowResize);
+
     return () => {
+      if (typeof window === 'undefined') {
+        return;
+      }
+
       window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
@@ -69,7 +77,7 @@ export default function MovieTitleForm(props) {
    */
   function handleMovieTitleFocus() {
     // on desktop, just show suggestions, don't animate movieTitleField
-    if (window.innerWidth >= 576) {
+    if (typeof window === 'undefined' || window.innerWidth >= 576) {
       setShowSuggestions(true);
       return;
     }
@@ -107,9 +115,11 @@ export default function MovieTitleForm(props) {
   function handleMovieTitleBlur() {
     setShowSuggestions(false);
 
-    if (window.innerWidth >= 576) {
+    if (typeof window === 'undefined' || window.innerWidth >= 576) {
       return;
     }
+
+    console.log('test3');
 
     movieTitleFieldRef.current.style.top = `${movieTitleFieldPlaceholderRef.current.getBoundingClientRect().top}px`;
     movieTitleFieldRef.current.style.left = `${movieTitleFieldPlaceholderRef.current.getBoundingClientRect().left}px`;
@@ -149,6 +159,7 @@ export default function MovieTitleForm(props) {
     setShowSuggestions(false);
   }
 
+  console.log('movie title form rendering');
   return(
     <form
       id="movie-title-form"
@@ -178,7 +189,7 @@ export default function MovieTitleForm(props) {
             onBlur={handleMovieTitleBlur}
           />
         </div>
-        {window.innerWidth <= 575 &&
+        {typeof window !== 'undefined' && window.innerWidth <= 575 &&
         <button
           id="movie-title-input-clear"
           type="button"

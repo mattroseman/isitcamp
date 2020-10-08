@@ -1,9 +1,13 @@
 const path = require('path');
-const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: path.join(__dirname, 'client/src/index.js'),
+  entry: path.join(__dirname, 'server.js'),
   mode: 'development',
+  plugins: [new MiniCssExtractPlugin()],
+  target: 'node',
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
@@ -14,7 +18,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
@@ -24,17 +28,8 @@ module.exports = {
   },
   resolve: { extensions: ['*', '.js', '.jsx'] },
   output: {
-    path: path.resolve(__dirname, 'client/dist/'),
-    publicPath: '/dist/',
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'dist/'),
+    filename: 'server.js'
   },
-  devServer: {
-    contentBase: path.join(__dirname, 'client/public/'),
-    port: 3000,
-    publicPath: 'http://localhost:3000/',
-    hotOnly: true,
-    disableHostCheck: true
-  },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
   devtool: 'source-map',
 };

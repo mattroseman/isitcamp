@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { hot } from 'react-hot-loader/root';
 import ReactGA from 'react-ga';
 
 import Decision from './decisions/Decision';
@@ -63,6 +62,10 @@ class App extends Component {
   }
 
   componentDidMount() {
+    if (typeof window == 'undefined' || typeof sessionStorage == 'undefined' || typeof history == 'undefined') {
+      return;
+    }
+
     let snapshot = sessionStorage.getItem('isitcampSnapshot');
 
     // if there was a snapshot in sessionStorage
@@ -125,7 +128,7 @@ class App extends Component {
     }
 
     let url = '/movies?prefix=' + newMovieTitle;
-    if (window.location.hostname === 'localhost') {
+    if (typeof window === 'undefined' || window.location.hostname === 'localhost') {
       url = 'http://localhost:5000' + url;
     } else if (window.location.hostname.indexOf('ngrok') !== -1) {
       // This is test data when using ngrok since it can't reach the backend server
@@ -150,7 +153,7 @@ class App extends Component {
       // cancel the previous request
       controller.abort();
     }
-    if('AbortController' in window) {
+    if(typeof window !== 'undefined' && 'AbortController' in window) {
       controller = new AbortController;
       signal = controller.signal;
     }
@@ -355,4 +358,4 @@ class App extends Component {
   }
 }
 
-export default hot(App);
+export default App;

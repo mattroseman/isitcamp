@@ -4,12 +4,12 @@
   "description": "Asks questions to determine if a movie is campy or not",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
-    "client-dev": "webpack-dev-server --mode development --host 0.0.0.0",
-    "build": "webpack",
+    "start": "node server/dist/server.js",
+    "build": "webpack --config server/webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-movielist": "node server/generate-movielist.js",
-    "heroku-postbuild": "npm install && npm run build && npm run generate-movielist"
+    "client-build": "webpack --config client/webpack.config.js",
+    "client-start": "webpack-dev-server --mode development --host 0.0.0.0",
+    "generate-movielist": "node server/generate-movielist.js"
   },
   "author": "Matthew Roseman",
   "license": "ISC",
@@ -24,7 +24,9 @@
     "pino": "^6.7.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-ga": "^3.1.2"
+    "react-ga": "^3.1.2",
+    "regenerator-runtime": "^0.13.7",
+    "webpack-node-externals": "^2.5.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
@@ -36,6 +38,7 @@
     "eslint": "^7.10.0",
     "eslint-plugin-react": "^7.17.0",
     "file-loader": "^5.0.2",
+    "mini-css-extract-plugin": "^0.12.0",
     "pino-pretty": "^4.3.0",
     "react-hot-loader": "^4.12.19",
     "sass": "^1.26.11",

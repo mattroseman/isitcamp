@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     image: isitcamp-api:local
     container_name: isitcamp_api
-    command: bash -c "npm run build && npm start"
+    command: bash -c "npm start"
     environment:
       - DEBUG=true
     volumes:
@@ -21,16 +21,16 @@ services:
       dockerfile: Dockerfile
     image: isitcamp-dev-server:local
     container_name: isitcamp_dev_server
-    command: bash -c "npm run build && npm run client-dev"
+    command: bash -c "npm run client-start"
     volumes:
       - ./:/usr/src/app
     ports:
       - 3000:3000
-  isitcamp_reverse_proxy:
-    build:
-      context: ./nginx/
-      dockerfile: Dockerfile
-    image: isitcamp-reverse-proxy
-    container_name: isitcamp_reverse_proxy
-    ports:
-      - 80:80
+  # isitcamp_reverse_proxy:
+  #   build:
+  #     context: ./nginx/
+  #     dockerfile: Dockerfile
+  #   image: isitcamp-reverse-proxy
+  #   container_name: isitcamp_reverse_proxy
+  #   ports:
+  #     - 80:80

@@ -26,7 +26,7 @@ export default function Suggestions(props) {
       suggestionMenuRef.current.style.padding = '0px';
 
       setTimeout(() => {
-        if (window.innerWidth <= 575) {
+        if (typeof window !== 'undefined' && window.innerWidth <= 575) {
           suggestionMenuRef.current.style.maxHeight = `${window.innerHeight - suggestionMenuRef.current.getBoundingClientRect().top - 20}px`;
         } else {
           suggestionMenuRef.current.style.maxHeight = null;

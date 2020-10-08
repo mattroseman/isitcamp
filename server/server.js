@@ -1,12 +1,30 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-
+const fs = require('fs');
 const LOGGER = require('./logger.js');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
+import App from '../client/src/components/App.js';
 const { MovieTrie } = require('./movies.js');
 
 const app = express();
+
+// Generate prerendered React index response
+let preRenderedIndex;
+const reactAppHTML = ReactDOMServer.renderToString(<App />);
+fs.readFile(path.resolve('client/public/index.html'), 'utf8', (err, data) => {
+  if (err) {
+    LOGGER.error(`Something went wrong reading index.html:\n${err}`);
+  }
+
+  preRenderedIndex = data.replace(/<div id="root"><\/div>/, `<div id="root">${reactAppHTML}</div>`)
+
+  LOGGER.debug('prerendered html generated');
+});
 
 // SETUP CORS (if not in production mode)
 if (process.env.NODE_ENV !== 'production') {
@@ -14,14 +32,15 @@ if (process.env.NODE_ENV !== 'production') {
   app.all('*', cors());
 }
 
-// SETUP PUBLIC FILES
-app.use(express.static(path.join(__dirname, '../client/dist')));
-app.use(express.static(path.join(__dirname, '../client/public')));
-
 // SETUP PATHS
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+  LOGGER.info(preRenderedIndex);
+  res.send(preRenderedIndex);
 });
+
+// SETUP PUBLIC FILES
+app.use(express.static(path.resolve('client/dist')));
+app.use(express.static(path.resolve('client/public')));
 
 const movieTrie = new MovieTrie();
 app.get('/movies', (req, res, next) => {
