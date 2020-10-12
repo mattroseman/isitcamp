@@ -10,9 +10,8 @@ services:
     container_name: isitcamp_api
     command: bash -c "npm start"
     environment:
+      - NODE_ENV=development
       - DEBUG=true
-    volumes:
-      - ./:/usr/src/app
     ports:
       - 5000:5000
   isitcamp_dev_server:
@@ -21,7 +20,10 @@ services:
       dockerfile: Dockerfile
     image: isitcamp-dev-server:local
     container_name: isitcamp_dev_server
-    command: bash -c "npm run client-start"
+    command: bash -c "npm run client-server"
+    environment:
+      - NODE_ENV=development
+      - DEBUG=true
     volumes:
       - ./:/usr/src/app
     ports:

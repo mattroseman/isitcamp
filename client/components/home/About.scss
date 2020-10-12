@@ -44,8 +44,12 @@
   font-size: 1.1rem;
 }
 
-#about-quote-opening-quotation {
-  font-size: .8rem;
+#about-quote-opening-quotation, #about-quote-closing-quotation {
+  height: 14px;
+}
+
+#about-quote-closing-quotation {
+  margin-left: auto;
 }
 
 #about-quote {
@@ -53,12 +57,6 @@
   margin-bottom: .5rem;
 
   text-align: center;
-}
-
-#about-quote-closing-quotation {
-  margin-left: auto;
-
-  font-size: .8rem;
 }
 
 #about-quote-attribution {

@@ -1,11 +1,20 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: path.join(__dirname, 'src/index.js'),
+  entry: path.join(__dirname, 'client/index-hot-reload.js'),
   mode: 'development',
-  plugins: [new webpack.HotModuleReplacementPlugin(), new MiniCssExtractPlugin()],
+
+  resolve: { extensions: ['*', '.js', '.jsx'] },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'public/index.html')
+    })
+  ],
+
   module: {
     rules: [
       {
@@ -16,7 +25,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
@@ -24,12 +33,13 @@ module.exports = {
       }
     ]
   },
-  resolve: { extensions: ['*', '.js', '.jsx'] },
+
   output: {
     path: path.resolve(__dirname, 'dist/'),
     publicPath: '/',
     filename: 'bundle.js'
   },
+
   devServer: {
     contentBase: path.join(__dirname, 'public/'),
     port: 3000,
@@ -37,5 +47,6 @@ module.exports = {
     hotOnly: true,
     disableHostCheck: true
   },
+
   devtool: 'source-map',
 };

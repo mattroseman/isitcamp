@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ReactGA from 'react-ga';
+import loadable from '@loadable/component';
 
-import Decision from './decisions/Decision';
-import Results from './results/Result';
-import Home from './home/Home';
+// const Decision = loadable(() => import(/* webpackPrefetch: true */ './decisions/Decision.js'));
+const Decision = loadable(() => import('./decisions/Decision.js'));
+const Results = loadable(() => import('./results/Result.js'));
+const Home = loadable(() => import('./home/Home.js'));
 import { QUESTIONS, FIRST_QUESTION, MAX_POSSIBLE_POINTS, getMaxPossiblePoints } from '../isitcamp_questions';
 import RestartConfirmModal from './RestartConfirmModal';
 
@@ -316,7 +318,7 @@ class App extends Component {
     }
 
     if (this.state.page === PAGES.survey) {
-      const progress = (MAX_POSSIBLE_POINTS - getMaxPossiblePoints(this.state.currentQuestion) + 3) / MAX_POSSIBLE_POINTS 
+      const progress = (MAX_POSSIBLE_POINTS - getMaxPossiblePoints(this.state.currentQuestion) + 3) / MAX_POSSIBLE_POINTS;
       page = (
         <Decision
           movieTitle={this.state.movieTitle}
