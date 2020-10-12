@@ -15,7 +15,7 @@ export default function About() {
           No one says the word &apos;camp&apos; anymore. Even 90-year-old queens don’t say that. Even if we’re sitting under a Tiffany lampshade. Maybe even at the last meeting of the Rita Hayworth fan club. People don’t know what it is. To me, camp was a secret word that gay people used and Susan Sontag exposed it in a great, great way. But then it was done. Once the secret was out, it was over. I mean, what is camp today? Is there a movie out now that’s so bad it’s great? Maybe not, because everybody is in on it. It’s not accidental.
         </i></p>
         <FontAwesomeIcon id="about-quote-closing-quotation" icon={faQuoteRight} />
-        <p id="about-quote-attribution">-John Waters</p>
+        <p id="about-quote-attribution">- John Waters</p>
       </div>
 
       <div id="about-body">
@@ -28,6 +28,7 @@ export default function About() {
           Sontag was a famous essayist who covered topics ranging from film, literature, policitcs, and philosophy.
           She structured &quot;Notes on Camp&quot; in a series of numbered snippets of her thoughts on what made something camp, what the appeal of camp was, and what the future of camp might be.
         </p>
+
         <p>
           This site takes all of descriptions Sontag makes about what makes something camp, phrases them as simple yes or no questions, and calculates a score based off those answers. After going through and answering the questions, you can finally find out how campy the movies you love are, according to Susan Sontag at least.
         </p>
